@@ -21,10 +21,7 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-start">
             <div className="flex items-center mb-2">
               {/* Replace with your actual logo */}
-              <div className="h-10 w-10 bg-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-2">
-                G8
-              </div>
-              <span className="text-2xl font-bold">G8Day</span>
+                <Image src="/logo.png" alt="logo" width={100} height={50}/>
             </div>
             <p className="text-gray-400 text-sm">Your Destiny. Decentralized.</p>
           </div>
