@@ -136,7 +136,7 @@ export default function FortuneNFTMarketplace() {
           <button 
             onClick={handlePrev}
             aria-label="Previous NFT"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-red-600/80 p-2 rounded-full transition-all duration-300 border border-gray-700 hover:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-red-600/80 p-2 rounded-full transition-all duration-300 ring ring-gray-700 hover:ring-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
           >
             <ChevronLeft size={24} />
           </button>
@@ -144,7 +144,7 @@ export default function FortuneNFTMarketplace() {
           <button 
             onClick={handleNext}
             aria-label="Next NFT"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-red-600/80 p-2 rounded-full transition-all duration-300 border border-gray-700 hover:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-red-600/80 p-2 rounded-full transition-all duration-300 ring ring-gray-700 hover:ring-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
           >
             <ChevronRight size={24} />
           </button>
@@ -162,7 +162,7 @@ export default function FortuneNFTMarketplace() {
                   className={`flex-shrink-0 w-64 md:w-72 snap-center transition-all duration-300 ${index === activeIndex ? 'scale-105' : 'scale-95 opacity-70'}`}
                 >
                   {/* NFT Card */}
-                  <div className={`group relative rounded-xl overflow-hidden border border-gray-800 hover:border-${card.glow}-500 transition-all duration-500 transform hover:translate-y-[-8px] hover:shadow-2xl hover:shadow-${card.glow}-500/40`}>
+                  <div className={`group relative rounded-xl overflow-hidden ring ring-gray-800 hover:ring-${card.glow}-500 transition-all duration-500 transform hover:translate-y-[-8px] hover:shadow-2xl hover:shadow-${card.glow}-500/40`}>
                     {/* Card Background */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
                     <div className="relative aspect-[3/4] overflow-hidden">
@@ -174,7 +174,7 @@ export default function FortuneNFTMarketplace() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
                       
                       {/* Rarity Badge */}
-                      <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold bg-black/70 border border-${card.glow}-500/50 flex items-center gap-1`}>
+                      <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold bg-black/70 ring ring-${card.glow}-500/50 flex items-center gap-1`}>
                         <Star size={12} className={`text-${card.glow}-400`} />
                         {card.rarity}
                       </div>
@@ -204,8 +204,8 @@ export default function FortuneNFTMarketplace() {
                       </div>
                     </div>
                     
-                    {/* Card Border Glow Effect */}
-                    <div className={`absolute inset-0 border border-${card.glow}-500/0 group-hover:border-${card.glow}-500/50 rounded-xl transition-all duration-500 pointer-events-none`}></div>
+                    {/* Card ring Glow Effect */}
+                    <div className={`absolute inset-0 ring ring-${card.glow}-500/0 group-hover:ring-${card.glow}-500/50 rounded-xl transition-all duration-500 pointer-events-none`}></div>
                   </div>
                 </div>
               ))}
