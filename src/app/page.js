@@ -1,4 +1,5 @@
 import AboutSection from "@/components/aboutSection";
+import JoinDaoAndFAQs from "@/components/daoAndFaq";
 import HeroSection from "@/components/heroSection";
 import KeyFeaturesSection from "@/components/keyFeatures";
 import FortuneNFTMarketplace from "@/components/nftMarketplace";
