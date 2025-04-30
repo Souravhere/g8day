@@ -1,9 +1,9 @@
-
+import HeroSection from "@/components/heroSection";
 
 export default function Home() {
   return (
-    <div className="">
-      <h1>Hello G8Days Project</h1>
+    <div className="w-full h-full">
+      <HeroSection/>
     </div>
   );
 }
