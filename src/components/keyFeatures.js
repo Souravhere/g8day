@@ -1,5 +1,6 @@
 import React from "react";
 import { Brain, Lock, Sparkles } from "lucide-react";
+import Image from "next/image";
 
 export default function KeyFeaturesSection() {
   const features = [
@@ -41,20 +42,22 @@ export default function KeyFeaturesSection() {
           {features.map((feature) => (
             <div 
               key={feature.id} 
-              className="bg-gray-900 rounded-lg overflow-hidden transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg hover:shadow-red-600/20 border border-gray-800 hover:border-red-600/50"
+              className="bg-gray-900 rounded-lg overflow-hidden transition-all duration-300 hover:transform hover:shadow-lg hover:shadow-red-600/20 border border-gray-800 hover:border-red-600/50"
             >
               {/* Image Container */}
               <div className="relative h-fit overflow-hidden">
-                <img
+                <Image
                   src={feature.imageUrl}
                   alt={feature.title}
+                  width={300}
+                  height={300}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
                 {/* Overlay with gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
                 
                 {/* Icon badge */}
-                <div className="absolute top-4 right-4 bg-red-600 p-2 rounded-full">
+                <div className="absolute top-4 right-4 bg-red-500/30 p-2 rounded-full">
                   {feature.icon}
                 </div>
               </div>
@@ -67,27 +70,6 @@ export default function KeyFeaturesSection() {
                 <p className="text-gray-300 leading-relaxed">
                   {feature.description}
                 </p>
-                
-                {/* Learn More Link */}
-                <div className="mt-6">
-                  <a 
-                    href="#" 
-                    className="inline-flex items-center text-red-400 hover:text-red-300 transition-colors duration-300"
-                  >
-                    Learn more
-                    <svg 
-                      className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth="2" 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round"
-                    >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </a>
-                </div>
               </div>
             </div>
           ))}
