@@ -25,13 +25,13 @@ export default function HeroSection() {
       <div className="container mx-auto px-6 z-10 text-center">
         <div className="max-w-5xl mx-auto">
           {/* Headline */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl scale-105 font-bold mb-6 tracking-tight">
-          Discover Your Destiny with <br />
+          <h1 className="text-5xl text-gray-100 md:text-6xl lg:text-7xl scale-105 font-bold mb-6 tracking-tight">
+          Discover <span className="text-red-400">Your Destiny</span> with <br />
           AI & Blockchain
           </h1>
           
           {/* Subtitle */}
-          <p className="text-lg text-gray-300 mb-10 mx-auto max-w-2xl leading-relaxed">
+          <p className="text-lg text-gray-300/80 mb-10 mx-auto max-w-2xl leading-relaxed">
           G8Day blends ancient Eastern astrology with AI and blockchain technology to reveal deep insights into your destiny from wealth and career to love and life’s purpose.
           </p>
           
@@ -60,8 +60,8 @@ export default function HeroSection() {
               </div>
             </div>
             <div className="ml-3 text-left">
-              <p className="font-semibold">Over 10,000+</p>
-              <p className="text-sm text-gray-400">Active clients</p>
+              <p className="font-semibold">Over 5,000+</p>
+              <p className="text-sm text-gray-400">Trust Us</p>
             </div>
           </div>
         </div>
