@@ -6,10 +6,12 @@ import {
   Twitter, 
   MessageCircle, 
   MessageSquare, 
-  BookOpen 
+  BookOpen, 
+  Send
 } from "lucide-react";
 
 const Footer = () => {
+    const currentYear = new Date().getFullYear();
   return (
     <footer className="bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,25 +79,7 @@ const Footer = () => {
                 className="text-gray-400 hover:text-red-500 transition-colors duration-200"
                 aria-label="Telegram"
               >
-                <MessageCircle size={24} />
-              </a>
-              <a 
-                href="https://discord.gg/g8day" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-red-500 transition-colors duration-200"
-                aria-label="Discord"
-              >
-                <MessageSquare size={24} />
-              </a>
-              <a 
-                href="https://medium.com/g8day" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-gray-400 hover:text-red-500 transition-colors duration-200"
-                aria-label="Medium"
-              >
-                <BookOpen size={24} />
+                <Send size={24} />
               </a>
             </div>
 
@@ -113,7 +97,7 @@ const Footer = () => {
         {/* Bottom Section with Copyright */}
         <div className="border-t border-gray-800 py-6">
           <p className="text-center text-sm text-gray-500">
-            © 2025 G8Day. All rights reserved.
+            © {currentYear} G8Day. All rights reserved.
           </p>
         </div>
       </div>
