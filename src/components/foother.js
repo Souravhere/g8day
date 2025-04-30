@@ -53,7 +53,6 @@ const Footer = () => {
               </li>
             </ul>
           </nav>
-
           {/* Social Media Icons */}
           <div className="flex flex-col items-center md:items-end">
             <div className="flex space-x-4">
