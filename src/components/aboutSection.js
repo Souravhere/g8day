@@ -3,17 +3,7 @@ import { Brain, Scroll, Database } from "lucide-react";
 
 export default function AboutSection() {
   return (
-    <section id="about" className="bg-gradient-to-b from-gray-900 to-black text-white py-20 relative overflow-hidden">
-      {/* Grid overlay pattern - consistent with hero section */}
-      <div className="absolute inset-0 grid grid-cols-6 grid-rows-6 opacity-20 pointer-events-none">
-        {Array(36).fill().map((_, i) => (
-          <div key={i} className="border border-gray-700">
-            {i % 5 === 0 && <div className="h-full w-full flex items-center justify-center">
-              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-            </div>}
-          </div>
-        ))}
-      </div>
+    <section id="about" className="bg-black text-white py-20 relative overflow-hidden">
       
       {/* Subtle blue accent */}
       <div className="absolute -left-40 top-40 w-80 h-80 rounded-full bg-blue-600/10 blur-3xl"></div>
@@ -23,11 +13,10 @@ export default function AboutSection() {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold inline-block relative">
             What is G8Day?
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-full"></div>
           </h2>
         </div>
         
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 mx-auto">
           {/* Content area */}
           <div className="lg:w-1/2 space-y-6">
             <p className="text-lg text-gray-300 leading-relaxed">
@@ -48,19 +37,10 @@ export default function AboutSection() {
               <span className="px-4 text-gray-400">Experience the difference</span>
               <div className="h-px bg-gradient-to-r from-gray-600 via-gray-600 to-transparent flex-grow"></div>
             </div>
-            
-            <div className="pt-4">
-              <button className="border border-blue-500 text-blue-400 hover:bg-blue-900/20 font-medium py-2 px-6 rounded-full transition-all duration-300 flex items-center gap-2">
-                Learn more about our technology
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-            </div>
           </div>
           
           {/* Visual area */}
-          <div className="lg:w-1/2">
+          <div className="lg:w-1/2 hidden">
             <div className="relative h-64 md:h-80 flex items-center justify-center">
               {/* Center ring connecting the icons */}
               <div className="absolute w-32 h-32 border-2 border-blue-500/30 rounded-full flex items-center justify-center">
