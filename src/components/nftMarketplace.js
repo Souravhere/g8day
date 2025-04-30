@@ -18,7 +18,7 @@ export default function FortuneNFTMarketplace() {
       color: "from-purple-600 to-red-500",
       glow: "purple",
       icon: <Moon size={20} className="text-purple-300" />,
-      image: "/api/placeholder/300/400"
+      image: "/nft/lunar.png"
     },
     {
       id: 2,
@@ -28,7 +28,7 @@ export default function FortuneNFTMarketplace() {
       color: "from-yellow-500 to-orange-600",
       glow: "yellow",
       icon: <Sun size={20} className="text-yellow-300" />,
-      image: "/api/placeholder/300/400"
+      image: "/nft/solar.png"
     },
     {
       id: 3,
@@ -118,10 +118,10 @@ export default function FortuneNFTMarketplace() {
       <div className="container mx-auto relative z-10">
         {/* Section Title */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl text-gray-100 font-bold inline-block relative">
             Your Destiny as a Collectible
           </h2>
-          <p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto">
+          <p className="mt-6 text-gray-300/80 max-w-2xl mx-auto">
             Mint your unique results as "Destiny Fragments." Rarer fates have greater value.
           </p>
         </div>
@@ -153,7 +153,7 @@ export default function FortuneNFTMarketplace() {
           <div className="relative overflow-hidden">
             <div 
               ref={carouselRef} 
-              className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth pb-8 pt-4"
+              className="flex gap-4 md:gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth pb-8 pt-4 mx-2"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {nftCards.map((card, index) => (
@@ -165,13 +165,11 @@ export default function FortuneNFTMarketplace() {
                   <div className={`group relative rounded-xl overflow-hidden border border-gray-800 hover:border-${card.glow}-500 transition-all duration-500 transform hover:translate-y-[-8px] hover:shadow-2xl hover:shadow-${card.glow}-500/40`}>
                     {/* Card Background */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
-                    
-                    {/* Card Image */}
-                    <div className="relative h-80 overflow-hidden">
+                    <div className="relative aspect-[3/4] overflow-hidden">
                       <img 
                         src={card.image} 
                         alt={`${card.name} NFT preview`} 
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
                       
@@ -203,13 +201,6 @@ export default function FortuneNFTMarketplace() {
                             <span className="font-medium">{(Math.random() * 5).toFixed(2)} ETH</span>
                           </div>
                         </div>
-                        
-                        <button 
-                          aria-label="Add to collection"
-                          className="p-2 rounded-lg bg-gray-800/60 hover:bg-red-600/80 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-                        >
-                          <ShoppingBag size={16} />
-                        </button>
                       </div>
                     </div>
                     
