@@ -28,12 +28,12 @@ export function AnimatedBeamMultipleOutputDemo({
     const div1Ref = useRef(null);
     const div2Ref = useRef(null);
     const div3Ref = useRef(null);
-    const div4Ref = useRef(null); // New ref for the User icon
+    const div4Ref = useRef(null);
 
     return (
         <div
             className={cn(
-                "relative flex h-[500px] w-full items-center justify-center overflow-hidden p-10",
+                "relative flex h-fit w-full items-center justify-center overflow-hidden p-6 font-mono",
                 className
             )}
             ref={containerRef}
