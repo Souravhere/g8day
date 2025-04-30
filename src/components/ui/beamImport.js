@@ -10,7 +10,7 @@ const Circle = forwardRef(function Circle({ className, children }, ref) {
         <div
             ref={ref}
             className={cn(
-                "z-10 flex size-12 items-center justify-center rounded-full border-2 border-border bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
+                "z-10 flex max-w-26 items-center justify-center rounded-2xl border-2 border-border bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
                 className
             )}
         >
@@ -39,22 +39,22 @@ export function AnimatedBeamMultipleOutputDemo({
             ref={containerRef}
         >
             <div className="flex size-full max-w-lg flex-row items-stretch justify-between gap-10">
-                <div className="flex flex-col justify-center gap-2">
+                <div className="flex flex-col justify-center items-center gap-2">
                     <Circle ref={div1Ref}>
-                        <Scroll className="text-red-400" />
+                    <span className="flex flex-col text-black text-xs font-semibold text-center items-center"><Scroll className="text-red-400"/>Saju Wisdom</span>
                     </Circle>
                     <Circle ref={div2Ref}>
-                        <Database className="text-red-400"/>
+                        <span className="flex flex-col text-black font-semibold text-xs text-center items-center"><Database className="text-red-400"/>Blockchain</span>
                     </Circle>
                 </div>
-                <div className="flex flex-col justify-center gap-2">
-                    <Circle ref={div3Ref} className="size-16">
-                        <Brain className="text-red-400" />
+                <div className="flex flex-col items-center justify-center gap-2">
+                    <Circle ref={div3Ref}>
+                        <span className="flex flex-col text-black font-semibold text-center items-center text-xs"><Brain className="text-red-400"/> AI Analysis</span>
                     </Circle>
                 </div>
-                <div className="flex flex-col justify-center gap-2">
+                <div className="flex flex-col justify-center items-center gap-2">
                     <Circle ref={div4Ref} className="size-16">
-                            <User className="text-red-400" />
+                        <User className="text-red-400" />
                     </Circle>
                 </div>
             </div>
