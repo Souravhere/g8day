@@ -55,8 +55,8 @@ const FAQ = () => {
 
   return (
     <>
-      <div className="text-gray-200">
-        <div className="pt-28 pb-20">
+      <div className="text-gray-200 bg-black py-3">
+        <div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Hero Section */}
             <div className="text-center mb-8">
@@ -80,7 +80,7 @@ const FAQ = () => {
             </div>
 
             {/* FAQ Sections */}
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               {faqCategories.map((category) => (
                 <div
                   key={category.name}
@@ -96,7 +96,7 @@ const FAQ = () => {
                     {category.items.map((itemIndex) => (
                       <div
                         key={itemIndex}
-                        className="bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 rounded-xl overflow-hidden shadow-lg hover:shadow-orange-900/10 transition-all duration-300"
+                        className="bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 rounded-xl overflow-hidden shadow-lg hover:shadow-red-900/10 transition-all duration-300"
                       >
                         <button
                           onClick={() => toggleFAQ(itemIndex)}
@@ -113,7 +113,7 @@ const FAQ = () => {
                           >
                             <svg 
                               xmlns="http://www.w3.org/2000/svg" 
-                              className="h-5 w-5 text-orange-500" 
+                              className="h-5 w-5 text-red-500" 
                               fill="none" 
                               viewBox="0 0 24 24" 
                               stroke="currentColor"
