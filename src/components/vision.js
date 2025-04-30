@@ -63,8 +63,7 @@ export default function VisionStatement() {
           {/* Right Column - Visual Element */}
           <div className={`transition-all duration-1500 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
             <div className=" relative aspect-square md:aspect-[3/2] w-full overflow-hidden rounded-2xl shadow-2xl border border-gray-800 flex items-center justify-center">
-                <Image src='/vision.png' width={700} height={700} />
-                {/* Glow effect */}
+                <Image src='/vision.png' width={700} height={700} alt='Cta Image'/>
             </div>
           </div>
           

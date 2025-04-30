@@ -1,178 +1,98 @@
-'use client'
-import { useState, useEffect } from 'react';
-import { 
-  Brain, 
-  Users, 
-  Coins, 
-  Globe, 
-  Calendar, 
-  ChevronRight
-} from 'lucide-react';
+import React from 'react'
+import Link from 'next/link';
+import { Brain, Users, Coins, Globe } from 'lucide-react';
 
-export default function RoadmapTimeline() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [activeQuarter, setActiveQuarter] = useState(null);
-  
-  useEffect(() => {
-    // Check if we're on mobile
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Set the initial value
-    handleResize();
-    
-    // Add event listener
-    window.addEventListener('resize', handleResize);
-    
-    // Setup intersection observer for animation
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.5,
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fadeIn');
-          const quarter = entry.target.getAttribute('data-quarter');
-          if (quarter) {
-            setActiveQuarter(quarter);
-          }
+function Roadmap() {
+    const roadmapItems = [
+        {
+            period: 'Q1',
+            title: 'AI algorithm & backend',
+            icon: <Brain className="text-red-500" size={24} />,
+            description: 'Development of core AI algorithms and backend infrastructure to power our platform.',
+            status: 'current'
+        },
+        {
+            period: 'Q2',
+            title: 'MVP, Community, Testnet NFTs',
+            icon: <Users className="text-red-500" size={24} />,
+            description: 'Launch of minimum viable product, community building initiatives, and testnet NFT releases.',
+            status: 'upcoming'
+        },
+        {
+            period: 'Q3',
+            title: 'Token launch, Mainnet, Marketplace',
+            icon: <Coins className="text-red-500" size={24} />,
+            description: 'Official token launch on exchanges, mainnet deployment, and marketplace implementation.',
+            status: 'planned'
+        },
+        {
+            period: 'Q4',
+            title: 'DAO, Global growth, B2B APIs',
+            icon: <Globe className="text-red-500" size={24} />,
+            description: 'Decentralized governance structure, international expansion, and B2B API solutions.',
+            status: 'vision'
         }
-      });
-    }, observerOptions);
-    
-    // Observe all timeline items
-    document.querySelectorAll('.timeline-item').forEach(item => {
-      observer.observe(item);
-    });
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      observer.disconnect();
-    };
-  }, []);
-  
-  const quarters = [
-    {
-      id: 'q1',
-      title: 'AI algorithm & backend',
-      icon: <Brain className="text-red-600" size={24} />,
-      details: 'Q1'
-    },
-    {
-      id: 'q2',
-      title: 'MVP, Community, Testnet NFTs',
-      icon: <Users className="text-red-600" size={24} />,
-      details: 'Q2'
-    },
-    {
-      id: 'q3',
-      title: 'Token launch, Mainnet, Marketplace',
-      icon: <Coins className="text-red-600" size={24} />,
-      details: 'Q3'
-    },
-    {
-      id: 'q4',
-      title: 'DAO, Global growth, B2B APIs',
-      icon: <Globe className="text-red-600" size={24} />,
-      details: 'Q4'
-    }
-  ];
-  
+    ];
   return (
-    <div className="w-full min-h-screen bg-black text-white p-6 flex flex-col items-center font-sans">
-      <div className="w-full max-w-6xl">
-        {/* Header */}
-        <div className="flex items-center justify-center mb-16 mt-8">
-          <Calendar className="text-red-600 mr-3" size={32} />
-          <h1 className="text-4xl font-bold uppercase tracking-wider">ROADMAP 2025</h1>
-          <ChevronRight className="text-red-600 ml-3" size={32} />
-        </div>
-        
-        {/* Title Underline */}
-        <div className="w-32 h-1 bg-red-600 mx-auto mb-16 rounded-full"></div>
-        
-        {/* Timeline Layout */}
-        <div className={`w-full ${isMobile ? 'flex flex-col space-y-12' : 'grid grid-cols-4 gap-6'}`}>
-          {quarters.map((quarter, index) => (
-            <div 
-              key={quarter.id}
-              data-quarter={quarter.id}
-              className={`timeline-item opacity-0 transition-all duration-700 ${
-                activeQuarter === quarter.id ? 'scale-105' : ''
-              }`}
-            >
-              {/* Quarter Marker */}
-              <div className="flex items-center mb-4">
-                <div className={`w-3 h-3 rounded-full bg-red-600 ${
-                  activeQuarter === quarter.id ? 'animate-pulse' : ''
-                }`}></div>
-                <div className={`h-1 ${isMobile ? 'w-12' : 'w-full'} bg-red-600 mx-2 
-                  ${index === quarters.length - 1 && !isMobile ? 'hidden' : ''}
-                  ${isMobile ? 'hidden' : 'timeline-connector'}`}
-                ></div>
-                <span className="text-red-600 font-bold">{quarter.details}</span>
-              </div>
-              
-              {/* Content Box */}
-              <div className="bg-gray-900 p-6 rounded-lg border border-gray-800 hover:border-red-600 
-                transition-all duration-300 h-full">
-                <div className="flex items-center mb-4">
-                  <div className="p-2 bg-gray-800 rounded-md mr-3">
-                    {quarter.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold">{quarter.title}</h3>
-                </div>
-                
-                {/* Connecting line for mobile */}
-                {isMobile && index !== quarters.length - 1 && (
-                  <div className="flex justify-center mt-8">
-                    <div className="w-1 h-12 bg-red-600"></div>
-                  </div>
-                )}
-              </div>
+    <div className="bg-black text-white">
+        {/* Roadmap Section */}
+        <section id='Journey' className="py-20 px-6 md:px-16 max-w-7xl mx-auto relative">                
+            <div className="mb-16 text-center">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl text-gray-100 font-bold inline-block relative">
+                    Roadmap 2025
+                </h2>
+                <p className="mt-3 text-gray-300/80 max-w-2xl mx-auto">
+                    Our strategic vision for innovation and growth throughout 2025.
+                </p>
+                <div className="mt-4 w-32 h-1 bg-gradient-to-r from-red-700 to-red-500 mx-auto rounded-full"></div>
             </div>
-          ))}
-        </div>
-      </div>
-      
-      <style jsx>{`
-        .animate-fadeIn {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .timeline-item {
-          transform: translateY(20px);
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-        .animate-pulse {
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        .timeline-connector {
-          position: relative;
-          overflow: hidden;
-        }
-        .timeline-connector::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 0;
-          height: 100%;
-          background-color: rgb(220, 38, 38);
-          animation: lineGrow 1.5s ease-out forwards;
-          animation-delay: 0.5s;
-        }
-        @keyframes lineGrow {
-          to { width: 100%; }
-        }
-      `}</style>
+            
+            {/* Timeline */}
+            <div className="relative">
+                {/* Vertical line */}
+                <div className="absolute left-2 md:left-1/2 transform md:-translate-x-1/2 w-1 bg-red-500 h-full rounded-full"></div>
+                
+                <div className="space-y-12">
+                    {roadmapItems.map((item, index) => (
+                        <div key={index} className={`relative ${index % 2 === 0 ? 'md:ml-auto' : 'md:mr-auto'}`}>
+                            {/* Timeline marker */}
+                            <div className="absolute -left-[2px] md:left-1/2 transform -translate-y-1/2 md:-translate-x-1/2 w-6 h-6 rounded-full bg-black ring-2 ring-red-500 z-10"></div>
+                            
+                            {/* Content */}
+                            <div className={`ml-10 md:ml-0 md:w-5/12 ${index % 2 === 0 ? 'md:mr-auto md:pr-12' : 'md:ml-auto md:pl-12'}`}>
+                                <div className={`bg-gray-900/90 backdrop-blur-sm p-6 rounded-2xl ring shadow-md
+                                    ${item.status === 'current' ? 'ring-red-500/50' : 
+                                      item.status === 'upcoming' ? 'ring-red-500/50' : 
+                                      item.status === 'planned' ? 'ring-red-400/50' : 'ring-red-300'}`}>
+                                    <div className="flex items-center mb-3">
+                                        <span className="text-xl mr-2">{item.icon}</span>
+                                        <span className="text-white font-bold">{item.period}</span>
+                                        <span className={`ml-auto text-xs px-2 py-1 rounded-full
+                                            ${item.status === 'current' ? 'bg-red-900 text-red-100' : 
+                                              item.status === 'upcoming' ? 'bg-red-800 text-red-100' : 
+                                              item.status === 'planned' ? 'bg-red-700 text-red-100' : 'bg-red-500 text-red-100'}`}>
+                                            {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+                                        </span>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-2 text-white">{item.title}</h3>
+                                    <p className="text-gray-300">{item.description}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            
+            {/* Call to action */}
+            <div className="mt-16 text-center">
+                <h3 className="text-2xl font-bold mb-4 text-white">Join Our Journey</h3>
+                <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                    Be part of our growing community as we build the future of our platform throughout 2025.
+                </p>
+            </div>
+        </section>
     </div>
-  );
+  )
 }
+
+export default Roadmap
