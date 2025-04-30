@@ -3,6 +3,7 @@ import HeroSection from "@/components/heroSection";
 import KeyFeaturesSection from "@/components/keyFeatures";
 import FortuneNFTMarketplace from "@/components/nftMarketplace";
 import TokenomicsAndVision from "@/components/tokenomicsVision";
+import VisionStatement from "@/components/vision";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <KeyFeaturesSection/>
       <FortuneNFTMarketplace/>
       <TokenomicsAndVision/>
+      <VisionStatement/>
     </div>
   );
 }
