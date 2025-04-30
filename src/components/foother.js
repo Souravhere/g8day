@@ -4,9 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { 
   Twitter, 
-  MessageCircle, 
-  MessageSquare, 
-  BookOpen, 
   Send
 } from "lucide-react";
 
@@ -67,13 +64,13 @@ const Footer = () => {
                 className="text-gray-400 hover:text-red-500 transition-colors duration-200"
                 aria-label="Twitter"
               >
-                <Twitter size={24} />
+                <span className="text-2xl">𝕏</span>
               </a>
               <a 
                 href="https://t.me/g8day" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-red-500 transition-colors duration-200"
+                className="text-gray-400 hover:text-red-500 transition-colors duration-200 flex items-center"
                 aria-label="Telegram"
               >
                 <Send size={24} />
