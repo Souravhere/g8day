@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 export default function HeroSection() {
   return (
@@ -16,32 +18,29 @@ export default function HeroSection() {
       
       {/* Subtle blue arc at bottom */}
       <div className="absolute bottom-0 left-0 w-full">
-        <div className="w-full h-40 mx-auto rounded-full bg-blue-600/10 blur-2xl transform translate-y-1/2"></div>
+        <div className="w-full h-40 mx-auto rounded-full bg-orange-600/20 blur-2xl transform translate-y-1/2"></div>
       </div>
       
       {/* Content container */}
       <div className="container mx-auto px-6 z-10 text-center">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           {/* Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
-            Unlock Your Potential With<br />
-            Personalized Investment Strategies.
+          <h1 className="text-5xl md:text-6xl lg:text-7xl scale-105 font-bold mb-6 tracking-tight">
+          Discover Your Destiny with <br />
+          AI & Blockchain
           </h1>
           
           {/* Subtitle */}
           <p className="text-lg text-gray-300 mb-10 mx-auto max-w-2xl leading-relaxed">
-            We're here to empower you every step of the way. Whether you're managing your
-            personal finances or seeking innovative investment opportunities.
+          G8Day blends ancient Eastern astrology with AI and blockchain technology to reveal deep insights into your destiny from wealth and career to love and life’s purpose.
           </p>
           
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <button className="border border-gray-600 text-white hover:bg-gray-800 font-medium py-3 px-10 rounded-full transition-all duration-300">
-              Learn More
-            </button>
-            <button className="bg-gradient-to-r from-blue-600 to-indigo-500 text-white font-medium py-3 px-10 rounded-full shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 transition-all duration-300">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 lg:scale-110">
+            <Link href='/' className="flex items-center gap-2 text-xl bg-gradient-to-r from-red-500 to-red-400 text-white font-medium py-3 px-10 rounded-full shadow-lg shadow-red-500/30 hover:shadow-red-500/40 transition-all duration-300">
               Get Started
-            </button>
+              <ArrowUpRight/>
+            </Link>
           </div>
           
           {/* Client avatars with counter */}
