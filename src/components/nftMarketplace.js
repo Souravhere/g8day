@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, ShoppingBag, Star, Moon, Sun, Heart, Zap, Droplets, Wind } from "lucide-react";
 
@@ -114,7 +115,7 @@ export default function FortuneNFTMarketplace() {
       <div className="absolute top-40 -left-40 w-80 h-80 bg-red-600/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 -right-40 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl"></div>
       
-      <div className="container mx-auto max-w-6xl relative z-10">
+      <div className="container mx-auto relative z-10">
         {/* Section Title */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
@@ -235,13 +236,13 @@ export default function FortuneNFTMarketplace() {
           </div>
         </div>
         
-        {/* CTA Button */}
-        <div className="flex justify-center mt-12">
+        {/* CTA Button will be hidden */}
+        {/* <div className="flex justify-center mt-12">
           <button className="flex items-center gap-2 bg-red-600 hover:bg-red-700 px-8 py-3 rounded-lg font-medium text-lg transition-all duration-300 transform hover:translate-y-[-2px] hover:shadow-lg hover:shadow-red-600/40 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
             <ShoppingBag size={20} />
             Browse Marketplace
           </button>
-        </div>
+        </div> */}
       </div>
     </section>
   );
