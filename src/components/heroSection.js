@@ -1,10 +1,27 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 export default function HeroSection() {
   return (
     <div className="bg-gradient-to-b from-black to-gray-900 text-white min-h-screen flex items-center justify-center w-full relative overflow-hidden">
+         <Image 
+                src="/herobg.png" 
+                alt="Background" 
+                layout="fill" 
+                objectFit="cover" 
+                quality={100}
+                className="opacity-40"
+            />
+            {/* Noise overlay */}
+            <div 
+              className="absolute inset-0 opacity-50" 
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 2000 2000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                mixBlendMode: "overlay",
+              }}
+            />   
       {/* Grid overlay pattern */}
       <div className="absolute inset-0 grid grid-cols-6 grid-rows-6 opacity-20 pointer-events-none">
         {Array(36).fill().map((_, i) => (
@@ -38,8 +55,8 @@ export default function HeroSection() {
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 lg:scale-110">
             <Link href='/' className="flex items-center gap-2 text-xl bg-gradient-to-r from-red-500 to-red-400 text-white font-medium py-3 px-10 rounded-full shadow-lg shadow-red-500/30 hover:shadow-red-500/40 transition-all duration-300">
-              Get Started
-              <ArrowUpRight/>
+                Explore Your Fortune
+                <ArrowUpRight/>
             </Link>
           </div>
           
