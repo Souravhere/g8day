@@ -61,19 +61,23 @@ export default function TokenomicsAndVision() {
   return (
     <div className="w-full bg-black text-white py-16 px-4 md:px-8">
       {/* Section 1: Token Utility & Distribution */}
-      <div className="max-w-7xl mx-auto mb-24">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">G8D Token Utility & Distribution</h2>
+      <div className="max-w-[1500px] mx-auto mb-24">
+      <div className="text-center mb-2">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl text-gray-100 font-bold inline-block relative">
+            G8D Token Utility & Distribution
+          </h2>
+        </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Column: Use Cases */}
           <div className="space-y-8">
-            <h3 className="text-2xl font-bold mb-6">G8D Use Cases</h3>
-            <p className="text-gray-300 text-lg mb-8">Access readings, trade NFTs, join governance, earn rewards.</p>
+            <h3 className="text-2xl font-bold mb-2 mt-4 text-gray-200">G8D Use Cases</h3>
+            <p className="text-gray-300/80 text-lg mb-8">Access readings, trade NFTs, join governance, earn rewards.</p>
             
             <div className="space-y-6">
               {useCases.map((useCase, index) => (
-                <div key={index} className="flex items-start gap-4 p-4 border border-gray-800 rounded-lg hover:border-red-500 transition-all duration-300">
-                  <div className="p-2 bg-red-500 bg-opacity-20 rounded-full text-red-500">
+                <div key={index} className="flex items-start gap-4 p-4 border border-gray-800 rounded-lg">
+                  <div className="p-2 bg-red-500 bg-opacity-20 rounded-full text-white">
                     {useCase.icon}
                   </div>
                   <div>
@@ -102,7 +106,7 @@ export default function TokenomicsAndVision() {
                     labelLine={false}
                     label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                     animationDuration={1500}
-                    animationBegin={isVisible ? 0 : 2000}
+                    animationBegin={isVisible ? 0 : 3000}
                   >
                     {tokenDistribution.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -113,27 +117,6 @@ export default function TokenomicsAndVision() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Section 2: Vision Statement */}
-      <div id="vision-section" className="max-w-5xl mx-auto py-16">
-        <div className={`border-gray-700 border p-8 md:p-12 rounded-lg transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl uppercase font-bold text-center mb-10">Vision</h2>
-          
-          <div className="flex">
-            <div className="w-1 bg-red-500 mr-6"></div>
-            <blockquote className="text-xl md:text-2xl lg:text-3xl italic font-light text-center text-gray-200">
-              "To merge Eastern metaphysics with Web3 technology—making destiny a data-driven and democratized experience."
-            </blockquote>
-          </div>
-          
-          <div className="flex justify-center mt-12">
-            <button className="bg-red-500 hover:bg-red-600 text-white py-3 px-8 rounded-full flex items-center gap-2 transition-all">
-              <BarChart3 color='white' size={20} />
-              <span>Explore Our Ecosystem</span>
-            </button>
           </div>
         </div>
       </div>
