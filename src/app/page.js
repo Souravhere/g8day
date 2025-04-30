@@ -1,5 +1,5 @@
 import AboutSection from "@/components/aboutSection";
-import JoinDaoAndFAQs from "@/components/daoAndFaq";
+import FAQ from "@/components/faqSection";
 import HeroSection from "@/components/heroSection";
 import KeyFeaturesSection from "@/components/keyFeatures";
 import FortuneNFTMarketplace from "@/components/nftMarketplace";
@@ -17,6 +17,7 @@ export default function Home() {
       <TokenomicsAndVision/>
       <VisionStatement/>
       <RoadmapTimeline/>
+      <FAQ/>
     </div>
   );
 }
