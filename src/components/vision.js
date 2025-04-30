@@ -43,7 +43,7 @@ export default function VisionStatement() {
                 <Quote size={30} className="rotate-180" />
               </div>
               <blockquote className="text-lg text-gray-200 md:text-xl font-light leading-relaxed pt-8 text-shadow-glow">
-                "To merge Eastern metaphysics with Web3 technology—making destiny a data-driven and democratized experience."
+                "To merge Eastern metaphysics with Web3 technology making destiny a data driven and democratized experience."
               </blockquote>
               <div className="absolute -right-2 -bottom-4 text-red-500 bg-black rounded-full p-1">
                 <Quote size={24} />
