@@ -28,12 +28,11 @@ export default function KeyFeaturesSection() {
   ];
 
   return (
-    <section className="bg-black text-white py-20 px-4">
+    <section className="bg-black text-white py-4 px-4">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Key Features</h2>
-          <div className="h-1 w-24 bg-red-600 mx-auto rounded-full"></div>
-          <p className="mt-6 text-gray-300 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl text-gray-100 font-bold inline-block relative">Key Features</h2>
+          <p className="mt-6 text-gray-300/80 max-w-2xl mx-auto">
             Discover how G8Day combines ancient wisdom with modern technology to reveal your destiny path.
           </p>
         </div>
@@ -42,7 +41,7 @@ export default function KeyFeaturesSection() {
           {features.map((feature) => (
             <div 
               key={feature.id} 
-              className="bg-gray-900 rounded-lg overflow-hidden transition-all duration-300 hover:transform hover:shadow-lg hover:shadow-red-600/20 border border-gray-800 hover:border-red-600/50"
+              className="bg-gray-900/50 rounded-lg overflow-hidden transition-all duration-300 hover:transform hover:shadow-lg hover:shadow-red-600/20 border border-gray-800 hover:border-red-600/50"
             >
               {/* Image Container */}
               <div className="relative h-fit overflow-hidden">
@@ -64,10 +63,10 @@ export default function KeyFeaturesSection() {
 
               {/* Content Container */}
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-red-400 flex items-center">
+                <h3 className="text-xl font-bold mb-3 text-gray-100 group-hover:text-red-400 flex items-center">
                   {feature.title}
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-gray-300/80 leading-relaxed">
                   {feature.description}
                 </p>
               </div>
