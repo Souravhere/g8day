@@ -48,7 +48,7 @@ export default function FortuneNFTMarketplace() {
       color: "from-blue-500 to-indigo-600",
       glow: "blue",
       icon: <Zap size={20} className="text-blue-300" />,
-      image: "/nft/hearts.png"
+      image: "/nft/thunder.png"
     },
     {
       id: 5,
@@ -58,7 +58,7 @@ export default function FortuneNFTMarketplace() {
       color: "from-cyan-500 to-blue-600",
       glow: "cyan",
       icon: <Droplets size={20} className="text-cyan-300" />,
-      image: "/nft/hearts.png"
+      image: "/nft/oceans.png"
     },
     {
       id: 6,
@@ -68,7 +68,7 @@ export default function FortuneNFTMarketplace() {
       color: "from-green-500 to-emerald-600",
       glow: "green",
       icon: <Wind size={20} className="text-green-300" />,
-      image: "/nft/hearts.png"
+      image: "/nft/spirit.png"
     }
   ];
 
