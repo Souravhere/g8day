@@ -38,7 +38,7 @@ export default function FortuneNFTMarketplace() {
       color: "from-pink-500 to-red-600",
       glow: "pink",
       icon: <Heart size={20} className="text-pink-300" />,
-      image: "/api/placeholder/300/400"
+      image: "/nft/hearts.png"
     },
     {
       id: 4,
@@ -48,7 +48,7 @@ export default function FortuneNFTMarketplace() {
       color: "from-blue-500 to-indigo-600",
       glow: "blue",
       icon: <Zap size={20} className="text-blue-300" />,
-      image: "/api/placeholder/300/400"
+      image: "/nft/hearts.png"
     },
     {
       id: 5,
@@ -58,7 +58,7 @@ export default function FortuneNFTMarketplace() {
       color: "from-cyan-500 to-blue-600",
       glow: "cyan",
       icon: <Droplets size={20} className="text-cyan-300" />,
-      image: "/api/placeholder/300/400"
+      image: "/nft/hearts.png"
     },
     {
       id: 6,
@@ -68,7 +68,7 @@ export default function FortuneNFTMarketplace() {
       color: "from-green-500 to-emerald-600",
       glow: "green",
       icon: <Wind size={20} className="text-green-300" />,
-      image: "/api/placeholder/300/400"
+      image: "/nft/hearts.png"
     }
   ];
 
@@ -159,7 +159,7 @@ export default function FortuneNFTMarketplace() {
               {nftCards.map((card, index) => (
                 <div 
                   key={card.id}
-                  className={`flex-shrink-0 w-64 md:w-72 snap-center transition-all duration-300 ${index === activeIndex ? 'scale-105' : 'scale-95 opacity-70'}`}
+                  className={`flex-shrink-0 w-64 ml-2 md:w-72 snap-center transition-all duration-300 ${index === activeIndex ? 'scale-105' : 'scale-95 opacity-70'}`}
                 >
                   {/* NFT Card */}
                   <div className={`group relative rounded-xl overflow-hidden ring ring-gray-800 hover:ring-${card.glow}-500 transition-all duration-500 transform hover:translate-y-[-8px] hover:shadow-2xl hover:shadow-${card.glow}-500/40`}>
@@ -198,7 +198,7 @@ export default function FortuneNFTMarketplace() {
                           <span className="text-gray-400">Current Value</span>
                           <div className="flex items-center gap-1">
                             <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                            <span className="font-medium">{(Math.random() * 5).toFixed(2)} ETH</span>
+                            <span className="font-medium">{(Math.random() * 1).toFixed(2)} ETH</span>
                           </div>
                         </div>
                       </div>
