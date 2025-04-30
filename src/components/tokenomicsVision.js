@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from 'react';
 import { BookOpen, Coins, UsersRound, Trophy, BarChart3 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
@@ -130,7 +131,7 @@ export default function TokenomicsAndVision() {
           
           <div className="flex justify-center mt-12">
             <button className="bg-red-500 hover:bg-red-600 text-white py-3 px-8 rounded-full flex items-center gap-2 transition-all">
-              <BarChart3 size={20} />
+              <BarChart3 color='white' size={20} />
               <span>Explore Our Ecosystem</span>
             </button>
           </div>
