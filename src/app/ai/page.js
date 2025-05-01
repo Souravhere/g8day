@@ -3,7 +3,6 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { Sun, Moon, Star, Loader, AlertTriangle, Send, Sparkles } from 'lucide-react';
-import OpenAI from "openai";
 
 // Planet icon mapping
 const PlanetIcons = {
@@ -22,6 +21,9 @@ const PlanetIcons = {
 };
 
 export default function Home() {
+  // Language state
+  const [language, setLanguage] = useState("en");
+
   // Form state
   const [formData, setFormData] = useState({
     year: new Date().getFullYear(),
@@ -32,35 +34,23 @@ export default function Home() {
     seconds: 0,
     latitude: 18.9333,
     longitude: 72.8166,
-      timezone: 5.5,
-      settings: {
-          observation_point: "topocentric",
-          ayanamsha: "lahiri",
-          language: "en"
-      }
-    });
+    timezone: 5.5,
+    settings: {
+      observation_point: "topocentric",
+      ayanamsha: "lahiri",
+      language: "en"
+    }
+  });
   
-    const dangerouslyAllowBrowser = true;
   // App state
-  const [planetData, setplanetData] = useState(null);
+  const [planetData, setPlanetData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // Removed unused aiResponse state
   const [aiResponse, setAiResponse] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiQuestion, setAiQuestion] = useState("");
   const [aiChat, setAiChat] = useState([]);
   const [currentTab, setCurrentTab] = useState("chart"); // 'chart' or 'ai'
-
-  // Initialize OpenAI client
-  const openai = new OpenAI({
-    baseURL: "https://openrouter.ai/api/v1",
-    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || "YOUR_OPENAI_API_KEY",
-    defaultHeaders: {
-      "HTTP-Referer": "https://cosmic-chart.com",
-      "X-Title": "Cosmic Chart"
-    },
-  });
 
   // Handler for form input changes
   const handleInputChange = (e) => {
@@ -103,11 +93,11 @@ export default function Home() {
         }
       };
 
-      const response = await fetch('https://json.freeastrologyapi.com/planets/extended', {
+      // Use our API route instead of direct API call
+      const response = await fetch('/api/astrology', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.NEXT_PUBLIC_ASTRO_API_KEY || 'YOUR_ACTUAL_API_KEY'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(requestData)
       });
@@ -117,7 +107,7 @@ export default function Home() {
       }
 
       const data = await response.json();
-      setplanetData(data);
+      setPlanetData(data);
       
       // If we get data successfully, also generate an AI interpretation
       if (data && data.planets) {
@@ -143,22 +133,30 @@ export default function Home() {
       
       const prompt = `As an astrologer, interpret this birth chart: ${planetsInfo}. Give a short, insightful reading.`;
       
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4-vision-preview",
-        messages: [
-          { role: "user", content: prompt }
-        ],
+      // Use our API route instead of direct OpenAI API call
+      const response = await fetch('/api/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          messages: [{ role: "user", content: prompt }]
+        })
       });
       
-      if (completion.choices && completion.choices[0] && completion.choices[0].message) {
-        const interpretation = completion.choices[0].message.content;
-        setAiResponse(interpretation);
-        setAiChat([
-          { role: 'system', content: 'Welcome to AI Astrology Advisor! I can help interpret your chart and answer questions.' },
-          { role: 'user', content: prompt },
-          { role: 'assistant', content: interpretation }
-        ]);
+      if (!response.ok) {
+        throw new Error(`API responded with status ${response.status}`);
       }
+      
+      const aiData = await response.json();
+      const interpretation = aiData.reply;
+      
+      setAiResponse(interpretation);
+      setAiChat([
+        { role: 'system', content: 'Welcome to AI Astrology Advisor! I can help interpret your chart and answer questions.' },
+        { role: 'user', content: prompt },
+        { role: 'assistant', content: interpretation }
+      ]);
     } catch (err) {
       console.error('Error generating AI interpretation:', err);
       setAiResponse("Sorry, I couldn't generate an interpretation at this time.");
@@ -187,16 +185,23 @@ export default function Home() {
         content: msg.content
       }));
       
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4-vision-preview",
-        messages: messages,
+      // Use our API route instead of direct OpenAI API call
+      const response = await fetch('/api/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ messages })
       });
       
-      if (completion.choices && completion.choices[0] && completion.choices[0].message) {
-        const response = completion.choices[0].message.content;
-        // Add AI response to chat
-        setAiChat([...updatedChat, { role: 'assistant', content: response }]);
+      if (!response.ok) {
+        throw new Error(`API responded with status ${response.status}`);
       }
+      
+      const data = await response.json();
+      
+      // Add AI response to chat
+      setAiChat([...updatedChat, { role: 'assistant', content: data.reply }]);
     } catch (err) {
       console.error('Error getting AI response:', err);
       setAiChat([...updatedChat, { 
@@ -708,5 +713,5 @@ export default function Home() {
         </div>
       </main>
       </div>
-  );
+  )
 }
