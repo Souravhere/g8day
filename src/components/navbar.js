@@ -10,9 +10,9 @@ const Navbar = () => {
     const [hoveredItem, setHoveredItem] = useState(null);
     
     const navItems = [
-        { text: "Home", href: "/" },
-        { text: "AI Agents", href: "/chat/arena" },
-        { text: "Ghibli Ai", href: "/chat/ai" },
+        // { text: "Home", href: "/" },
+        // { text: "AI Agents", href: "/chat/arena" },
+        // { text: "Ghibli Ai", href: "/chat/ai" },
         // { text: "Journey", href: "#Journey" }
     ];
     
@@ -57,9 +57,9 @@ const Navbar = () => {
                     {/* <Link href='/'> */}
                     <motion.button
                         disabled
-                        className="bg-stone-700/70 text-white/70 px-6 py-3 rounded-full font-medium relative cursor-pointer"
+                        className="bg-red-500/70 text-white/90 px-6 py-3 rounded-full font-medium relative cursor-pointer"
                     >
-                        <span className="relative z-10">My Ghibli </span>
+                        <span className="relative z-10 text-lg font-medium">My G8Day </span>
                         <span className='text-white text-xs px-2 py-[px] rounded-full bg-green-500  absolute w-fit -right-1 -top-2 flex items-center justify-center'>Live Soon</span>
                     </motion.button>
                     {/* </Link> */}
@@ -139,7 +139,7 @@ const Navbar = () => {
                                 />
                             ))}
                             <motion.button
-                                className="bg-stone-700 text-white px-6 py-4 rounded-full font-medium mt-6 relative overflow-hidden"
+                                className="bg-red-500/70 text-white px-6 py-4 rounded-full font-medium mt-6 relative overflow-hidden"
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -157,7 +157,7 @@ const Navbar = () => {
                                     transition={{ duration: 0.6 }}
                                     style={{ originX: 0.5, originY: 0.5 }}
                                 />
-                                <span className="relative z-10">My Ghibli </span>
+                                <span className="relative z-10">My G8Day </span>
                             </motion.button>
                         </div>
                     </motion.div>
