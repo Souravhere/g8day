@@ -198,7 +198,7 @@ export default function FortuneNFTMarketplace() {
                       </p>
                       
                       {/* Price Tag */}
-                      <div className="mt-4 flex justify-between items-center">
+                      <div className="mt-4 justify-between items-center hidden">
                         <div className="text-sm">
                             <span className="font-medium">{nftPrices[index]} ETH</span>
                           <div className="flex items-center gap-1">
