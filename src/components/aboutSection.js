@@ -20,18 +20,18 @@ export default function AboutSection() {
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 mx-auto py-4">
           {/* Content area */}
           <div className="lg:w-1/2 space-y-6">
-            <p className="text-lg text-gray-300/80 leading-relaxed">
+            <p className="text-lg text-gray-300/90 leading-relaxed">
               G8Day represents a groundbreaking fusion of ancient wisdom and cutting-edge technology. 
               We've combined the profound insights of Saju (Four Pillars of Destiny) - a traditional 
               Eastern philosophical system for understanding personal destiny - with advanced AI algorithms 
               and secure blockchain technology.
             </p>
-            <p className="text-lg text-gray-300/80 leading-relaxed">
+            {/* <p className="text-lg text-gray-300/80 leading-relaxed">
               Our platform analyzes your unique Saju elements, processes them through our proprietary AI 
               models, and securely stores your personalized fortune on the blockchain. This creates an 
               immutable record of your destiny path that evolves with unprecedented accuracy as you interact 
               with our system.
-            </p>
+            </p> */}
             
           </div>
           <div className="lg:w-1/2 flex items-center justify-center">

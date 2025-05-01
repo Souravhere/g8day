@@ -104,7 +104,7 @@ export default function TokenomicsAndVision() {
                     paddingAngle={2}
                     dataKey="value"
                     labelLine={false}
-                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    // label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                     animationDuration={1500}
                     animationBegin={isVisible ? 0 : 3000}
                   >

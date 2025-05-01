@@ -41,7 +41,7 @@ export function AnimatedBeamMultipleOutputDemo({
             <div className="flex size-full max-w-lg flex-row items-stretch justify-between gap-10">
                 <div className="flex flex-col justify-center items-center gap-2">
                     <Circle ref={div1Ref}>
-                    <span className="flex flex-col text-black text-xs font-semibold text-center items-center"><Scroll className="text-red-400"/>Saju Wisdom</span>
+                    <span className="flex flex-col text-black text-xs font-semibold text-center items-center"><Scroll className="text-red-400"/>G8D Wisdom</span>
                     </Circle>
                     <Circle ref={div2Ref}>
                         <span className="flex flex-col text-black font-semibold text-xs text-center items-center"><Database className="text-red-400"/>Blockchain</span>
