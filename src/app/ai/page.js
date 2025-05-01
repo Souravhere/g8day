@@ -77,45 +77,43 @@ export default function Home() {
     }
   };
 
-  // Form submission handler
-  const handleSubmit = async (e) => {
+// Form submission handler
+const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     
     try {
-      // Update language setting before making the request
-      const requestData = {
-        ...formData,
-        settings: {
-          ...formData.settings,
-          language: language
-        }
-      };
-
-      // Use our API route instead of direct API call
+      // Log the data being sent for debugging
+      console.log("Sending data:", formData);
+      
       const response = await fetch('/api/astrology', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestData)
+        body: JSON.stringify(formData),
       });
-
+      
+      // Check if response is OK first before trying to parse JSON
       if (!response.ok) {
-        throw new Error(`API responded with status ${response.status}`);
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+        throw new Error(`API responded with status ${response.status}: ${errorData.error || 'Unknown error'}`);
       }
-
+      
+      // Parse JSON response
       const data = await response.json();
+      
+      // Process successful response
       setPlanetData(data);
       
-      // If we get data successfully, also generate an AI interpretation
+      // Generate AI interpretation if data was successfully retrieved
       if (data && data.planets) {
         generateAIInterpretation(data);
       }
     } catch (err) {
-      console.error('Error fetching astrological data:', err);
-      setError(err.message || 'Failed to fetch astrological data');
+      console.error("Error fetching astrological data:", err);
+      setError(`Error fetching astrological data: ${err.message}`);
     } finally {
       setLoading(false);
     }
