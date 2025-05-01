@@ -42,7 +42,7 @@ export const metadata = {
     siteName: "G8Day",
     images: [
       {
-        url: "https://g8day.io/assets/og-image.jpg",
+        url: "https://g8day.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "G8Day Hero Image",
