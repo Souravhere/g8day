@@ -13,7 +13,7 @@ const PlanetIcons = {
   "Mars": <Star className="text-red-500" size={24} />,
   "Jupiter": <Star className="text-orange-400" size={24} />,
   "Saturn": <Star className="text-yellow-700" size={24} />,
-  "Rahu": <Star className="text-purple-500" size={24} />,
+  "Rahu": <Star className="text-red-500" size={24} />,
   "Ketu": <Star className="text-green-400" size={24} />,
   "Uranus": <Star className="text-teal-400" size={24} />,
   "Neptune": <Star className="text-blue-500" size={24} />,
@@ -190,7 +190,7 @@ export default function Home() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 mb-2">{t.title}</h1>
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-pink-600 mb-2">{t.title}</h1>
           <p className="text-purple-300">{t.subtitle}</p>
         </motion.div>
 
@@ -200,12 +200,12 @@ export default function Home() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="lg:w-1/3 bg-gray-800 rounded-lg p-6 shadow-lg border border-purple-900"
+            className="lg:w-1/3 bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-500/50"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Birth Details */}
               <div>
-                <h2 className="text-xl font-semibold text-purple-400 mb-4">{t.birth}</h2>
+                <h2 className="text-xl font-semibold text-gray-200 mb-4">{t.birth}</h2>
                 
                 <div className="space-y-4">
                   <div>
@@ -218,7 +218,7 @@ export default function Home() {
                           name="year"
                           value={formData.year}
                           onChange={handleInputChange}
-                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                           min="1900"
                           max="2100"
                           required
@@ -231,7 +231,7 @@ export default function Home() {
                           name="month"
                           value={formData.month}
                           onChange={handleInputChange}
-                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                           min="1"
                           max="12"
                           required
@@ -244,7 +244,7 @@ export default function Home() {
                           name="date"
                           value={formData.date}
                           onChange={handleInputChange}
-                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                           min="1"
                           max="31"
                           required
@@ -263,7 +263,7 @@ export default function Home() {
                           name="hours"
                           value={formData.hours}
                           onChange={handleInputChange}
-                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                           min="0"
                           max="23"
                           required
@@ -276,7 +276,7 @@ export default function Home() {
                           name="minutes"
                           value={formData.minutes}
                           onChange={handleInputChange}
-                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                           min="0"
                           max="59"
                           required
@@ -289,7 +289,7 @@ export default function Home() {
                           name="seconds"
                           value={formData.seconds}
                           onChange={handleInputChange}
-                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                           min="0"
                           max="59"
                           required
@@ -308,7 +308,7 @@ export default function Home() {
                           name="latitude"
                           value={formData.latitude}
                           onChange={handleInputChange}
-                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                           step="0.0001"
                           min="-90"
                           max="90"
@@ -322,7 +322,7 @@ export default function Home() {
                           name="longitude"
                           value={formData.longitude}
                           onChange={handleInputChange}
-                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                           step="0.0001"
                           min="-180"
                           max="180"
@@ -336,7 +336,7 @@ export default function Home() {
                           name="timezone"
                           value={formData.timezone}
                           onChange={handleInputChange}
-                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                          className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                           step="0.5"
                           min="-12"
                           max="14"
@@ -350,7 +350,7 @@ export default function Home() {
 
               {/* Chart Settings */}
               <div>
-                <h2 className="text-xl font-semibold text-purple-400 mb-4">{t.settings}</h2>
+                <h2 className="text-xl font-semibold text-gray-200 mb-4">{t.settings}</h2>
                 
                 <div className="space-y-4">
                   <div>
@@ -359,7 +359,7 @@ export default function Home() {
                       name="settings.observation_point"
                       value={formData.settings.observation_point}
                       onChange={handleInputChange}
-                      className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                      className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                     >
                       <option value="topocentric">Topocentric</option>
                       <option value="geocentric">Geocentric</option>
@@ -372,7 +372,7 @@ export default function Home() {
                       name="settings.ayanamsha"
                       value={formData.settings.ayanamsha}
                       onChange={handleInputChange}
-                      className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-purple-500 text-white py-2 px-3"
+                      className="w-full bg-gray-700 rounded border border-gray-600 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
                     >
                       <option value="lahiri">Lahiri</option>
                       <option value="raman">Raman</option>
@@ -393,7 +393,7 @@ export default function Home() {
 
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-6 rounded-md shadow-lg transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+                  className="bg-gradient-to-r from-red-500 to-red-400 text-white font-medium py-2 px-6 rounded-md shadow-lg transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
                   disabled={loading}
                 >
                   {loading ? (
@@ -416,7 +416,7 @@ export default function Home() {
           >
             {loading ? (
               <div className="flex flex-col items-center justify-center h-full min-h-64 bg-gray-800 rounded-lg p-8 border border-purple-900">
-                <Loader className="animate-spin h-12 w-12 text-purple-500 mb-4" />
+                <Loader className="animate-spin h-12 w-12 text-red-500 mb-4" />
                 <p className="text-purple-300 text-lg">{t.loading}</p>
               </div>
             ) : error ? (
@@ -429,7 +429,7 @@ export default function Home() {
               </div>
             ) : planetData ? (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-6">
+                <h2 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-pink-600 mb-6">
                   {t.results}
                 </h2>
                 
@@ -488,7 +488,7 @@ export default function Home() {
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-full min-h-64 bg-gray-800 bg-opacity-50 rounded-lg p-8 border border-gray-700 border-dashed">
-                <Star className="h-16 w-16 text-purple-500/30 mb-4" />
+                <Star className="h-16 w-16 text-red-500/30 mb-4" />
                 <p className="text-gray-400 text-center">
                   {language === "en" 
                     ? "Enter your birth details and generate your cosmic profile" 
