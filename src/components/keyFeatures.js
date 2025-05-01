@@ -48,8 +48,8 @@ export default function KeyFeaturesSection() {
                 <Image
                   src={feature.imageUrl}
                   alt={feature.title}
-                  width={300}
-                  height={300}
+                  width={200}
+                  height={200}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
                 {/* Overlay with gradient */}
