@@ -304,223 +304,258 @@ const generateAIInterpretation = async (data) => {
   // Get current language texts
   const t = translations[language];
 
+  const locations = [
+    { city: "New York", country: "United States", lat: 40.7128, lng: -74.0060, timezone: -5 },
+    { city: "London", country: "United Kingdom", lat: 51.5074, lng: -0.1278, timezone: 0 },
+    { city: "Tokyo", country: "Japan", lat: 35.6762, lng: 139.6503, timezone: 9 },
+    { city: "Delhi", country: "India", lat: 28.6139, lng: 77.2090, timezone: 5.5 },
+    { city: "Mumbai", country: "India", lat: 19.0760, lng: 72.8777, timezone: 5.5 },
+    { city: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093, timezone: 10 },
+    { city: "Los Angeles", country: "United States", lat: 34.0522, lng: -118.2437, timezone: -8 },
+    { city: "Paris", country: "France", lat: 48.8566, lng: 2.3522, timezone: 1 },
+    { city: "Beijing", country: "China", lat: 39.9042, lng: 116.4074, timezone: 8 },
+    { city: "Dubai", country: "UAE", lat: 25.2048, lng: 55.2708, timezone: 4 }
+  ];
   return (
     <div className="min-h-screen bg-black text-gray-100">
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8 mt-18">
-          {/* Form Section */}
-          <motion.div 
+        <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="lg:w-1/3 bg-gray-900 rounded-lg p-6 shadow-lg border border-gray-800"
-          >
+        >
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Birth Details */}
-              <div>
-                <h2 className="text-xl font-semibold text-red-500 mb-4">{t.birth}</h2>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">{t.date}</label>
-                    <div className="grid grid-cols-3 gap-2">
-                      <div>
-                        <label className="block text-xs text-gray-400">Year</label>
-                        <input
-                          type="number"
-                          name="year"
-                          value={formData.year}
-                          onChange={handleInputChange}
-                          className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                          min="1900"
-                          max="2100"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-gray-400">Month</label>
-                        <input
-                          type="number"
-                          name="month"
-                          value={formData.month}
-                          onChange={handleInputChange}
-                          className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                          min="1"
-                          max="12"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-gray-400">Day</label>
-                        <input
-                          type="number"
-                          name="date"
-                          value={formData.date}
-                          onChange={handleInputChange}
-                          className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                          min="1"
-                          max="31"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
+                {/* Birth Details */}
+                <div>
+                    <h2 className="text-xl font-semibold text-red-500 mb-4">{t.birth}</h2>
+                    
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-200 mb-1">{t.date}</label>
+                            <div className="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label className="block text-xs text-gray-400">Year</label>
+                                    <input
+                                        type="number"
+                                        name="year"
+                                        value={formData.year}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        min="1900"
+                                        max="2100"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-gray-400">Month</label>
+                                    <input
+                                        type="number"
+                                        name="month"
+                                        value={formData.month}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        min="1"
+                                        max="12"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-gray-400">Day</label>
+                                    <input
+                                        type="number"
+                                        name="date"
+                                        value={formData.date}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        min="1"
+                                        max="31"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">{t.time}</label>
-                    <div className="grid grid-cols-3 gap-2">
-                      <div>
-                        <label className="block text-xs text-gray-400">Hours</label>
-                        <input
-                          type="number"
-                          name="hours"
-                          value={formData.hours}
-                          onChange={handleInputChange}
-                          className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                          min="0"
-                          max="23"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-gray-400">Minutes</label>
-                        <input
-                          type="number"
-                          name="minutes"
-                          value={formData.minutes}
-                          onChange={handleInputChange}
-                          className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                          min="0"
-                          max="59"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-gray-400">Seconds</label>
-                        <input
-                          type="number"
-                          name="seconds"
-                          value={formData.seconds}
-                          onChange={handleInputChange}
-                          className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                          min="0"
-                          max="59"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-200 mb-1">{t.time}</label>
+                            <div className="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label className="block text-xs text-gray-400">Hours</label>
+                                    <input
+                                        type="number"
+                                        name="hours"
+                                        value={formData.hours}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        min="0"
+                                        max="23"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-gray-400">Minutes</label>
+                                    <input
+                                        type="number"
+                                        name="minutes"
+                                        value={formData.minutes}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        min="0"
+                                        max="59"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-gray-400">Seconds</label>
+                                    <input
+                                        type="number"
+                                        name="seconds"
+                                        value={formData.seconds}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        min="0"
+                                        max="59"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">{t.location}</label>
-                    <div className="space-y-2">
-                      <div>
-                        <label className="block text-xs text-gray-400">{t.latitude}</label>
-                        <input
-                          type="number"
-                          name="latitude"
-                          value={formData.latitude}
-                          onChange={handleInputChange}
-                          className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                          step="0.0001"
-                          min="-90"
-                          max="90"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-gray-400">{t.longitude}</label>
-                        <input
-                          type="number"
-                          name="longitude"
-                          value={formData.longitude}
-                          onChange={handleInputChange}
-                          className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                          step="0.0001"
-                          min="-180"
-                          max="180"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-gray-400">{t.timezone}</label>
-                        <input
-                          type="number"
-                          name="timezone"
-                          value={formData.timezone}
-                          onChange={handleInputChange}
-                          className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                          step="0.5"
-                          min="-12"
-                          max="14"
-                          required
-                        />
-                      </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-200 mb-1">{t.location}</label>
+                            <div className="space-y-2">
+                                <div>
+                                    <label className="block text-xs text-gray-400">Select Location</label>
+                                    <select
+                                        onChange={(e) => {
+                                            const selectedLocation = locations.find(
+                                                (loc) => `${loc.city}, ${loc.country}` === e.target.value
+                                            );
+                                            if (selectedLocation) {
+                                                setFormData({
+                                                    ...formData,
+                                                    latitude: selectedLocation.lat,
+                                                    longitude: selectedLocation.lng,
+                                                    timezone: selectedLocation.timezone,
+                                                });
+                                            }
+                                        }}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                    >
+                                        <option value="">Select a location</option>
+                                        {locations.map((loc) => (
+                                            <option key={loc.city} value={`${loc.city}, ${loc.country}`}>
+                                                {loc.city}, {loc.country}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-gray-400">{t.latitude}</label>
+                                    <input
+                                        type="number"
+                                        name="latitude"
+                                        value={formData.latitude}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        step="0.0001"
+                                        min="-90"
+                                        max="90"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-gray-400">{t.longitude}</label>
+                                    <input
+                                        type="number"
+                                        name="longitude"
+                                        value={formData.longitude}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        step="0.0001"
+                                        min="-180"
+                                        max="180"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-gray-400">{t.timezone}</label>
+                                    <input
+                                        type="number"
+                                        name="timezone"
+                                        value={formData.timezone}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        step="0.5"
+                                        min="-12"
+                                        max="14"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
 
-              {/* Chart Settings */}
-              <div>
-                <h2 className="text-xl font-semibold text-red-500 mb-4">{t.settings}</h2>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">{t.observation}</label>
-                    <select
-                      name="settings.observation_point"
-                      value={formData.settings.observation_point}
-                      onChange={handleInputChange}
-                      className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                    >
-                      <option value="topocentric">Topocentric</option>
-                      <option value="geocentric">Geocentric</option>
-                    </select>
-                  </div>
+                {/* Chart Settings */}
+                <div>
+                    <h2 className="text-xl font-semibold text-red-500 mb-4">{t.settings}</h2>
+                    
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-200 mb-1">{t.observation}</label>
+                            <select
+                                name="settings.observation_point"
+                                value={formData.settings.observation_point}
+                                onChange={handleInputChange}
+                                className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                            >
+                                <option value="topocentric">Topocentric</option>
+                                <option value="geocentric">Geocentric</option>
+                            </select>
+                        </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">{t.ayanamsha}</label>
-                    <select
-                      name="settings.ayanamsha"
-                      value={formData.settings.ayanamsha}
-                      onChange={handleInputChange}
-                      className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
-                    >
-                      <option value="lahiri">Lahiri</option>
-                      <option value="raman">Raman</option>
-                      <option value="krishnamurti">Krishnamurti</option>
-                    </select>
-                  </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-200 mb-1">{t.ayanamsha}</label>
+                            <select
+                                name="settings.ayanamsha"
+                                value={formData.settings.ayanamsha}
+                                onChange={handleInputChange}
+                                className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                            >
+                                <option value="lahiri">Lahiri</option>
+                                <option value="raman">Raman</option>
+                                <option value="krishnamurti">Krishnamurti</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-              </div>
 
-              <div className="flex justify-between items-center">
-                <button
-                  type="button"
-                  onClick={toggleLanguage}
-                  className="text-sm text-red-400 hover:text-red-300 transition"
-                >
-                  {t.toggleLang}
-                </button>
+                <div className="flex justify-between items-center">
+                    <button
+                        type="button"
+                        onClick={toggleLanguage}
+                        className="text-sm text-red-400 hover:text-red-300 transition"
+                    >
+                        {t.toggleLang}
+                    </button>
 
-                <button
-                  type="submit"
-                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-2 px-6 rounded-md shadow-lg transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <span className="flex items-center">
-                      <Loader className="animate-spin -ml-1 mr-2 h-4 w-4" />
-                      {t.loading}
-                    </span>
-                  ) : t.submit}
-                </button>
-              </div>
+                    <button
+                        type="submit"
+                        className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-2 px-6 rounded-md shadow-lg transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <span className="flex items-center">
+                                <Loader className="animate-spin -ml-1 mr-2 h-4 w-4" />
+                                {t.loading}
+                            </span>
+                        ) : t.submit}
+                    </button>
+                </div>
             </form>
-          </motion.div>
-
-         {/* Results Section */}
+        </motion.div>
          <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
