@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, ShoppingBag, Star, Moon, Sun, Heart, Zap, Droplets, Wind } from "lucide-react";
+import Image from "next/image";
 
 export default function FortuneNFTMarketplace() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -159,17 +160,19 @@ export default function FortuneNFTMarketplace() {
               {nftCards.map((card, index) => (
                 <div 
                   key={card.id}
-                  className={`flex-shrink-0 w-64 ml-2 md:w-72 snap-center transition-all duration-300 ${index === activeIndex ? 'scale-105' : 'scale-95 opacity-70'}`}
+                  className={`flex-shrink-0 w-64 ml-2 md:w-80 snap-center transition-all duration-300 ${index === activeIndex ? 'scale-105' : 'scale-95 opacity-70'}`}
                 >
                   {/* NFT Card */}
                   <div className={`group relative rounded-xl overflow-hidden ring ring-gray-800 hover:ring-${card.glow}-500 transition-all duration-500 transform hover:translate-y-[-8px] hover:shadow-2xl hover:shadow-${card.glow}-500/40`}>
                     {/* Card Background */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
                     <div className="relative aspect-[3/4] overflow-hidden">
-                      <img 
+                      <Image
+                        width={300}
+                        height={500}
                         src={card.image} 
                         alt={`${card.name} NFT preview`} 
-                        className="w-full h-full object-cover transition-transform duration-700"
+                        className="w-full h-full object-cover object-top rounded-lg transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
                       
