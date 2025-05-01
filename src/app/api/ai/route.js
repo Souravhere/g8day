@@ -2,6 +2,15 @@
 import { NextResponse } from 'next/server';
 import OpenAI from "openai";
 
+const openai = new OpenAI({
+  baseURL: 'https://openrouter.ai/api/v1',
+  apiKey: process.env.OPENAI_API_KEY,
+  defaultHeaders: {
+    'HTTP-Referer': '<YOUR_SITE_URL>', // Optional. Site URL for rankings on openrouter.ai.
+    'X-Title': '<YOUR_SITE_NAME>', // Optional. Site title for rankings on openrouter.ai.
+  },
+});
+
 export async function POST(request) {
   try {
     // Parse the request body
@@ -15,26 +24,11 @@ export async function POST(request) {
       );
     }
     
-    // Check if API key exists
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      console.error("OpenAI API key is missing");
-      return NextResponse.json(
-        { error: "Configuration error: API key is missing" },
-        { status: 500 }
-      );
-    }
-    
     console.log("Using model with messages:", JSON.stringify(messages, null, 2));
     
-    // Initialize OpenAI client
-    const openai = new OpenAI({
-      apiKey: apiKey,
-    });
-    
-    // Make OpenAI API call with a model that exists
+    // Make OpenAI API call with the specified model
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", // Use a standard OpenAI model instead of deepseek
+      model: 'meta-llama/llama-4-maverick',
       messages,
       max_tokens: 500
     });

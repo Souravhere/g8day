@@ -298,17 +298,7 @@ const handleSubmit = async (e) => {
       </Head>
 
       <main className="container mx-auto px-4 py-8">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-red-700 mb-2">{t.title}</h1>
-          <p className="text-gray-300">{t.subtitle}</p>
-        </motion.div>
-
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8 mt-18">
           {/* Form Section */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
