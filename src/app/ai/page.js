@@ -678,13 +678,13 @@ const locations = [
                   </div>
                 </div>
               ) : (
-                <div className="bg-gray-900 h-[72vh] rounded-lg p-6 border border-gray-800">
+                <div className="bg-gray-900 h-[78vh] rounded-lg p-6 border border-gray-800">
                   <h2 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 mb-6">
                     {t.aiAdvisor}
                   </h2>
                   
                   <div className="space-y-4">
-                    <div className="h-[52vh] md:h-[55vh]  overflow-y-auto bg-black rounded-md p-4 border border-gray-800">
+                    <div className="h-[60vh] md:h-[62vh]  overflow-y-auto bg-black rounded-md p-4 border border-gray-800">
                       {aiChat.map((message, index) => (
                         <div 
                           key={index} 
