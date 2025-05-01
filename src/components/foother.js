@@ -32,22 +32,17 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/marketplace" className="hover:text-red-500 transition-colors duration-200">
+                <Link href="/" className="hover:text-red-500 transition-colors duration-200">
                   Marketplace
                 </Link>
               </li>
               <li>
-                <Link href="/dao" className="hover:text-red-500 transition-colors duration-200">
-                  DAO
-                </Link>
-              </li>
-              <li>
-                <Link href="/token" className="hover:text-red-500 transition-colors duration-200">
+                <Link href="/" className="hover:text-red-500 transition-colors duration-200">
                   Token
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-red-500 transition-colors duration-200">
+                <Link href="/" className="hover:text-red-500 transition-colors duration-200">
                   Contact
                 </Link>
               </li>
