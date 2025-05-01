@@ -342,7 +342,7 @@ const generateAIInterpretation = async (data) => {
                                         name="year"
                                         value={formData.year}
                                         onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                         min="1900"
                                         max="2100"
                                         required
@@ -355,7 +355,7 @@ const generateAIInterpretation = async (data) => {
                                         name="month"
                                         value={formData.month}
                                         onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                         min="1"
                                         max="12"
                                         required
@@ -368,7 +368,7 @@ const generateAIInterpretation = async (data) => {
                                         name="date"
                                         value={formData.date}
                                         onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                         min="1"
                                         max="31"
                                         required
@@ -387,7 +387,7 @@ const generateAIInterpretation = async (data) => {
                                         name="hours"
                                         value={formData.hours}
                                         onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                         min="0"
                                         max="23"
                                         required
@@ -400,7 +400,7 @@ const generateAIInterpretation = async (data) => {
                                         name="minutes"
                                         value={formData.minutes}
                                         onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                         min="0"
                                         max="59"
                                         required
@@ -413,7 +413,7 @@ const generateAIInterpretation = async (data) => {
                                         name="seconds"
                                         value={formData.seconds}
                                         onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                         min="0"
                                         max="59"
                                         required
@@ -441,7 +441,7 @@ const generateAIInterpretation = async (data) => {
                                                 });
                                             }
                                         }}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                     >
                                         <option value="">Select a location</option>
                                         {locations.map((loc) => (
@@ -458,7 +458,7 @@ const generateAIInterpretation = async (data) => {
                                         name="latitude"
                                         value={formData.latitude}
                                         onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                         step="0.0001"
                                         min="-90"
                                         max="90"
@@ -472,7 +472,7 @@ const generateAIInterpretation = async (data) => {
                                         name="longitude"
                                         value={formData.longitude}
                                         onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                         step="0.0001"
                                         min="-180"
                                         max="180"
@@ -486,7 +486,7 @@ const generateAIInterpretation = async (data) => {
                                         name="timezone"
                                         value={formData.timezone}
                                         onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                                         step="0.5"
                                         min="-12"
                                         max="14"
@@ -509,7 +509,7 @@ const generateAIInterpretation = async (data) => {
                                 name="settings.observation_point"
                                 value={formData.settings.observation_point}
                                 onChange={handleInputChange}
-                                className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                             >
                                 <option value="topocentric">Topocentric</option>
                                 <option value="geocentric">Geocentric</option>
@@ -522,7 +522,7 @@ const generateAIInterpretation = async (data) => {
                                 name="settings.ayanamsha"
                                 value={formData.settings.ayanamsha}
                                 onChange={handleInputChange}
-                                className="w-full bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-red-500 text-white py-2 px-3"
+                                className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
                             >
                                 <option value="lahiri">Lahiri</option>
                                 <option value="raman">Raman</option>
@@ -543,7 +543,7 @@ const generateAIInterpretation = async (data) => {
 
                     <button
                         type="submit"
-                        className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-2 px-6 rounded-md shadow-lg transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
+                        className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-2 px-6 rounded-md shadow-lg transition transform hover:scale-105 focus:outline-none focus:border-red-500 outline-none disabled:opacity-50"
                         disabled={loading}
                     >
                         {loading ? (
@@ -717,7 +717,7 @@ const generateAIInterpretation = async (data) => {
                         value={aiQuestion}
                         onChange={(e) => setAiQuestion(e.target.value)}
                         placeholder={t.askQuestion}
-                        className="flex-1 bg-gray-800 text-white border border-gray-700 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="flex-1 bg-gray-800 text-white border border-gray-700 rounded-md py-2 px-4 focus:outline-none focus:border-red-500 outline-none"
                         disabled={aiLoading}
                       />
                       <button
