@@ -104,11 +104,12 @@ const handleSubmit = async (e) => {
       // Parse JSON response
       const data = await response.json();
       
-      // Process successful response
+      // Process successful response - store the data
       setPlanetData(data);
+      console.log("Received planetData:", data);
       
       // Generate AI interpretation if data was successfully retrieved
-      if (data && data.planets) {
+      if (data && data.output) {
         generateAIInterpretation(data);
       }
     } catch (err) {
@@ -121,13 +122,23 @@ const handleSubmit = async (e) => {
 
   // Generate AI interpretation of chart
   const generateAIInterpretation = async (data) => {
-    if (!data || !data.planets) return;
+    if (!data || !data.output) return;
     
     setAiLoading(true);
     try {
-      const planetsInfo = data.planets.map(p => 
-        `${p.name} in ${p.zodiac_sign_name} (${p.isRetro ? 'Retrograde' : 'Direct'}) in House ${p.house_number}`
-      ).join(', ');
+      // Transform the object format to an array format for the prompt
+      const planetEntries = Object.entries(data.output)
+        .filter(([key]) => key !== "Ascendant") // Exclude Ascendant if needed
+        .map(([name, info]) => 
+          `${name} in ${info.zodiac_sign_name} (${info.isRetro === "true" ? 'Retrograde' : 'Direct'}) in House ${info.house_number}`
+        );
+        
+      // Add Ascendant separately if needed
+      if (data.output.Ascendant) {
+        planetEntries.unshift(`Ascendant in ${data.output.Ascendant.zodiac_sign_name}`);
+      }
+      
+      const planetsInfo = planetEntries.join(', ');
       
       const prompt = `As an astrologer, interpret this birth chart: ${planetsInfo}. Give a short, insightful reading.`;
       
@@ -511,8 +522,8 @@ const handleSubmit = async (e) => {
             </form>
           </motion.div>
 
-          {/* Results Section */}
-          <motion.div 
+         {/* Results Section */}
+         <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -559,7 +570,7 @@ const handleSubmit = async (e) => {
                 </div>
                 <p className="text-gray-300">{error}</p>
               </div>
-            ) : planetData ? (
+            ) : planetData && planetData.output ? (
               currentTab === "chart" ? (
                 <div className="space-y-6">
                   <h2 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 mb-6">
@@ -567,25 +578,25 @@ const handleSubmit = async (e) => {
                   </h2>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {planetData.planets && planetData.planets.map((planet, index) => (
+                    {Object.entries(planetData.output).map(([planetName, planetInfo], index) => (
                       <motion.div
-                        key={planet.name}
+                        key={planetName}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
                         className={`bg-gray-900 rounded-lg p-4 border ${
-                          planet.isRetro 
+                          planetInfo.isRetro === "true"
                             ? 'border-red-700 shadow-md shadow-red-900/30' 
                             : 'border-gray-800'
                         }`}
                       >
                         <div className="flex items-center mb-3">
                           <div className="mr-3">
-                            {PlanetIcons[planet.name] || <Star className="text-white" size={24} />}
+                            {PlanetIcons[planetName] || <Star className="text-white" size={24} />}
                           </div>
                           <h3 className="text-lg font-medium">
-                            {planet.name}
-                            {planet.isRetro && (
+                            {planetName}
+                            {planetInfo.isRetro === "true" && (
                               <span className="ml-2 text-xs font-normal px-2 py-0.5 rounded-full bg-red-900 text-red-200 animate-pulse">
                                 {t.retrograde}
                               </span>
@@ -596,23 +607,23 @@ const handleSubmit = async (e) => {
                         <div className="grid grid-cols-2 gap-y-2 text-sm">
                           <div>
                             <span className="text-gray-400">{t.sign}:</span>
-                            <p className="text-white">{planet.zodiac_sign_name}</p>
+                            <p className="text-white">{planetInfo.zodiac_sign_name}</p>
                           </div>
                           <div>
                             <span className="text-gray-400">{t.house}:</span>
-                            <p className="text-white">{planet.house_number}</p>
+                            <p className="text-white">{planetInfo.house_number}</p>
                           </div>
                           <div>
                             <span className="text-gray-400">{t.nakshatra}:</span>
-                            <p className="text-white">{planet.nakshatra_name}</p>
+                            <p className="text-white">{planetInfo.nakshatra_name}</p>
                           </div>
                           <div>
                             <span className="text-gray-400">{t.pada}:</span>
-                            <p className="text-white">{planet.nakshatra_pada}</p>
+                            <p className="text-white">{planetInfo.nakshatra_pada}</p>
                           </div>
                           <div className="col-span-2">
                             <span className="text-gray-400">{t.degree}:</span>
-                            <p className="text-white">{parseFloat(planet.full_degree).toFixed(2)}°</p>
+                            <p className="text-white">{parseFloat(planetInfo.fullDegree).toFixed(2)}°</p>
                           </div>
                         </div>
                       </motion.div>

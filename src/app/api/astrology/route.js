@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request) {
   try {
-    // Parse the request body
     const requestData = await request.json();
     
     // Debug log the request
@@ -22,8 +21,7 @@ export async function POST(request) {
     
     // Get the response as text first
     const responseText = await response.text();
-    console.log("API Response:", responseText.substring(0, 500)); // Log first 500 chars
-    
+    console.log('the is the output data ',responseText); // before the productions remove this log
     if (!response.ok) {
       // Return a proper JSON error response
       return NextResponse.json(
