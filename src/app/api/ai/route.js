@@ -1,4 +1,3 @@
-// api/ai/route.js
 import { NextResponse } from 'next/server';
 import OpenAI from "openai";
 
@@ -6,8 +5,8 @@ const openai = new OpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
   apiKey: process.env.OPENAI_API_KEY,
   defaultHeaders: {
-    'HTTP-Referer': '<YOUR_SITE_URL>', // Optional. Site URL for rankings on openrouter.ai.
-    'X-Title': '<YOUR_SITE_NAME>', // Optional. Site title for rankings on openrouter.ai.
+    'HTTP-Referer': '<YOUR_SITE_URL>',
+    'X-Title': '<YOUR_SITE_NAME>',
   },
 });
 
@@ -26,25 +25,21 @@ export async function POST(request) {
     
     console.log("Using model with messages:", JSON.stringify(messages, null, 2));
     
-    // Make OpenAI API call with the specified model
     const response = await openai.chat.completions.create({
       model: 'meta-llama/llama-4-maverick',
       messages,
       max_tokens: 500
     });
     
-    // Return the response
     return NextResponse.json({ 
       reply: response.choices[0].message.content 
     });
   } catch (err) {
     console.error("OpenAI error:", err);
     
-    // Provide more detailed error information
     let errorMessage = err.message;
     let errorDetails = {};
     
-    // Extract more details if available
     if (err.response) {
       errorDetails = {
         status: err.response.status,
