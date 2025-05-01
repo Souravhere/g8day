@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     const { messages } = req.body;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
+      model: "deepseek/deepseek-chat-v3-0324:free",
       messages,
     });
 
