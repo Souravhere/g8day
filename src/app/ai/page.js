@@ -304,7 +304,7 @@ const generateAIInterpretation = async (data) => {
   // Get current language texts
   const t = translations[language];
 
-  const locations = [
+const locations = [
     { city: "New York", country: "United States", lat: 40.7128, lng: -74.0060, timezone: -5 },
     { city: "London", country: "United Kingdom", lat: 51.5074, lng: -0.1278, timezone: 0 },
     { city: "Tokyo", country: "Japan", lat: 35.6762, lng: 139.6503, timezone: 9 },
@@ -314,8 +314,22 @@ const generateAIInterpretation = async (data) => {
     { city: "Los Angeles", country: "United States", lat: 34.0522, lng: -118.2437, timezone: -8 },
     { city: "Paris", country: "France", lat: 48.8566, lng: 2.3522, timezone: 1 },
     { city: "Beijing", country: "China", lat: 39.9042, lng: 116.4074, timezone: 8 },
+    { city: "Shanghai", country: "China", lat: 31.2304, lng: 121.4737, timezone: 8 },
+    { city: "Guangzhou", country: "China", lat: 23.1291, lng: 113.2644, timezone: 8 },
+    { city: "Shenzhen", country: "China", lat: 22.5431, lng: 114.0579, timezone: 8 },
+    { city: "Chengdu", country: "China", lat: 30.5728, lng: 104.0668, timezone: 8 },
+    { city: "Wuhan", country: "China", lat: 30.5928, lng: 114.3055, timezone: 8 },
+    { city: "Hangzhou", country: "China", lat: 30.2741, lng: 120.1551, timezone: 8 },
+    { city: "Seoul", country: "South Korea", lat: 37.5665, lng: 126.9780, timezone: 9 },
+    { city: "Busan", country: "South Korea", lat: 35.1796, lng: 129.0756, timezone: 9 },
+    { city: "Incheon", country: "South Korea", lat: 37.4563, lng: 126.7052, timezone: 9 },
+    { city: "Daegu", country: "South Korea", lat: 35.8714, lng: 128.6014, timezone: 9 },
+    { city: "Daejeon", country: "South Korea", lat: 36.3504, lng: 127.3845, timezone: 9 },
+    { city: "Gwangju", country: "South Korea", lat: 35.1595, lng: 126.8526, timezone: 9 },
+    { city: "Ulsan", country: "South Korea", lat: 35.5384, lng: 129.3114, timezone: 9 },
+    { city: "Jeju", country: "South Korea", lat: 33.4996, lng: 126.5312, timezone: 9 },
     { city: "Dubai", country: "UAE", lat: 25.2048, lng: 55.2708, timezone: 4 }
-  ];
+];
   return (
     <div className="min-h-screen bg-black text-gray-100">
       <main className="container mx-auto px-4 py-8">
