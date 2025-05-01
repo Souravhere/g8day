@@ -306,12 +306,6 @@ const generateAIInterpretation = async (data) => {
 
   return (
     <div className="min-h-screen bg-black text-gray-100">
-      <Head>
-        <title>{t.title} - Astrological Chart Generator</title>
-        <meta name="description" content="Detailed astrological chart generator with AI interpretation" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8 mt-18">
           {/* Form Section */}
