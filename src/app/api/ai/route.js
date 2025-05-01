@@ -23,7 +23,7 @@ export async function POST(request) {
       );
     }
     
-    console.log("Using model with messages:", JSON.stringify(messages, null, 2));
+    // console.log("Using model with messages:", JSON.stringify(messages, null, 2));
     
     const response = await openai.chat.completions.create({
       model: 'meta-llama/llama-4-maverick',
