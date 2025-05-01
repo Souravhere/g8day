@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { Sun, Moon, Star, Loader, AlertTriangle, Send, Sparkles } from 'lucide-react';
 
+
 // Planet icon mapping
 const PlanetIcons = {
   "Sun": <Sun className="text-yellow-500" size={24} />,
@@ -120,59 +121,62 @@ const handleSubmit = async (e) => {
     }
   };
 
-  // Generate AI interpretation of chart
-  const generateAIInterpretation = async (data) => {
+// Generate AI interpretation of chart
+const generateAIInterpretation = async (data) => {
     if (!data || !data.output) return;
-    
+
     setAiLoading(true);
     try {
-      // Transform the object format to an array format for the prompt
-      const planetEntries = Object.entries(data.output)
-        .filter(([key]) => key !== "Ascendant") // Exclude Ascendant if needed
-        .map(([name, info]) => 
-          `${name} in ${info.zodiac_sign_name} (${info.isRetro === "true" ? 'Retrograde' : 'Direct'}) in House ${info.house_number}`
-        );
-        
-      // Add Ascendant separately if needed
-      if (data.output.Ascendant) {
-        planetEntries.unshift(`Ascendant in ${data.output.Ascendant.zodiac_sign_name}`);
-      }
-      
-      const planetsInfo = planetEntries.join(', ');
-      
-      const prompt = `As an astrologer, interpret this birth chart: ${planetsInfo}. Give a short, insightful reading.`;
-      
-      // Use our API route instead of direct OpenAI API call
-      const response = await fetch('/api/ai', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          messages: [{ role: "user", content: prompt }]
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error(`API responded with status ${response.status}`);
-      }
-      
-      const aiData = await response.json();
-      const interpretation = aiData.reply;
-      
-      setAiResponse(interpretation);
-      setAiChat([
-        { role: 'system', content: 'Welcome to AI Astrology Advisor! I can help interpret your chart and answer questions.' },
-        { role: 'user', content: prompt },
-        { role: 'assistant', content: interpretation }
-      ]);
+        // Transform the object format to an array format for the prompt
+        const planetEntries = Object.entries(data.output)
+            .filter(([key]) => key !== "Ascendant") // Exclude Ascendant if needed
+            .map(([name, info]) => 
+                `**${name}**: in **${info.zodiac_sign_name}** (${info.isRetro === "true" ? '**Retrograde**' : '**Direct**'}) in **House ${info.house_number}**`
+            );
+
+        // Add Ascendant separately if needed
+        if (data.output.Ascendant) {
+            planetEntries.unshift(`**Ascendant**: in **${data.output.Ascendant.zodiac_sign_name}**`);
+        }
+
+        const planetsInfo = planetEntries.join('\n\n');
+
+        const prompt = `Interpret this birth chart:\n\n${planetsInfo}\n\nProvide a concise and valuable reading with key points highlighted.`;
+
+        // Use our API route instead of direct OpenAI API call
+        const response = await fetch('/api/ai', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                messages: [{ role: "user", content: prompt }]
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`API responded with status ${response.status}`);
+        }
+
+        const aiData = await response.json();
+        const interpretation = aiData.reply
+            .replace(/\*\*|\*/g, '') // Remove markdown formatting
+            .replace(/\s+/g, ' ') // Normalize whitespace
+            .trim(); // Trim unnecessary spaces
+
+        setAiResponse(interpretation);
+        setAiChat([
+            { role: 'system', content: 'Welcome to AI Astrology Advisor! I can help interpret your chart and answer questions.' },
+            { role: 'user', content: prompt },
+            { role: 'assistant', content: interpretation }
+        ]);
     } catch (err) {
-      console.error('Error generating AI interpretation:', err);
-      setAiResponse("Sorry, I couldn't generate an interpretation at this time.");
+        console.error('Error generating AI interpretation:', err);
+        setAiResponse("Sorry, I couldn't generate an interpretation at this time.");
     } finally {
-      setAiLoading(false);
+        setAiLoading(false);
     }
-  };
+};
 
   // Handle AI chat question submission
   const handleAiQuestion = async (e) => {
