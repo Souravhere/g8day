@@ -64,16 +64,16 @@ export default function HeroSection() {
           <div className="flex items-center justify-center">
             <div className="flex -space-x-3">
               <div className="w-10 h-10 rounded-full border-2 border-gray-900 overflow-hidden bg-gray-300">
-                <img src="/hero/user1.png" alt="Client 1" className="object-cover" />
+                <Image width={50} height={50} src="/hero/user1.png" alt="Client 1" className="object-cover" />
               </div>
               <div className="w-10 h-10 rounded-full border-2 border-gray-900 overflow-hidden bg-gray-300">
-                <img src="/hero/user2.png" alt="Client 2" className="object-cover" />
+                <Image  width={50} height={50} src="/hero/user2.png" alt="Client 2" className="object-cover" />
               </div>
               <div className="w-10 h-10 rounded-full border-2 border-gray-900 overflow-hidden bg-gray-300">
-                <img src="/hero/user3.png" alt="Client 3" className="object-cover" />
+                <Image  width={50} height={50} src="/hero/user3.png" alt="Client 3" className="object-cover" />
               </div>
               <div className="w-10 h-10 rounded-full border-2 border-gray-900 overflow-hidden bg-gray-300">
-                <img src="/hero/user4.png" alt="Client 4" className="object-cover" />
+                <Image  width={50} height={50} src="/hero/user4.png" alt="Client 4" className="object-cover" />
               </div>
             </div>
             <div className="ml-3 text-left">
