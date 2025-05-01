@@ -11,7 +11,7 @@ export default function HeroSection() {
                 alt="Background" 
                 layout="fill" 
                 objectFit="cover" 
-                quality={100}
+                quality={50}
                 className="opacity-30"
             />
             {/* Noise overlay */}

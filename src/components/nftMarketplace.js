@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight, ShoppingBag, Star, Moon, Sun, Heart, Zap, Droplets, Wind } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Moon, Sun, Heart, Zap, Droplets, Wind } from "lucide-react";
 import Image from "next/image";
 
 export default function FortuneNFTMarketplace() {
@@ -8,6 +8,7 @@ export default function FortuneNFTMarketplace() {
   const [isHovering, setIsHovering] = useState(false);
   const carouselRef = useRef(null);
   const autoScrollRef = useRef(null);
+  const [nftPrices, setNftPrices] = useState([]);
 
   // Sample NFT data
   const nftCards = [
@@ -76,7 +77,8 @@ export default function FortuneNFTMarketplace() {
   // Auto-scroll functionality
   useEffect(() => {
     startAutoScroll();
-    return () => clearInterval(autoScrollRef.current);
+    const prices = nftCards.map(() => (Math.random() * 1).toFixed(2));
+    setNftPrices(prices);
   }, []);
 
   const startAutoScroll = () => {
@@ -198,10 +200,10 @@ export default function FortuneNFTMarketplace() {
                       {/* Price Tag */}
                       <div className="mt-4 flex justify-between items-center">
                         <div className="text-sm">
-                          <span className="text-gray-400">Current Value</span>
+                            <span className="font-medium">{nftPrices[index]} ETH</span>
                           <div className="flex items-center gap-1">
                             <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                            <span className="font-medium">{(Math.random() * 1).toFixed(2)} ETH</span>
+                            <span className="font-medium">{nftPrices[index]} ETH</span>
                           </div>
                         </div>
                       </div>

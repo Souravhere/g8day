@@ -54,8 +54,8 @@ const Footer = () => {
             </ul>
           </nav>
           {/* Social Media Icons */}
-          <div className="flex flex-col items-center md:items-end">
-            <div className="flex space-x-4">
+
+            <div className="flex space-x-4 items-center justify-center md:justify-end">
               <a 
                 href="https://twitter.com/g8day" 
                 target="_blank" 
@@ -76,15 +76,14 @@ const Footer = () => {
               </a>
             </div>
 
-            <div className="mt-6">
+            {/* <div className="mt-6">
               <Link 
                 href="/fortune" 
                 className="bg-red-600 hover:bg-red-700 text-white font-medium px-6 py-2 rounded-full transition-colors duration-200"
               >
                 Get Your Fortune
               </Link>
-            </div>
-          </div>
+            </div> */}
         </div>
 
         {/* Bottom Section with Copyright */}
