@@ -337,6 +337,7 @@ const locations = [
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Birth Details */}
                 <div>
+                </div>
                     <h2 className="text-xl font-semibold text-red-500 mb-4">{t.birth}</h2>
                     
                     <div className="space-y-4">
@@ -362,24 +363,46 @@ const locations = [
 
                         <div>
                             <label className="block text-sm font-medium text-gray-200 mb-1">{t.time}</label>
-                            <div>
-                                <input
-                                    type="time"
-                                    name="time"
-                                    value={`${String(formData.hours).padStart(2, '0')}:${String(formData.minutes).padStart(2, '0')}`}
-                                    onChange={(e) => {
-                                        const [hours, minutes] = e.target.value.split(':');
-                                        setFormData({
-                                            ...formData,
-                                            hours: parseInt(hours, 10),
-                                            minutes: parseInt(minutes, 10),
-                                            seconds: 0, // Reset seconds to 0 for simplicity
-                                        });
-                                    }}
-                                    className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
-                                    required
-                                />
-                            </div>
+                            <div className="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label className="block text-xs text-gray-400">Hours</label>
+                                    <input
+                                        type="number"
+                                        name="hours"
+                                        value={formData.hours}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
+                                        min="0"
+                                        max="23"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-gray-400">Minutes</label>
+                                    <input
+                                        type="number"
+                                        name="minutes"
+                                        value={formData.minutes}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
+                                        min="0"
+                                        max="59"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-gray-400">Seconds</label>
+                                    <input
+                                        type="number"
+                                        name="seconds"
+                                        value={formData.seconds}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
+                                        min="0"
+                                        max="59"
+                                        required
+                                    />
+                                </div>
                         </div>
 
                         <div>
