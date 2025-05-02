@@ -333,47 +333,22 @@ const locations = [
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-200 mb-1">{t.date}</label>
-                            <div className="grid grid-cols-3 gap-2">
-                                <div>
-                                    <label className="block text-xs text-gray-400">Year</label>
-                                    <input
-                                        type="number"
-                                        name="year"
-                                        value={formData.year}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
-                                        min="1900"
-                                        max="2100"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-xs text-gray-400">Month</label>
-                                    <input
-                                        type="number"
-                                        name="month"
-                                        value={formData.month}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
-                                        min="1"
-                                        max="12"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-xs text-gray-400">Day</label>
-                                    <input
-                                        type="number"
-                                        name="date"
-                                        value={formData.date}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
-                                        min="1"
-                                        max="31"
-                                        required
-                                    />
-                                </div>
-                            </div>
+                            <input
+                                type="date"
+                                name="birthDate"
+                                value={`${formData.year}-${String(formData.month).padStart(2, '0')}-${String(formData.date).padStart(2, '0')}`}
+                                onChange={(e) => {
+                                    const [year, month, date] = e.target.value.split('-');
+                                    setFormData({
+                                        ...formData,
+                                        year: parseInt(year, 10),
+                                        month: parseInt(month, 10),
+                                        date: parseInt(date, 10),
+                                    });
+                                }}
+                                className="w-full bg-gray-800 rounded border border-gray-700 focus:border-red-500 outline-none text-white py-2 px-3"
+                                required
+                            />
                         </div>
 
                         <div>
