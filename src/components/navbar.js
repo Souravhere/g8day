@@ -54,15 +54,15 @@ const Navbar = () => {
                             onClick={() => setActiveItem(item.text)}
                         />
                     ))}
-                    {/* <Link href='/'> */}
-                    <motion.button
+                    <Link href='/ai'>
+                    <motion.div
                         disabled
                         className="bg-red-500/70 text-white/90 px-6 py-3 rounded-full font-medium relative cursor-pointer"
                     >
-                        <span className="relative z-10 text-lg font-medium">My G8Day </span>
-                        <span className='text-white text-xs px-2 py-[px] rounded-full bg-green-500  absolute w-fit -right-1 -top-2 flex items-center justify-center'>Live Soon</span>
-                    </motion.button>
-                    {/* </Link> */}
+                        <span className="relative z-10 text-lg font-medium">My G8Day Ai</span>
+                        {/* <span className='text-white text-xs px-2 py-[px] rounded-full bg-green-500  absolute w-fit -right-1 -top-2 flex items-center justify-center'>Live Soon</span> */}
+                    </motion.div>
+                    </Link>
                 </div>
                 
                 {/* Mobile Menu Button */}
@@ -138,8 +138,9 @@ const Navbar = () => {
                                     }}
                                 />
                             ))}
+                            <Link href='/ai'>
                             <motion.button
-                                className="bg-red-500/70 text-white px-6 py-4 rounded-full font-medium mt-6 relative overflow-hidden"
+                                className="bg-red-500/70 w-full text-white px-6 py-4 rounded-full font-medium mt-6 relative overflow-hidden"
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -150,15 +151,8 @@ const Navbar = () => {
                                     transition: { delay: 0.4, duration: 0.3 } 
                                 }}
                             >
-                                <motion.span 
-                                    className="absolute inset-0 bg-black/20"
-                                    initial={{ scale: 0, borderRadius: "100%" }}
-                                    whileHover={{ scale: 1.5, borderRadius: "100%" }}
-                                    transition={{ duration: 0.6 }}
-                                    style={{ originX: 0.5, originY: 0.5 }}
-                                />
-                                <span className="relative z-10">My G8Day </span>
-                            </motion.button>
+                                <span className="relative z-10">My G8Day Ai</span>
+                            </motion.button></Link>
                         </div>
                     </motion.div>
                 )}

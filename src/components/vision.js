@@ -1,5 +1,6 @@
 import { Quote } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function VisionStatement() {
     return (
@@ -30,12 +31,12 @@ export default function VisionStatement() {
                         </div>
                         
                         <div className="pt-6">
-                            <button className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-500 rounded-full hover:shadow-glow-red transition-all duration-300 flex items-center space-x-2 group">
-                                <span>Explore Our Mission</span>
+                            <Link href='/ai' className="px-6 w-fit py-3 bg-gradient-to-r from-red-500 to-red-400 rounded-full hover:shadow-glow-red transition-all duration-300 flex items-center space-x-2 group">
+                                <span>Explore Our AI Astrology</span>
                                 <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                 </svg>
-                            </button>
+                            </Link>
                         </div>
                     </div>
                     

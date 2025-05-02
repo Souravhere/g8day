@@ -54,8 +54,8 @@ export default function HeroSection() {
           
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 lg:scale-110">
-            <Link href='/' className="flex items-center gap-2 text-xl bg-gradient-to-r from-red-500 to-red-400 text-white font-medium py-3 px-10 rounded-full shadow-lg shadow-red-500/30 hover:shadow-red-500/40 transition-all duration-300">
-                Explore Your Fortune
+            <Link href='/ai' className="flex items-center gap-2 text-xl bg-gradient-to-r from-red-500 to-red-400 text-white font-medium py-3 px-10 rounded-full shadow-lg shadow-red-500/30 hover:shadow-red-500/40 transition-all duration-300">
+            AI Astrology Advisor
                 <ArrowUpRight/>
             </Link>
           </div>
