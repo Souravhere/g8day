@@ -53,8 +53,8 @@ export function AnimatedBeamMultipleOutputDemo({
                     </Circle>
                 </div>
                 <div className="flex flex-col justify-center items-center gap-2">
-                    <Circle ref={div4Ref} className="size-16">
-                        <User className="text-red-400" />
+                    <Circle ref={div4Ref}>
+                        <span className="flex flex-col text-black font-semibold text-center items-center text-xs"><User className="text-red-400"/> AI Astrology</span>
                     </Circle>
                 </div>
             </div>
