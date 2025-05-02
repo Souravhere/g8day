@@ -136,7 +136,7 @@ const generateAIInterpretation = async (data) => {
 
         // Add Ascendant separately if needed
         if (data.output.Ascendant) {
-            planetEntries.unshift(`**Ascendant**: in **${data.output.Ascendant.zodiac_sign_name}**`);
+            planetEntries.unshift(`Ascendant: in ${data.output.Ascendant.zodiac_sign_name}`);
         }
 
         const planetsInfo = planetEntries.join('\n\n');
