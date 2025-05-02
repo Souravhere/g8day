@@ -131,7 +131,7 @@ const generateAIInterpretation = async (data) => {
         const planetEntries = Object.entries(data.output)
             .filter(([key]) => key !== "Ascendant") // Exclude Ascendant if needed
             .map(([name, info]) => 
-                `**${name}**: in **${info.zodiac_sign_name}** (${info.isRetro === "true" ? '**Retrograde**' : '**Direct**'}) in **House ${info.house_number}**`
+                `${name}: in ${info.zodiac_sign_name} (${info.isRetro === "true" ? 'Retrograde' : 'Direct'}) in House ${info.house_number}`
             );
 
         // Add Ascendant separately if needed
