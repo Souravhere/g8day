@@ -52,7 +52,7 @@ const Footer = () => {
 
             <div className="flex space-x-4 items-center justify-center md:justify-end">
               <a 
-                href="https://twitter.com/g8day" 
+                href=" https://x.com/G8DAI" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-red-500 transition-colors duration-200"
@@ -61,7 +61,7 @@ const Footer = () => {
                 <span className="text-2xl">𝕏</span>
               </a>
               <a 
-                href="https://t.me/g8day" 
+                href="https://t.me/G8DAi" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-red-500 transition-colors duration-200 flex items-center"
