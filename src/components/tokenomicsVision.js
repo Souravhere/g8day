@@ -59,7 +59,7 @@ export default function TokenomicsAndVision() {
   ];
 
   return (
-    <div id='' className="w-full bg-black text-white py-16 px-4 md:px-8">
+    <div id='Token' className="w-full bg-black text-white py-16 px-4 md:px-8">
       {/* Section 1: Token Utility & Distribution */}
       <div className="max-w-[1500px] mx-auto mb-24">
       <div className="text-center mb-2">
