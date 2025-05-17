@@ -42,7 +42,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/" className="hover:text-red-500 transition-colors duration-200">
+                <Link href="https://t.me/G8DAi" className="hover:text-red-500 transition-colors duration-200">
                   Contact
                 </Link>
               </li>
