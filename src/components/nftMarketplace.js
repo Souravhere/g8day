@@ -113,7 +113,7 @@ export default function FortuneNFTMarketplace() {
   }, [activeIndex]);
 
   return (
-    <section className="bg-black text-white py-20 px-4 relative overflow-hidden">
+    <section id="Marketplace" className="bg-black text-white py-20 px-4 relative overflow-hidden">
       {/* Background Accent Elements */}
       <div className="absolute top-40 -left-40 w-80 h-80 bg-red-600/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 -right-40 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl"></div>

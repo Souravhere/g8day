@@ -32,7 +32,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/" className="hover:text-red-500 transition-colors duration-200">
+                <Link href="#Marketplace" className="hover:text-red-500 transition-colors duration-200">
                   Marketplace
                 </Link>
               </li>
