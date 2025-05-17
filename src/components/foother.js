@@ -37,7 +37,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/" className="hover:text-red-500 transition-colors duration-200">
+                <Link href="#Token" className="hover:text-red-500 transition-colors duration-200">
                   Token
                 </Link>
               </li>
