@@ -200,7 +200,7 @@ const Navbar = () => {
     return (
         <LayoutGroup>
             <motion.nav 
-                className="fixed z-50 top-0 left-0 right-0 w-full py-4 px-6 md:px-12 backdrop-blur-md ring-1 ring-stone-900/20 shadow-lg rounded-full my-4 mx-auto max-w-7xl flex items-center justify-between"
+                className="fixed z-50 top-0 left-0 right-0 w-full py-3 px-2 md:px-12 backdrop-blur-md ring-1 ring-stone-900/20 shadow-lg rounded-full my-4 mx-auto max-w-7xl flex items-center justify-between"
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ type: "spring", stiffness: 100, damping: 20 }}
