@@ -246,16 +246,12 @@ const Navbar = () => {
                     {/* Wallet Connect Button - Desktop */}
                     {!walletConnected ? (
                         <motion.button
-                            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full font-medium relative overflow-hidden"
-                            whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)" }}
+                            className="bg-gradient-to-r from-red-500/70 to-red-600/70 text-white px-6 py-3 rounded-full font-medium relative overflow-hidden cursor-pointer text-lg"
+                            // whileHover={{boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)" }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setIsWalletModalOpen(true)}
                             transition={{ type: "spring", stiffness: 400, damping: 17 }}
                         >
-                            <motion.span 
-                                className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 opacity-0"
-                                whileHover={{ opacity: 1 }}
-                            />
                             <span className="relative z-10 flex items-center">
                                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M19 7H5C3.89543 7 3 7.89543 3 9V18C3 19.1046 3.89543 20 5 20H19C20.1046 20 21 19.1046 21 18V9C21 7.89543 20.1046 7 19 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
