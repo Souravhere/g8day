@@ -1,5 +1,5 @@
-// bot/index.js
-const TelegramBot = require('node-telegram-bot-api');
+
+import TelegramBot from 'node-telegram-bot-api';
 
 // Replace with your BotFather API token
 const token = '7571919034:AAF6VCSCXV4ZNiSeH5ttDIzd-2d1e-a2rzA';
@@ -12,7 +12,7 @@ bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, 'Welcome to G8Day! 🌟 Explore your destiny with AI and astrology.', {
     reply_markup: {
-      keyboard: [[{ text: 'Open G8Day App', web_app: { url: 'https://your-app.vercel.app/telegram' } }]],
+      keyboard: [[{ text: 'Open G8Day App', web_app: { url: 'https://www.g8dai.xyz/telegram' } }]],
       resize_keyboard: true,
     },
   });
@@ -23,7 +23,7 @@ bot.onText(/\/webapp/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, 'Launch the G8Day Mini App to claim rewards and explore your fate!', {
     reply_markup: {
-      keyboard: [[{ text: 'Open G8Day App', web_app: { url: 'https://your-app.vercel.app/telegram' } }]],
+      keyboard: [[{ text: 'Open G8Day App', web_app: { url: 'https://www.g8dai.xyz/telegram' } }]],
       resize_keyboard: true,
     },
   });
