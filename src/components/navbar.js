@@ -264,8 +264,8 @@ const Navbar = () => {
                     ) : (
                         <div className="relative">
                             <motion.button
-                                className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 relative"
-                                whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(16, 185, 129, 0.5)" }}
+                                className="bg-gradient-to-r from-red-500 to-red-500 text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 relative"
+                                // whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(16, 185, 129, 0.5)" }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -280,7 +280,7 @@ const Navbar = () => {
                                         />
                                     </div>
                                 )}
-                                <span>{formatAddress(walletAddress)}</span>
+                                <span className='text-lg'>{formatAddress(walletAddress)}</span>
                                 <motion.svg
                                     width="16"
                                     height="16"
