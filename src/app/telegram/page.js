@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -17,6 +17,19 @@ export default function TelegramMiniApp() {
   const [activeTab, setActiveTab] = useState('home');
   const router = useRouter();
   const { tickets } = useStore();
+
+  // to hide the footer and navbar 
+  useEffect(() => {
+    const nav = document.querySelector('nav');
+    const footer = document.querySelector('footer');
+    if (nav) nav.style.display = 'none';
+    if (footer) footer.style.display = 'none';
+
+    return () => {
+        if (nav) nav.style.display = '';
+        if (footer) footer.style.display = '';
+    };
+}, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
