@@ -10,9 +10,6 @@ const miniAppUrl = 'https://www.g8dai.xyz/telegram';
 const twitterUrl = 'https://twitter.com/G8DayApp';
 const telegramChatUrl = 'https://t.me/g8daycommunity';
 
-// Image URL for the card
-const appImageUrl = 'https://www.g8dai.xyz/_next/image?url=%2Fvision.png&w=1920&q=75';
-
 // Create a bot instance (polling mode)
 const bot = new TelegramBot(token, { polling: true });
 
@@ -30,17 +27,15 @@ bot.setChatMenuButton({
   console.error('Error setting menu button:', error);
 });
 
-// Handle /start command with enhanced card interface
+// Handle /start command with visible card interface
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   
-  // First, send the welcome image with caption
-  bot.sendPhoto(chatId, appImageUrl, {
-    caption: '✨ *Welcome to G8Day!* ✨\n\nExplore your destiny through the power of AI and astrology. Discover personalized insights and cosmic guidance tailored just for you.',
-    parse_mode: 'Markdown',
-  }).then(() => {
-    // Then send the message with inline buttons
-    bot.sendMessage(chatId, '🔮 *What would you like to do?*', {
+  // Send a rich card message with inline buttons
+  bot.sendMessage(chatId, 
+    '✨ *Welcome to G8Day!* ✨\n\n' +
+    'Explore your destiny through the power of AI and astrology. Discover personalized insights and cosmic guidance tailored just for you.',
+    {
       parse_mode: 'Markdown',
       reply_markup: {
         inline_keyboard: [
@@ -51,15 +46,15 @@ bot.onText(/\/start/, (msg) => {
           ]
         ]
       }
-    });
-    
-    // Also provide a persistent keyboard for easy access
-    bot.sendMessage(chatId, '👇 Or use this button anytime to open the app:', {
-      reply_markup: {
-        keyboard: [[{ text: 'Open G8Day App', web_app: { url: miniAppUrl } }]],
-        resize_keyboard: true,
-      },
-    });
+    }
+  );
+  
+  // Also provide a persistent keyboard for easy access
+  bot.sendMessage(chatId, '👇 Use this button anytime to open the app:', {
+    reply_markup: {
+      keyboard: [[{ text: 'Open G8Day App', web_app: { url: miniAppUrl } }]],
+      resize_keyboard: true,
+    },
   });
 });
 
