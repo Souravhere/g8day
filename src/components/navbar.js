@@ -237,7 +237,7 @@ const Navbar = () => {
                     ))}
                     <Link href='/ai'>
                     <motion.div
-                        className="bg-red-500/70 text-white/90 px-6 py-3 rounded-full font-medium relative cursor-pointer"
+                        className="bg-red-500/70 text-white/90 px-6 py-2 rounded-full font-medium relative cursor-pointer"
                     >
                         <span className="relative z-10 text-lg font-medium">My G8Day Ai</span>
                     </motion.div>
@@ -246,7 +246,7 @@ const Navbar = () => {
                     {/* Wallet Connect Button - Desktop */}
                     {!walletConnected ? (
                         <motion.button
-                            className="bg-gradient-to-r from-red-500/70 to-red-600/70 text-white px-6 py-3 rounded-full font-medium relative overflow-hidden cursor-pointer text-lg"
+                            className="bg-gradient-to-r from-red-500/70 to-red-600/70 text-white px-6 py-2 rounded-full font-medium relative overflow-hidden cursor-pointer text-lg"
                             // whileHover={{boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)" }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setIsWalletModalOpen(true)}
@@ -264,8 +264,7 @@ const Navbar = () => {
                     ) : (
                         <div className="relative">
                             <motion.button
-                                className="bg-gradient-to-r from-red-500/70 to-red-500/50 text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 relative"
-                                // whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(16, 185, 129, 0.5)" }}
+                                className="bg-gradient-to-r from-red-500/70 to-red-500/50 text-white px-6 py-2 rounded-full font-medium flex items-center gap-2 relative"
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -356,7 +355,7 @@ const Navbar = () => {
                     {/* Wallet Button - Mobile */}
                     {!walletConnected ? (
                         <motion.button
-                            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-2 rounded-full"
+                            className="bg-gradient-to-r from-red-500/70 to-red-600/70 text-white p-2 rounded-full"
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setIsWalletModalOpen(true)}
                         >
@@ -368,7 +367,7 @@ const Navbar = () => {
                         </motion.button>
                     ) : (
                         <motion.button
-                            className="bg-gradient-to-r from-green-500 to-blue-500 text-white p-2 rounded-full relative"
+                            className="bg-red-500/70 text-white p-2 rounded-full relative"
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                         >
@@ -530,7 +529,7 @@ const Navbar = () => {
                             {/* Mobile Connect Wallet Button */}
                             {!walletConnected && (
                                 <motion.button
-                                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-4 rounded-full font-medium flex items-center justify-center gap-2"
+                                    className="w-full bg-red-500/70 to-purple-600 text-white px-6 py-4 rounded-full font-medium flex items-center justify-center gap-2"
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     transition={{ type: "spring", stiffness: 400, damping: 17 }}
