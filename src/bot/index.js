@@ -1,3 +1,4 @@
+// bot/index.js
 import TelegramBot from 'node-telegram-bot-api';
 
 // Replace with your BotFather API token
@@ -27,11 +28,11 @@ bot.setChatMenuButton({
   console.error('Error setting menu button:', error);
 });
 
-// Handle /start command with visible card interface
+// Handle /start command with card display
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   
-  // Send a rich card message with inline buttons
+  // Create a card-style message with Telegram's native card format
   bot.sendMessage(chatId, 
     '✨ *Welcome to G8Day!* ✨\n\n' +
     'Explore your destiny through the power of AI and astrology. Discover personalized insights and cosmic guidance tailored just for you.',
@@ -47,14 +48,24 @@ bot.onText(/\/start/, (msg) => {
         ]
       }
     }
-  );
-  
-  // Also provide a persistent keyboard for easy access
-  bot.sendMessage(chatId, '👇 Use this button anytime to open the app:', {
-    reply_markup: {
-      keyboard: [[{ text: 'Open G8Day App', web_app: { url: miniAppUrl } }]],
-      resize_keyboard: true,
-    },
+  ).then(() => {
+    // After card is sent, provide the persistent keyboard
+    bot.sendMessage(chatId, '👇 Use this button anytime to open the app:', {
+      reply_markup: {
+        keyboard: [[{ text: 'Open G8Day App', web_app: { url: miniAppUrl } }]],
+        resize_keyboard: true,
+        one_time_keyboard: false
+      }
+    });
+  }).catch(error => {
+    console.error('Error sending welcome card:', error);
+    // Fallback in case of error
+    bot.sendMessage(chatId, 'Welcome to G8Day! Use the button below to open the app.', {
+      reply_markup: {
+        keyboard: [[{ text: 'Open G8Day App', web_app: { url: miniAppUrl } }]],
+        resize_keyboard: true
+      }
+    });
   });
 });
 
