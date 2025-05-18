@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { useState } from 'react';
 import { useStore } from '../../lib/storage';
@@ -15,11 +15,14 @@ export default function ReferralSection({ userId }) {
   };
 
   const handleMention = () => {
-    if (mention) {
-      // Simulate mentioning a user (e.g., notify via Telegram or store for leaderboard)
+    if (mention && window.Telegram?.WebApp) {
+      const tg = window.Telegram.WebApp;
+      tg.sendData(`mention:${mention}`); // Send mention data to bot
       addTickets(1);
       setMention('');
       alert(`Mentioned @${mention}! You earned 1 Creation Ticket.`);
+    } else {
+      alert('Please enter a username to mention.');
     }
   };
 
