@@ -5,9 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const walletIcons = {
-  MetaMask: '/wallet-icons/metamask.svg',
-  Phantom: '/wallet-icons/phantom.svg',
-  BitGet: '/wallet-icons/bitget.svg'
+  MetaMask: '/wallet-icons/metamask.png',
+  Phantom: '/wallet-icons/phantom.png',
+  BitGet: '/wallet-icons/bitget.png'
 };
 
 const Navbar = () => {
