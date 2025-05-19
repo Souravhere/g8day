@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
 import ClaimButton from '@/components/miniappui/ClaimButton';
 import UserStats from '@/components/miniappui/UserStats';
 import TaskCenter from '@/components/miniappui/TaskCenter';
@@ -16,8 +15,67 @@ import Rewards from '@/components/miniappui/Rewards';
 import Destiny from '@/components/miniappui/Destiny';
 import Agent from '@/components/miniappui/Agent';
 
-import { parseTelegramData } from '@/lib/utils';
 import { useStore } from '@/lib/storage';
+
+// Enhanced Telegram data parsing utility
+const parseTelegramData = (initDataUnsafe) => {
+  try {
+    // Handle both string and object formats
+    let parsedData;
+    
+    if (typeof initDataUnsafe === 'string') {
+      // Handle URL-encoded string format (common in Telegram WebApp)
+      if (initDataUnsafe.startsWith('query_id=') || initDataUnsafe.includes('&')) {
+        const params = new URLSearchParams(initDataUnsafe);
+        parsedData = {
+          query_id: params.get('query_id'),
+          user: params.get('user') ? JSON.parse(decodeURIComponent(params.get('user'))) : null,
+          auth_date: params.get('auth_date'),
+          hash: params.get('hash')
+        };
+      } else {
+        // Try parsing as JSON string
+        parsedData = JSON.parse(initDataUnsafe);
+      }
+    } else {
+      // Already an object
+      parsedData = initDataUnsafe;
+    }
+    
+    // Extract user data
+    const userData = parsedData?.user || {};
+    
+    // Ensure all expected fields exist
+    return {
+      user: {
+        id: userData.id?.toString() || 'unknown',
+        first_name: userData.first_name || 'Stargazer',
+        last_name: userData.last_name || '',
+        username: userData.username || '',
+        language_code: userData.language_code || 'en',
+        photo_url: userData.photo_url || null,
+        is_premium: !!userData.is_premium,
+      },
+      auth_date: parsedData?.auth_date,
+      hash: parsedData?.hash,
+      query_id: parsedData?.query_id,
+      start_param: parsedData?.start_param
+    };
+  } catch (error) {
+    console.error('Error parsing Telegram data:', error);
+    return { 
+      user: { 
+        id: 'unknown', 
+        first_name: 'Stargazer',
+        last_name: '',
+        username: '',
+        language_code: 'en',
+        photo_url: null,
+        is_premium: false
+      } 
+    };
+  }
+};
 
 export default function TelegramMiniApp() {
   const [user, setUser] = useState(null);
@@ -46,67 +104,72 @@ export default function TelegramMiniApp() {
       
       try {
         if (typeof window !== 'undefined') {
-          // Wait for Telegram WebApp to be ready
-          const checkWebApp = () => {
-            if (window.Telegram?.WebApp) {
-              const webApp = window.Telegram.WebApp;
-              webApp.ready();
-              
-              const initData = parseTelegramData(webApp.initDataUnsafe);
-              
-              if (initData.user) {
-                setUser(initData.user);
-                localStorage.setItem('g8day-user', JSON.stringify(initData.user));
-              } else {
-                // Try to load from cache
-                const cachedUser = localStorage.getItem('g8day-user');
-                if (cachedUser) {
-                  setUser(JSON.parse(cachedUser));
-                } else {
-                  // Fallback user data
-                  setUser({ 
-                    first_name: 'Stargazer', 
-                    id: 'unknown',
-                    photo_url: 'https://via.placeholder.com/100'
-                  });
-                }
-              }
-              
-              setIsLoading(false);
-              return true;
-            }
-            return false;
-          };
-          
-          // Try immediately first
-          if (!checkWebApp()) {
-            // If not available, set up a retry with timeout
-            const maxRetries = 5;
-            let retries = 0;
+          // Check if Telegram WebApp object exists
+          if (window.Telegram?.WebApp) {
+            const webApp = window.Telegram.WebApp;
             
-            const retryInterval = setInterval(() => {
-              if (checkWebApp() || retries >= maxRetries) {
-                clearInterval(retryInterval);
-                setIsLoading(false);
+            // Ensure webapp is expanded to maximum height
+            webApp.expand();
+            
+            // Tell Telegram WebApp we're ready
+            webApp.ready();
+            
+            // Get main button if we need it later
+            const mainButton = webApp.MainButton;
+            
+            // Extract and parse the initData
+            const initDataRaw = webApp.initData || webApp.initDataUnsafe;
+            
+            if (initDataRaw) {
+              // Parse the data
+              const parsedData = parseTelegramData(initDataRaw);
+              
+              if (parsedData.user && parsedData.user.id !== 'unknown') {
+                setUser(parsedData.user);
+                // Cache user data
+                localStorage.setItem('g8day-user', JSON.stringify(parsedData.user));
+              } else {
+                throw new Error('Could not retrieve user data from Telegram');
               }
-              retries++;
-            }, 500);
+            } else {
+              throw new Error('No init data provided by Telegram');
+            }
+          } else {
+            throw new Error('Telegram WebApp not found');
           }
         }
       } catch (error) {
         console.error("Error initializing Telegram data:", error);
-        setIsLoading(false);
         
-        // Fallback user data
-        setUser({ 
-          first_name: 'Stargazer', 
-          id: 'unknown',
-          photo_url: 'https://via.placeholder.com/100'
-        });
+        // Attempt to retrieve from cache
+        const cachedUser = localStorage.getItem('g8day-user');
+        if (cachedUser) {
+          try {
+            setUser(JSON.parse(cachedUser));
+          } catch (e) {
+            console.error("Error parsing cached user data:", e);
+            // Use fallback
+            setUser({ 
+              first_name: 'Stargazer', 
+              id: 'unknown',
+              photo_url: null
+            });
+          }
+        } else {
+          // Use fallback
+          setUser({ 
+            first_name: 'Stargazer', 
+            id: 'unknown',
+            photo_url: null
+          });
+        }
+      } finally {
+        setIsLoading(false);
       }
     };
     
-    initializeTelegramData();
+    // Execute with a small delay to ensure Telegram WebApp is available
+    setTimeout(initializeTelegramData, 100);
   }, []);
 
   const handleAgentAccess = () => {
@@ -128,44 +191,37 @@ export default function TelegramMiniApp() {
 
   // TopNav component
   const TopNav = () => (
-    <motion.div 
-      className="w-full flex justify-between items-center py-2 px-1 mb-2"
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.3 }}
-    >
+    <div className="w-full flex justify-between items-center py-3 px-2 mb-4">
       <div className="flex items-center">
-        <motion.div 
-          className="w-10 h-10 flex items-center justify-center bg-red-900 rounded-full shadow-lg"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
+        <div className="w-10 h-10 flex items-center justify-center bg-red-800 rounded-full shadow-md">
           <span className="text-white text-xl font-bold">G8</span>
-        </motion.div>
+        </div>
         <span className="ml-2 font-orbitron text-lg text-white">G8Day</span>
       </div>
       
       {user && (
-        <motion.div 
+        <div 
           className="flex items-center gap-2"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
           onClick={() => setActiveTab('profile')}
         >
           <div className="text-right mr-2">
             <p className="text-white text-sm font-medium">{user.first_name}</p>
-            <p className="text-red-300 text-xs">{useStore.getState().ghibPoints} G8D</p>
+            <p className="text-red-200 text-xs">{useStore.getState().ghibPoints} G8D</p>
           </div>
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-red-500 shadow-lg">
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-red-500 shadow-md">
             <img 
-              src={user.photo_url || "https://via.placeholder.com/100"} 
+              src={user.photo_url || "https://i.ibb.co/NyxrmGp/default-avatar.png"} 
               alt={user.first_name} 
               className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://i.ibb.co/NyxrmGp/default-avatar.png";
+              }}
             />
           </div>
-        </motion.div>
+        </div>
       )}
-    </motion.div>
+    </div>
   );
 
   // Render appropriate content based on active tab
@@ -173,55 +229,40 @@ export default function TelegramMiniApp() {
     switch (activeTab) {
       case 'home':
         return (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full"
-          >
+          <div className="w-full">
             <UserStats user={user} />
             <ClaimButton />
 
             {/* Create Card CTA */}
-            <motion.div 
-              className="bg-gradient-to-r from-red-900 to-red-700 rounded-lg p-4 shadow-lg my-6 border border-red-600"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <p className="text-center text-white font-unica mb-4">
+            <div className="bg-red-800 rounded-lg p-5 shadow-md my-6 border border-red-700">
+              <p className="text-center text-white font-unica mb-5">
                 Use your G8D to unlock mystical AI creations. Tap into the ancient power of astrology through your imagination.
               </p>
               <div className="flex justify-center gap-4">
-                <motion.button
+                <button
                   onClick={() => useStore.getState().buyTickets(1)}
                   disabled={useStore.getState().ghibPoints < 500}
-                  className="bg-gradient-to-r from-white to-red-100 text-red-900 px-4 py-2 rounded-lg font-unica font-bold disabled:opacity-50 shadow-md"
-                  whileTap={{ scale: 0.95 }}
+                  className="bg-white text-red-900 px-5 py-3 rounded-lg font-unica font-bold disabled:opacity-50 shadow-md"
                 >
                   🎴 1 Ticket (500 G8D)
-                </motion.button>
-                <motion.button
+                </button>
+                <button
                   onClick={() => useStore.getState().buyTickets(5)}
                   disabled={useStore.getState().ghibPoints < 2000}
-                  className="bg-gradient-to-r from-white to-red-100 text-red-900 px-4 py-2 rounded-lg font-unica font-bold disabled:opacity-50 shadow-md"
-                  whileTap={{ scale: 0.95 }}
+                  className="bg-white text-red-900 px-5 py-3 rounded-lg font-unica font-bold disabled:opacity-50 shadow-md"
                 >
                   🎴 5 Tickets (2,000 G8D)
-                </motion.button>
+                </button>
               </div>
-            </motion.div>
+            </div>
 
             {/* AI Agent Access */}
-            <motion.button
+            <button
               onClick={handleAgentAccess}
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-4 rounded-lg font-unica mb-6 shadow-lg border border-red-500 text-lg"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              className="w-full bg-red-600 text-white py-4 rounded-lg font-unica mb-6 shadow-md border border-red-500 text-lg"
             >
               ✨ Start AI Astrology Reading
-            </motion.button>
+            </button>
 
             {/* Task Center */}
             <TaskCenter />
@@ -237,7 +278,7 @@ export default function TelegramMiniApp() {
             
             {/* Extra space at bottom for navigation */}
             <div className="h-20"></div>
-          </motion.div>
+          </div>
         );
       case 'rewards':
         return <Rewards />;
@@ -254,47 +295,30 @@ export default function TelegramMiniApp() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-red-900 via-red-800 to-red-950 text-white flex flex-col items-center justify-center p-4">
-        <motion.div 
-          animate={{ 
-            rotate: 360,
-            scale: [1, 1.1, 1]
-          }} 
-          transition={{ 
-            rotate: { duration: 2, repeat: Infinity, ease: "linear" },
-            scale: { duration: 1, repeat: Infinity, ease: "easeInOut" }
-          }}
-          className="w-16 h-16 border-4 border-t-white border-red-300 rounded-full"
-        />
+      <div className="min-h-screen bg-red-900 text-white flex flex-col items-center justify-center p-4">
+        <div className="w-16 h-16 border-4 border-t-white border-b-white border-red-300 rounded-full animate-spin"/>
         <p className="mt-4 text-white font-unica">Loading G8Day...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center p-4 overflow-x-hidden">
+    <div className="min-h-screen bg-red-900 text-white flex flex-col items-center p-4 overflow-x-hidden">
       <div className="w-full max-w-md">
         {/* Top Navigation */}
         <TopNav />
         
-        {/* Header
-        <motion.div 
-          className="text-center mb-4"
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-3xl font-bold font-orbitron bg-clip-text text-transparent bg-gradient-to-r from-white via-red-200 to-red-100">G8Day</h1>
+        {/* Header */}
+        <div className="text-center mb-5">
+          <h1 className="text-3xl font-bold font-orbitron text-white">G8Day</h1>
           <p className="text-white font-unica">Where Astrology Meets AI</p>
           <p className="text-sm text-red-200 font-cinzel">
             Explore your destiny. Earn, Create, Evolve.
           </p>
-        </motion.div> */}
+        </div>
 
-        {/* Main Content Area with Animation */}
-        <AnimatePresence mode="wait">
-          {renderContent()}
-        </AnimatePresence>
+        {/* Main Content Area */}
+        {renderContent()}
       </div>
 
       {/* Bottom Navigation */}
