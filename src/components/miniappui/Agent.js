@@ -100,14 +100,8 @@ const AIAgent = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col h-[500px]"
-      >
-        <h2 className="text-2xl font-bold text-center text-white mb-4">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-300 to-red-500">
-            Mystical Guide
-          </span>
-        </h2>
-        
+        className="flex flex-col h-[75vh]"
+      > 
         <div className="flex-1 overflow-y-auto mb-4 space-y-4 pr-2 scrollbar-thin scrollbar-thumb-red-700 scrollbar-track-red-950/30">
           {conversation.map((msg, index) => (
             <motion.div
@@ -132,7 +126,7 @@ const AIAgent = () => {
                     : 'bg-red-950/40 border border-red-500/30 text-red-100 rounded-tl-none shadow-md'
                 }`}
               >
-                <p className="whitespace-pre-wrap">{msg.content}</p>
+                <p className="whitespace-pre-wrap text-[10px]">{msg.content}</p>
               </div>
               
               {msg.role === 'user' && (
@@ -178,7 +172,7 @@ const AIAgent = () => {
             onChange={(e) => setQuestion(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Ask about your cosmic journey..."
-            className="w-full bg-red-950/50 border border-red-500/40 rounded-lg pl-4 pr-12 py-3 text-white placeholder-red-300/50 focus:outline-none focus:ring-2 focus:ring-red-500/50"
+            className="w-full bg-red-950/50 border border-red-500/40 rounded-lg pl-4 pr-12 py-3 text-white placeholder-red-300/50 outline-none"
             disabled={isLoading}
           />
           <motion.button
