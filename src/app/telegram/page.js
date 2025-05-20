@@ -16,6 +16,7 @@ import Destiny from '@/components/miniappui/Destiny';
 import Agent from '@/components/miniappui/Agent';
 
 import { useStore } from '@/lib/storage';
+import Image from 'next/image';
 
 // Enhanced Telegram data parsing utility
 const parseTelegramData = (initDataUnsafe) => {
@@ -193,10 +194,7 @@ export default function TelegramMiniApp() {
   const TopNav = () => (
     <div className="w-full flex justify-between items-center py-3 px-2 mb-4">
       <div className="flex items-center">
-        <div className="w-10 h-10 flex items-center justify-center bg-red-800 rounded-full shadow-md">
-          <span className="text-white text-xl font-bold">G8</span>
-        </div>
-        <span className="ml-2 font-orbitron text-lg text-white">G8Day</span>
+        <Image src='/logo.png' height={50} width={100} alt='G8D Logo'/>
       </div>
       
       {user && (
@@ -259,7 +257,7 @@ export default function TelegramMiniApp() {
             {/* AI Agent Access */}
             <button
               onClick={handleAgentAccess}
-              className="w-full bg-red-600 text-white py-4 rounded-lg font-unica mb-6 shadow-md border border-red-500 text-lg"
+              className="w-full bg-red-600 text-white py-4 rounded-lg font-unica shadow-md border border-red-500 text-lg"
             >
               ✨ Start AI Astrology Reading
             </button>
@@ -303,13 +301,13 @@ export default function TelegramMiniApp() {
   }
 
   return (
-    <div className="min-h-screen bg-red-900 text-white flex flex-col items-center p-4 overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white flex flex-col items-center p-4 overflow-x-hidden">
       <div className="w-full max-w-md">
         {/* Top Navigation */}
         <TopNav />
         
         {/* Header */}
-        <div className="text-center mb-5">
+        <div className="text-center mb-5 hidden">
           <h1 className="text-3xl font-bold font-orbitron text-white">G8Day</h1>
           <p className="text-white font-unica">Where Astrology Meets AI</p>
           <p className="text-sm text-red-200 font-cinzel">
