@@ -126,7 +126,7 @@ const AIAgent = () => {
                     : 'bg-red-950/40 border border-red-500/30 text-red-100 rounded-tl-none shadow-md'
                 }`}
               >
-                <p className="whitespace-pre-wrap text-[10px]">{msg.content}</p>
+                <p className="whitespace-pre-wrap text-[12px]">{msg.content}</p>
               </div>
               
               {msg.role === 'user' && (
