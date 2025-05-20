@@ -199,7 +199,7 @@ export default function TelegramMiniApp() {
       {/* User Stats with improved styling */}
       {/* <div className="bg-gradient-to-br from-red-900 to-red-950 rounded-xl p-5 shadow-lg border border-red-800"> */}
         <UserStats user={user} />
-      {/* </div> */}
+      {/* </div> */}    
       
       {/* Daily Claim Button */}
       <div className="bg-gradient-to-br from-red-900 to-red-950 rounded-xl p-5 shadow-lg border border-red-800">

@@ -29,7 +29,7 @@ export default function Profile({ user }) {
           last_name: 'User',
           username: 'cosmic_voyager',
           id: 'unknown',
-          photo_url: 'https://via.placeholder.com/100'
+          photo_url: 'https://i.ibb.co/NyxrmGp/default-avatar.png'
         });
       }
     }
@@ -98,7 +98,7 @@ export default function Profile({ user }) {
               whileHover={{ scale: 1.05 }}
             >
               <img 
-                src={userData?.photo_url || "https://via.placeholder.com/100"} 
+                src={userData?.photo_url || "https://i.ibb.co/NyxrmGp/default-avatar.png"} 
                 alt="Profile" 
                 className="w-full h-full object-cover"
               />
@@ -131,27 +131,27 @@ export default function Profile({ user }) {
 
       {/* User Stats */}
       <motion.div 
-        className="bg-gradient-to-r from-indigo-900 to-purple-900 rounded-xl shadow-lg border border-indigo-800 mb-6 overflow-hidden"
+        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl shadow-lg border border-red-800 mb-6 overflow-hidden"
         variants={itemVariants}
       >
-        <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-indigo-800">
+        <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-red-800">
           <FaChartLine className="inline mr-2" />
           Your G8Day Stats
         </h3>
         <div className="grid grid-cols-2 gap-4 p-4">
-          <div className="bg-black bg-opacity-30 rounded-lg p-3 flex flex-col items-center">
+          <div className="bg-black/70 bg-opacity-30 rounded-lg p-3 flex flex-col items-center">
             <p className="text-gray-400 text-sm">Readings</p>
             <p className="text-2xl font-bold text-white">{stats.readingsCompleted}</p>
           </div>
-          <div className="bg-black bg-opacity-30 rounded-lg p-3 flex flex-col items-center">
+          <div className="bg-black/70 bg-opacity-30 rounded-lg p-3 flex flex-col items-center">
             <p className="text-gray-400 text-sm">Day Streak</p>
             <p className="text-2xl font-bold text-white">{stats.dayStreak}</p>
           </div>
-          <div className="bg-black bg-opacity-30 rounded-lg p-3 flex flex-col items-center">
+          <div className="bg-black/70 bg-opacity-30 rounded-lg p-3 flex flex-col items-center">
             <p className="text-gray-400 text-sm">Referrals</p>
             <p className="text-2xl font-bold text-white">{stats.friendsReferred}</p>
           </div>
-          <div className="bg-black bg-opacity-30 rounded-lg p-3 flex flex-col items-center">
+          <div className="bg-black/70 bg-opacity-30 rounded-lg p-3 flex flex-col items-center">
             <p className="text-gray-400 text-sm">G8D Earned</p>
             <p className="text-2xl font-bold text-white">{stats.totalEarned}</p>
           </div>
@@ -160,10 +160,10 @@ export default function Profile({ user }) {
 
       {/* Achievements */}
       <motion.div 
-        className="bg-gradient-to-r from-indigo-900 to-purple-900 rounded-xl shadow-lg border border-indigo-800 mb-6"
+        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl overflow-hidden shadow-lg border border-red-800 mb-6"
         variants={itemVariants}
       >
-        <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-indigo-800">
+        <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-red-800">
           <FaMedal className="inline mr-2" />
           Achievements
         </h3>
@@ -207,10 +207,10 @@ export default function Profile({ user }) {
 
       {/* Account Settings */}
       <motion.div 
-        className="bg-gradient-to-r from-indigo-900 to-purple-900 rounded-xl shadow-lg border border-indigo-800 mb-6"
+        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl shadow-lg overflow-hidden border border-red-800 mb-6"
         variants={itemVariants}
       >
-        <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-indigo-800">
+        <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-red-800">
           <FaUserFriends className="inline mr-2" />
           Social
         </h3>
