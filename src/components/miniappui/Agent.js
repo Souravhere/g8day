@@ -95,14 +95,14 @@ const AIAgent = () => {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-gradient-to-b from-red-900/40 to-red-950/40 rounded-xl p-6 backdrop-blur-sm border border-red-500/30 shadow-xl">
+    <div className="w-full max-w-lg mx-auto bg-gradient-to-b from-red-900/40 to-red-950/40 rounded-xl p-3 backdrop-blur-sm border border-red-500/30 shadow-xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="flex flex-col h-[75vh]"
       > 
-        <div className="flex-1 overflow-y-auto mb-4 space-y-4 pr-2 scrollbar-thin scrollbar-thumb-red-700 scrollbar-track-red-950/30">
+        <div className="flex-1 overflow-y-auto mb-4 space-y-4 scrollbar-thin scrollbar-thumb-red-700 scrollbar-track-red-950/30">
           {conversation.map((msg, index) => (
             <motion.div
               key={index}
