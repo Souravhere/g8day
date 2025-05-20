@@ -302,7 +302,7 @@ export default function TelegramMiniApp() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center p-4 overflow-x-hidden">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md overflow-hidden">
         {/* Top Navigation */}
         <TopNav />
         
