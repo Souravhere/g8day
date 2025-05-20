@@ -6,26 +6,7 @@ import { Star, Moon, Sun, Sparkles, ChevronRight } from 'lucide-react';
 
 export default function BottomNav({ activeTab, setActiveTab }) {
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  // Handle scroll to hide/show navigation
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      
-      setLastScrollY(currentScrollY);
-    };
     
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
   const navItems = [
     { id: 'home', icon: <Sun className="w-5 h-5" />, label: 'Home' },
     { id: 'rewards', icon: <Star className="w-5 h-5" />, label: 'Rewards' },
