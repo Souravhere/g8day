@@ -212,7 +212,7 @@ ${destinyReading.houses?.map(house =>
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-3xl font-bold text-center text-red-100 mb-8">
+        <h2 className="text-xl font-bold text-center text-red-100 mb-8">
           <span className="inline-block">✨</span> 
           <span className="mx-2">Cosmic Destiny Reader</span>
           <span className="inline-block">✨</span>
