@@ -1,7 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { useStore } from '@/lib/storage';
+
+// Components
 import ClaimButton from '@/components/miniappui/ClaimButton';
 import UserStats from '@/components/miniappui/UserStats';
 import TaskCenter from '@/components/miniappui/TaskCenter';
@@ -9,81 +13,16 @@ import ReferralSection from '@/components/miniappui/ReferralSection';
 import Leaderboard from '@/components/miniappui/Leaderboard';
 import MysticQuote from '@/components/miniappui/MysticQuote';
 import BottomNav from '@/components/miniappui/BottomNav';
-
 import Profile from '@/components/miniappui/Profile';
 import Rewards from '@/components/miniappui/Rewards';
 import Destiny from '@/components/miniappui/Destiny';
 import Agent from '@/components/miniappui/Agent';
 
-import { useStore } from '@/lib/storage';
-import Image from 'next/image';
-
-// Enhanced Telegram data parsing utility
-const parseTelegramData = (initDataUnsafe) => {
-  try {
-    // Handle both string and object formats
-    let parsedData;
-    
-    if (typeof initDataUnsafe === 'string') {
-      // Handle URL-encoded string format (common in Telegram WebApp)
-      if (initDataUnsafe.startsWith('query_id=') || initDataUnsafe.includes('&')) {
-        const params = new URLSearchParams(initDataUnsafe);
-        parsedData = {
-          query_id: params.get('query_id'),
-          user: params.get('user') ? JSON.parse(decodeURIComponent(params.get('user'))) : null,
-          auth_date: params.get('auth_date'),
-          hash: params.get('hash')
-        };
-      } else {
-        // Try parsing as JSON string
-        parsedData = JSON.parse(initDataUnsafe);
-      }
-    } else {
-      // Already an object
-      parsedData = initDataUnsafe;
-    }
-    
-    // Extract user data
-    const userData = parsedData?.user || {};
-    
-    // Ensure all expected fields exist
-    return {
-      user: {
-        id: userData.id?.toString() || 'unknown',
-        first_name: userData.first_name || 'Stargazer',
-        last_name: userData.last_name || '',
-        username: userData.username || '',
-        language_code: userData.language_code || 'en',
-        photo_url: userData.photo_url || null,
-        is_premium: !!userData.is_premium,
-      },
-      auth_date: parsedData?.auth_date,
-      hash: parsedData?.hash,
-      query_id: parsedData?.query_id,
-      start_param: parsedData?.start_param
-    };
-  } catch (error) {
-    console.error('Error parsing Telegram data:', error);
-    return { 
-      user: { 
-        id: 'unknown', 
-        first_name: 'Stargazer',
-        last_name: '',
-        username: '',
-        language_code: 'en',
-        photo_url: null,
-        is_premium: false
-      } 
-    };
-  }
-};
-
 export default function TelegramMiniApp() {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
-  const { tickets } = useStore();
+  const { tickets, ghibPoints, buyTickets } = useStore();
 
   // Hide the footer and navbar 
   useEffect(() => {
@@ -93,63 +32,90 @@ export default function TelegramMiniApp() {
     if (footer) footer.style.display = 'none';
 
     return () => {
-        if (nav) nav.style.display = '';
-        if (footer) footer.style.display = '';
+      if (nav) nav.style.display = '';
+      if (footer) footer.style.display = '';
     };
   }, []);
 
-  // Enhanced Telegram Web App data initialization
+  // Initialize Telegram Web App
   useEffect(() => {
-    const initializeTelegramData = async () => {
-      setIsLoading(true);
-      
+    const initializeTelegramWebApp = async () => {
       try {
-        if (typeof window !== 'undefined') {
-          // Check if Telegram WebApp object exists
-          if (window.Telegram?.WebApp) {
-            const webApp = window.Telegram.WebApp;
+        if (typeof window === 'undefined') return;
+        
+        // Wait for Telegram WebApp to be available
+        const waitForTelegramWebApp = () => {
+          return new Promise((resolve) => {
+            const checkInterval = setInterval(() => {
+              if (window.Telegram?.WebApp) {
+                clearInterval(checkInterval);
+                resolve(window.Telegram.WebApp);
+              }
+            }, 100);
             
-            // Ensure webapp is expanded to maximum height
-            webApp.expand();
+            // Timeout after 3 seconds
+            setTimeout(() => {
+              clearInterval(checkInterval);
+              resolve(null);
+            }, 3000);
+          });
+        };
+        
+        const webApp = await waitForTelegramWebApp();
+        
+        if (webApp) {
+          // Expand the WebApp to full height
+          webApp.expand();
+          
+          // Signal to Telegram that the WebApp is ready
+          webApp.ready();
+          
+          // Get initData directly from Telegram WebApp
+          const initDataStr = webApp.initData;
+          
+          if (initDataStr) {
+            // Parse the URL-encoded string
+            const urlParams = new URLSearchParams(initDataStr);
+            const userStr = urlParams.get('user');
             
-            // Tell Telegram WebApp we're ready
-            webApp.ready();
-            
-            // Get main button if we need it later
-            const mainButton = webApp.MainButton;
-            
-            // Extract and parse the initData
-            const initDataRaw = webApp.initData || webApp.initDataUnsafe;
-            
-            if (initDataRaw) {
-              // Parse the data
-              const parsedData = parseTelegramData(initDataRaw);
-              
-              if (parsedData.user && parsedData.user.id !== 'unknown') {
-                setUser(parsedData.user);
-                // Cache user data
-                localStorage.setItem('g8day-user', JSON.stringify(parsedData.user));
-              } else {
-                throw new Error('Could not retrieve user data from Telegram');
+            if (userStr) {
+              try {
+                const userData = JSON.parse(decodeURIComponent(userStr));
+                const parsedUser = {
+                  id: userData.id?.toString() || 'unknown',
+                  first_name: userData.first_name || 'Stargazer',
+                  last_name: userData.last_name || '',
+                  username: userData.username || '',
+                  language_code: userData.language_code || 'en',
+                  photo_url: userData.photo_url || null,
+                  is_premium: !!userData.is_premium,
+                };
+                
+                setUser(parsedUser);
+                // Cache for development or fallback
+                localStorage.setItem('g8day-user', JSON.stringify(parsedUser));
+              } catch (e) {
+                console.error("Error parsing user data:", e);
+                throw new Error('Failed to parse user data');
               }
             } else {
-              throw new Error('No init data provided by Telegram');
+              throw new Error('User data not found in initData');
             }
           } else {
-            throw new Error('Telegram WebApp not found');
+            throw new Error('No initData provided by Telegram WebApp');
           }
+        } else {
+          throw new Error('Telegram WebApp not available');
         }
       } catch (error) {
-        console.error("Error initializing Telegram data:", error);
+        console.error("Telegram WebApp initialization error:", error);
         
-        // Attempt to retrieve from cache
+        // Try to get user from localStorage as fallback
         const cachedUser = localStorage.getItem('g8day-user');
         if (cachedUser) {
           try {
             setUser(JSON.parse(cachedUser));
           } catch (e) {
-            console.error("Error parsing cached user data:", e);
-            // Use fallback
             setUser({ 
               first_name: 'Stargazer', 
               id: 'unknown',
@@ -157,7 +123,7 @@ export default function TelegramMiniApp() {
             });
           }
         } else {
-          // Use fallback
+          // Fallback for development or when no user data is available
           setUser({ 
             first_name: 'Stargazer', 
             id: 'unknown',
@@ -168,9 +134,8 @@ export default function TelegramMiniApp() {
         setIsLoading(false);
       }
     };
-    
-    // Execute with a small delay to ensure Telegram WebApp is available
-    setTimeout(initializeTelegramData, 100);
+
+    initializeTelegramWebApp();
   }, []);
 
   const handleAgentAccess = () => {
@@ -190,23 +155,29 @@ export default function TelegramMiniApp() {
     }
   };
 
-  // TopNav component
+  // TopNav component with improved styling
   const TopNav = () => (
-    <div className="w-full flex justify-between items-center py-3 px-2 mb-4">
+    <div className="w-full flex justify-between items-center py-3 px-2 mb-6 bg-gradient-to-r from-red-950 to-red-900 rounded-lg shadow-lg">
       <div className="flex items-center">
-        <Image src='/logo.png' height={50} width={100} alt='G8D Logo'/>
+        <Image 
+          src='/logo.png' 
+          height={50} 
+          width={100} 
+          alt='G8D Logo'
+          className="drop-shadow-md"
+        />
       </div>
       
       {user && (
         <div 
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 group cursor-pointer transition-transform duration-200 hover:scale-105"
           onClick={() => setActiveTab('profile')}
         >
           <div className="text-right mr-2">
             <p className="text-white text-sm font-medium">{user.first_name}</p>
-            <p className="text-red-200 text-xs">{useStore.getState().ghibPoints} G8D</p>
+            <p className="text-red-200 text-xs font-medium">{ghibPoints} G8D</p>
           </div>
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-red-500 shadow-md">
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-red-500 shadow-lg group-hover:border-red-400 transition-all duration-300">
             <img 
               src={user.photo_url || "https://i.ibb.co/NyxrmGp/default-avatar.png"} 
               alt={user.first_name} 
@@ -222,62 +193,97 @@ export default function TelegramMiniApp() {
     </div>
   );
 
+  // Render home content with improved UI
+  const renderHomeContent = () => (
+    <div className="w-full space-y-6">
+      {/* User Stats with improved styling */}
+      <div className="bg-gradient-to-br from-red-900 to-red-950 rounded-xl p-5 shadow-lg border border-red-800">
+        <UserStats user={user} />
+      </div>
+      
+      {/* Daily Claim Button */}
+      <div className="bg-gradient-to-br from-red-900 to-red-950 rounded-xl p-5 shadow-lg border border-red-800">
+        <ClaimButton />
+      </div>
+
+      {/* Create Card CTA with improved styling */}
+      <div className="bg-gradient-to-br from-red-800 to-red-900 rounded-xl p-6 shadow-lg border border-red-700">
+        <p className="text-center text-white font-unica mb-5 text-lg">
+          Use your G8D to unlock mystical AI creations. Tap into the ancient power of astrology through your imagination.
+        </p>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={() => buyTickets(1)}
+            disabled={ghibPoints < 500}
+            className={cn(
+              "bg-white text-red-900 px-5 py-3 rounded-lg font-unica font-bold shadow-md transform transition-transform duration-200 hover:scale-105",
+              "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            )}
+          >
+            🎴 1 Ticket (500 G8D)
+          </button>
+          <button
+            onClick={() => buyTickets(5)}
+            disabled={ghibPoints < 2000}
+            className={cn(
+              "bg-white text-red-900 px-5 py-3 rounded-lg font-unica font-bold shadow-md transform transition-transform duration-200 hover:scale-105",
+              "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            )}
+          >
+            🎴 5 Tickets (2,000 G8D)
+          </button>
+        </div>
+      </div>
+
+      {/* AI Agent Access Button with animation */}
+      <button
+        onClick={handleAgentAccess}
+        className={cn(
+          "w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-4 rounded-xl",
+          "font-unica shadow-lg border border-red-500 text-lg font-bold",
+          "transform transition-all duration-300 hover:shadow-red-900/50 hover:shadow-xl hover:scale-105"
+        )}
+      >
+        <div className="flex items-center justify-center gap-2">
+          <span className="animate-pulse">✨</span>
+          <span>Start AI Astrology Reading</span>
+          <span className="animate-pulse">✨</span>
+        </div>
+      </button>
+
+      {/* Task Center with styled container */}
+      <div className="bg-gradient-to-br from-red-900 to-red-950 rounded-xl p-5 shadow-lg border border-red-800">
+        <h2 className="text-xl font-unica text-white mb-4 text-center">Daily Tasks</h2>
+        <TaskCenter />
+      </div>
+
+      {/* Referral Section with improved styling */}
+      <div className="bg-gradient-to-br from-red-900 to-red-950 rounded-xl p-5 shadow-lg border border-red-800">
+        <h2 className="text-xl font-unica text-white mb-4 text-center">Invite Friends</h2>
+        <ReferralSection userId={user?.id} />
+      </div>
+
+      {/* Leaderboard with improved styling */}
+      <div className="bg-gradient-to-br from-red-900 to-red-950 rounded-xl p-5 shadow-lg border border-red-800">
+        <h2 className="text-xl font-unica text-white mb-4 text-center">Leaderboard</h2>
+        <Leaderboard user={user} />
+      </div>
+
+      {/* Mystic Quote with improved styling */}
+      <div className="bg-gradient-to-br from-red-950 to-black rounded-xl p-5 shadow-lg border border-red-900">
+        <MysticQuote />
+      </div>
+      
+      {/* Extra space at bottom for navigation */}
+      <div className="h-20"></div>
+    </div>
+  );
+
   // Render appropriate content based on active tab
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
-        return (
-          <div className="w-full">
-            <UserStats user={user} />
-            <ClaimButton />
-
-            {/* Create Card CTA */}
-            <div className="bg-red-800 rounded-lg p-5 shadow-md my-6 border border-red-700">
-              <p className="text-center text-white font-unica mb-5">
-                Use your G8D to unlock mystical AI creations. Tap into the ancient power of astrology through your imagination.
-              </p>
-              <div className="flex justify-center gap-4">
-                <button
-                  onClick={() => useStore.getState().buyTickets(1)}
-                  disabled={useStore.getState().ghibPoints < 500}
-                  className="bg-white text-red-900 px-5 py-3 rounded-lg font-unica font-bold disabled:opacity-50 shadow-md"
-                >
-                  🎴 1 Ticket (500 G8D)
-                </button>
-                <button
-                  onClick={() => useStore.getState().buyTickets(5)}
-                  disabled={useStore.getState().ghibPoints < 2000}
-                  className="bg-white text-red-900 px-5 py-3 rounded-lg font-unica font-bold disabled:opacity-50 shadow-md"
-                >
-                  🎴 5 Tickets (2,000 G8D)
-                </button>
-              </div>
-            </div>
-
-            {/* AI Agent Access */}
-            <button
-              onClick={handleAgentAccess}
-              className="w-full bg-red-600 text-white py-4 rounded-lg font-unica shadow-md border border-red-500 text-lg"
-            >
-              ✨ Start AI Astrology Reading
-            </button>
-
-            {/* Task Center */}
-            <TaskCenter />
-
-            {/* Referral Section */}
-            <ReferralSection userId={user?.id} />
-
-            {/* Leaderboard */}
-            <Leaderboard user={user} />
-
-            {/* Mystic Quote */}
-            <MysticQuote />
-            
-            {/* Extra space at bottom for navigation */}
-            <div className="h-20"></div>
-          </div>
-        );
+        return renderHomeContent();
       case 'rewards':
         return <Rewards />;
       case 'destiny':
@@ -293,34 +299,38 @@ export default function TelegramMiniApp() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-red-900 text-white flex flex-col items-center justify-center p-4">
-        <div className="w-16 h-16 border-4 border-t-white border-b-white border-red-300 rounded-full animate-spin"/>
-        <p className="mt-4 text-white font-unica">Loading G8Day...</p>
+      <div className="min-h-screen bg-gradient-to-b from-red-950 to-black text-white flex flex-col items-center justify-center p-4">
+        <div className="w-20 h-20 border-4 border-t-white border-b-white border-r-red-300 border-l-red-300 rounded-full animate-spin"/>
+        <div className="mt-6 text-white font-unica text-xl">
+          <span className="inline-block animate-pulse">L</span>
+          <span className="inline-block animate-pulse delay-75">o</span>
+          <span className="inline-block animate-pulse delay-100">a</span>
+          <span className="inline-block animate-pulse delay-150">d</span>
+          <span className="inline-block animate-pulse delay-200">i</span>
+          <span className="inline-block animate-pulse delay-300">n</span>
+          <span className="inline-block animate-pulse delay-400">g</span>
+          <span className="inline-block animate-pulse delay-500"> G8Day...</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center p-4 overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-black via-red-950 to-black text-white flex flex-col items-center p-4 overflow-x-hidden">
       <div className="w-full max-w-md overflow-hidden">
         {/* Top Navigation */}
         <TopNav />
         
-        {/* Header */}
-        <div className="text-center mb-5 hidden">
-          <h1 className="text-3xl font-bold font-orbitron text-white">G8Day</h1>
-          <p className="text-white font-unica">Where Astrology Meets AI</p>
-          <p className="text-sm text-red-200 font-cinzel">
-            Explore your destiny. Earn, Create, Evolve.
-          </p>
-        </div>
-
         {/* Main Content Area */}
         {renderContent()}
       </div>
 
-      {/* Bottom Navigation */}
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      {/* Bottom Navigation - Floating */}
+      <div className="fixed bottom-4 left-0 right-0 flex justify-center z-50">
+        <div className="bg-gradient-to-r from-red-950 to-red-900 rounded-full py-2 px-4 shadow-xl border border-red-800">
+          <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+        </div>
+      </div>
     </div>
   );
 }
