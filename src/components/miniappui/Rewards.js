@@ -131,7 +131,7 @@ export default function Rewards() {
 
       {/* Daily Tasks */}
       <motion.div 
-        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl shadow-lg border border-red-800 mb-6"
+        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl overflow-hidden shadow-lg border border-red-800 mb-6"
         variants={itemVariants}
       >
         <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-red-800 flex items-center">
@@ -185,7 +185,7 @@ export default function Rewards() {
 
       {/* Special Offers */}
       <motion.div 
-        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl shadow-lg border border-red-800 mb-6"
+        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl overflow-hidden shadow-lg border border-red-800 mb-6"
         variants={itemVariants}
       >
         <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-red-800">
@@ -219,7 +219,7 @@ export default function Rewards() {
 
       {/* Loyalty Program */}
       <motion.div 
-        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl shadow-lg border border-red-800 mb-6"
+        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl overflow-hidden shadow-lg border border-red-800 mb-6"
         variants={itemVariants}
       >
         <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-red-800">
@@ -253,7 +253,7 @@ export default function Rewards() {
 
       {/* Available Rewards */}
       <motion.div 
-        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl shadow-lg border border-red-800 mb-6"
+        className="bg-gradient-to-r from-red-950 to-red-900 rounded-xl overflow-hidden shadow-lg border border-red-800 mb-6"
         variants={itemVariants}
       >
         <h3 className="text-lg font-orbitron font-bold bg-black bg-opacity-40 p-3 border-b border-red-800">

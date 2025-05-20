@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Star, Moon, Sun, Sparkles, ChevronRight } from 'lucide-react';
+import { Star, Moon, Sun, Sparkles, ChevronRight, User } from 'lucide-react';
 
 export default function BottomNav({ activeTab, setActiveTab }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -11,6 +11,7 @@ export default function BottomNav({ activeTab, setActiveTab }) {
     { id: 'home', icon: <Sun className="w-5 h-5" />, label: 'Home' },
     { id: 'rewards', icon: <Star className="w-5 h-5" />, label: 'Rewards' },
     { id: 'destiny', icon: <Moon className="w-5 h-5" />, label: 'Destiny' },
+    { id: 'profile', icon: <User className="w-5 h-5" />, label: 'Profile' },
     { id: 'agent', icon: <Sparkles className="w-5 h-5" />, label: 'AI Agent' },
   ];
 
