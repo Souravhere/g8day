@@ -281,7 +281,7 @@ export default function TelegramMiniApp() {
 
   // Render appropriate content based on active tab
   const renderContent = () => {
-    switch (activeTab) {
+    switch (activeTab) { 
       case 'home':
         return renderHomeContent();
       case 'rewards':
