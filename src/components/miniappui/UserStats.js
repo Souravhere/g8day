@@ -13,7 +13,6 @@ export default function UserStats({ user }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      whileHover={{ scale: 1.02 }}
     >
       {/* Decorative background elements */}
       <div className="absolute top-0 right-0 w-24 h-24 bg-purple-600 rounded-full opacity-10 -mr-8 -mt-8" />
