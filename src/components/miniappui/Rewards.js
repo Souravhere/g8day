@@ -59,14 +59,14 @@ export default function Rewards() {
         title: '2X Rewards Weekend',
         description: 'Earn double G8D points on all tasks this weekend!',
         expires: '2 days',
-        image: '/api/placeholder/100/100'
+        image: '/key/card1.png'
       },
       {
         id: 2,
         title: 'Free Reading Pass',
         description: 'Complete 5 daily tasks to unlock a free AI reading',
         expires: '4 days',
-        image: '/api/placeholder/100/100'
+        image: '/key/card2.png'
       }
     ]);
   }, []);

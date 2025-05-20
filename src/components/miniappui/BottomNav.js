@@ -50,7 +50,7 @@ export default function BottomNav({ activeTab, setActiveTab }) {
           </span>
           
           {activeTab === item.id && (
-            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full animate-pulse" />
+            <div className="hidden -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full animate-pulse" />
           )}
         </button>
       ))}
