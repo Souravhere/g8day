@@ -424,7 +424,7 @@ ${destinyReading.houses?.map(house =>
               </div>
             </motion.div>
             
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 mb-20">
               <motion.button
                 onClick={() => setDestinyReading(null)}
                 className="flex-1 bg-red-800/50 hover:bg-red-700/50 text-white font-semibold py-3 px-4 rounded-lg"
