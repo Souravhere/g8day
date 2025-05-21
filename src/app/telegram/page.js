@@ -37,40 +37,82 @@ export default function TelegramMiniApp() {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-      const tg = window.Telegram.WebApp;
-      tg.expand();
-      tg.ready();
-
-      const userInfo = tg.initDataUnsafe?.user;
-      if (userInfo) {
-        setUser(userInfo);
-        localStorage.setItem('g8dai-user', JSON.stringify(userInfo));
-      } else {
-        // Fallback for when user info is not available
-        const fallbackUser = localStorage.getItem('g8dai-user');
-        if (fallbackUser) {
-          setUser(JSON.parse(fallbackUser));
-        } else {
-          setUser({ id: 'unknown', first_name: 'Stargazer' });
+    const getTelegramUser = () => {
+      try {
+        if (typeof window === 'undefined') return null;
+        
+        // First attempt: Direct access through WebApp
+        if (window.Telegram?.WebApp) {
+          const tg = window.Telegram.WebApp;
+          tg.expand();
+          tg.ready();
+          
+          // Try multiple Telegram WebApp user data access methods
+          let userData = null;
+          
+          // Method 1: Via initDataUnsafe.user
+          if (tg.initDataUnsafe?.user) {
+            userData = tg.initDataUnsafe.user;
+          } 
+          // Method 2: Via initData parsing
+          else if (tg.initData) {
+            try {
+              const parsedData = new URLSearchParams(tg.initData);
+              if (parsedData.get('user')) {
+                userData = JSON.parse(decodeURIComponent(parsedData.get('user')));
+              }
+            } catch (e) {
+              console.error('Failed to parse initData:', e);
+            }
+          }
+          
+          return userData;
         }
-        setAuthError('Could not retrieve user information from Telegram');
+        
+        return null;
+      } catch (error) {
+        console.error('Error accessing Telegram user data:', error);
+        return null;
       }
-      setIsLoading(false);
-    } else {
-      // Handle case where Telegram WebApp is not available
-      setTimeout(() => {
+    };
+    
+    const initApp = () => {
+      const userData = getTelegramUser();
+      
+      if (userData) {
+        console.log('Telegram user data found:', userData);
+        setUser(userData);
+        localStorage.setItem('g8dai-user', JSON.stringify(userData));
+        setIsLoading(false);
+      } else {
+        console.log('No Telegram user data found, checking localStorage');
+        // Check if we have stored user data
         const fallbackUser = localStorage.getItem('g8dai-user');
         if (fallbackUser) {
+          console.log('Using fallback user from localStorage');
           setUser(JSON.parse(fallbackUser));
         } else {
+          console.log('Using default user');
           setUser({ id: 'unknown', first_name: 'Stargazer' });
+          setAuthError('Could not retrieve user information from Telegram');
         }
-        setAuthError('Telegram WebApp is not available');
         setIsLoading(false);
-      }, 1000);
-    }
-  }, []);
+      }
+    };
+    
+    // Wait a bit to ensure Telegram WebApp is fully initialized
+    setTimeout(initApp, 500);
+    
+    // Try again after a longer delay in case first attempt failed
+    const retryTimer = setTimeout(() => {
+      if (!user) {
+        console.log('Retrying user data fetch...');
+        initApp();
+      }
+    }, 2000);
+    
+    return () => clearTimeout(retryTimer);
+  }, [user]);
 
   const handleAgentAccess = () => {
     if (tickets > 0) {
@@ -113,6 +155,19 @@ export default function TelegramMiniApp() {
 
   const renderHomeContent = () => (
     <div className="space-y-6">
+      {/* Debug component only visible during development */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="bg-red-950 rounded-xl p-5 border border-red-800 mb-4 text-xs">
+          <h3 className="text-white mb-2">Debug Info</h3>
+          <pre className="text-red-200 overflow-auto max-h-40">
+            {JSON.stringify({
+              telegramExists: typeof window !== 'undefined' && !!window.Telegram,
+              webAppExists: typeof window !== 'undefined' && !!(window.Telegram && window.Telegram.WebApp),
+              user: user,
+            }, null, 2)}
+          </pre>
+        </div>
+      )}
       <UserStats user={user} />
       <div className="bg-red-950 rounded-xl p-5 border border-red-800 shadow">
         <ClaimButton />
