@@ -7,7 +7,7 @@ const Destiny = () => {
   const [location, setLocation] = useState('');
   const [destinyReading, setDestinyReading] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); 
 
   // Location data with coordinates and timezone for each city
   const locationData = {
@@ -204,7 +204,7 @@ ${destinyReading.houses?.map(house =>
         console.error('Failed to copy: ', err);
       });
   };
-
+;
   return (
     <div className="w-full max-w-4xl mx-auto bg-gradient-to-b from-red-900/40 to-red-950/40 rounded-xl p-8 backdrop-blur-sm border border-red-500/20 shadow-xl">
       <motion.div
