@@ -1,19 +1,26 @@
-import { parse } from '@telegram-apps/init-data-node';
+import { NextResponse } from 'next/server';
+import { validate } from '@telegram-apps/init-data-node';
 
 export async function POST(request) {
-  const { initData } = await request.json();
-  const botToken = process.env.BOT_TOKEN;
-
   try {
-    const data = parse(initData, { botToken });
-    return new Response(JSON.stringify({ user: data.user }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const { initData } = await request.json();
+
+    if (!initData) {
+      return NextResponse.json({ error: 'initData is required.' }, { status: 400 });
+    }
+
+    const botToken = process.env.BOT_TOKEN;
+    if (!botToken) {
+      return NextResponse.json({ error: 'Bot token is not configured.' }, { status: 500 });
+    }
+
+    const initDataObj = validate(initData, botToken);
+
+    const user = initDataObj.user;
+
+    return NextResponse.json({ user });
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Invalid initData' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    console.error('Validation error:', error);
+    return NextResponse.json({ error: 'Invalid initData.' }, { status: 401 });
   }
 }
