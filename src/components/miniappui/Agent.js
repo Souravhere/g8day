@@ -8,6 +8,33 @@ const AIAgent = () => {
   const messageEndRef = useRef(null);
   const inputRef = useRef(null);
 
+
+    // Hide the bottomnav and topnav when input is active
+    useEffect(() => {
+      const topnav = document.querySelector('.topnav');
+
+      const handleFocus = () => {
+      if (topnav) topnav.style.display = 'none';
+      };
+
+      const handleBlur = () => {
+      if (topnav) topnav.style.display = '';
+      };
+
+      const input = inputRef.current;
+      if (input) {
+      input.addEventListener('focus', handleFocus);
+      input.addEventListener('blur', handleBlur);
+      }
+
+      return () => {
+      if (input) {
+        input.removeEventListener('focus', handleFocus);
+        input.removeEventListener('blur', handleBlur);
+      }
+      };
+    }, []);
+
   // Initial greeting message
   useEffect(() => {
     setConversation([

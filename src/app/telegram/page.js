@@ -326,7 +326,7 @@ export default function TelegramMiniApp() {
       </div>
 
       {/* Bottom Navigation - Floating */}
-      <div className="fixed bottom-4 left-0 right-0 flex justify-center z-50">
+      <div className="fixed topnav bottom-4 left-0 right-0 flex justify-center z-50">
         <div className="bg-gradient-to-r from-red-950 to-red-900 rounded-full py-2 px-4 shadow-xl border border-red-800">
           <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
