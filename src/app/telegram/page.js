@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { cn, getUserData } from '@/lib/utils'; // Import getUserData from utils.js
+import { cn } from '@/lib/utils';
 import { useStore } from '@/lib/storage';
 
 // UI Components
@@ -17,6 +17,16 @@ import Profile from '@/components/miniappui/Profile';
 import Rewards from '@/components/miniappui/Rewards';
 import Destiny from '@/components/miniappui/Destiny';
 import Agent from '@/components/miniappui/Agent';
+
+// Define the window type to help with Telegram WebApp access
+/**
+ * Extend the Window object to include Telegram-related properties.
+ * This is a workaround for JavaScript since interfaces are not supported.
+ */
+if (typeof window !== 'undefined') {
+  window.Telegram = window.Telegram || {};
+  window.TelegramWebviewProxy = window.TelegramWebviewProxy || null;
+}
 
 export default function TelegramMiniApp() {
   const [user, setUser] = useState(null);
@@ -38,34 +48,155 @@ export default function TelegramMiniApp() {
     };
   }, []);
 
-  // Initialize Telegram and get user data
+  // Add the Telegram WebApp script dynamically if it's not already loaded
   useEffect(() => {
-    const initializeTelegram = () => {
+    // Function to add the Telegram WebApp script
+    const addTelegramScript = () => {
+      if (document.getElementById('telegram-webapp-script')) return;
+      
+      const script = document.createElement('script');
+      script.id = 'telegram-webapp-script';
+      script.src = 'https://telegram.org/js/telegram-web-app.js';
+      script.async = true;
+      
+      document.head.appendChild(script);
+      
+      return script;
+    };
+    
+    // Only add script if window.Telegram is not defined
+    if (typeof window !== 'undefined' && !window.Telegram) {
+      const script = addTelegramScript();
+      if (script) {
+        script.onload = () => {
+          console.log('Telegram WebApp script loaded');
+          initializeTelegram();
+        };
+      }
+    } else {
+      initializeTelegram();
+    }
+    
+    // Clean up
+    return () => {
+      const script = document.getElementById('telegram-webapp-script');
+      if (script) {
+        script.remove();
+      }
+    };
+  }, []);
+
+  // Initialize Telegram and get user data
+  const initializeTelegram = () => {
+    const checkTelegram = () => {
       try {
-        const userData = getUserData(); // Use the utility function to get user data
-        if (userData) {
-          setUser(userData);
-          localStorage.setItem('g8dai-user', JSON.stringify(userData));
-          setIsLoading(false);
-        } else {
+        // Update debug info
+        const currentDebug = {
+          timestamp: new Date().toISOString(),
+          telegramExists: typeof window !== 'undefined' && !!window.Telegram,
+          webAppExists: typeof window !== 'undefined' && !!(window.Telegram && window.Telegram.WebApp),
+          webViewExists: typeof window !== 'undefined' && !!(window.Telegram && window.Telegram.WebView),
+          proxyExists: typeof window !== 'undefined' && !!window.TelegramWebviewProxy,
+          searchParams: typeof window !== 'undefined' ? window.location.search : '',
+          userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : ''
+        };
+        
+        setDebug(prev => ({ ...prev, ...currentDebug }));
+        console.log('Telegram Debug:', currentDebug);
+        
+        // Check if Telegram WebApp is available
+        if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+          const tg = window.Telegram.WebApp;
+          tg.ready();
+          tg.expand();
+          
+          // Get user data from Telegram
+          let userData = null;
+          
+          // Try to get user data from Telegram WebApp
+          if (tg.initDataUnsafe?.user) {
+            userData = tg.initDataUnsafe.user;
+            console.log('User data from initDataUnsafe:', userData);
+          }
+          // Try to parse from initData
+          else if (tg.initData) {
+            try {
+              const params = new URLSearchParams(tg.initData);
+              const userParam = params.get('user');
+              if (userParam) {
+                userData = JSON.parse(decodeURIComponent(userParam));
+                console.log('User data from initData params:', userData);
+              }
+            } catch (error) {
+              console.error('Error parsing initData:', error);
+            }
+          }
+          // Try to get from hash or search params (sometimes Telegram puts it there)
+          else {
+            try {
+              const urlParams = new URLSearchParams(window.location.search);
+              const tgWebAppData = urlParams.get('tgWebAppData');
+              const tgWebAppUser = urlParams.get('tgWebAppUser');
+              
+              if (tgWebAppUser) {
+                userData = JSON.parse(decodeURIComponent(tgWebAppUser));
+                console.log('User data from URL params:', userData);
+              } else if (tgWebAppData) {
+                const dataParams = new URLSearchParams(tgWebAppData);
+                const userParam = dataParams.get('user');
+                if (userParam) {
+                  userData = JSON.parse(decodeURIComponent(userParam));
+                  console.log('User data from tgWebAppData:', userData);
+                }
+              }
+            } catch (error) {
+              console.error('Error parsing URL params:', error);
+            }
+          }
+          
+          // Save and set user data if found
+          if (userData) {
+            setUser(userData);
+            localStorage.setItem('g8dai-user', JSON.stringify(userData));
+            setIsLoading(false);
+            return true;
+          }
+        }
+        
+        return false;
+      } catch (error) {
+        console.error('Error in checkTelegram:', error);
+        setDebug(prev => ({ ...prev, error: error.message }));
+        return false;
+      }
+    };
+    
+    // Try to get user data from Telegram
+    const userFound = checkTelegram();
+    
+    // If user data was not found, try again after a delay
+    if (!userFound) {
+      console.log('User data not found, will retry in 1 second');
+      setTimeout(() => {
+        const retryUserFound = checkTelegram();
+        
+        // If still not found after retry, use fallback
+        if (!retryUserFound) {
+          console.log('User data still not found, using fallback');
           const fallbackUser = localStorage.getItem('g8dai-user');
           if (fallbackUser) {
+            console.log('Using user data from localStorage');
             setUser(JSON.parse(fallbackUser));
           } else {
+            console.log('No user data available, using default');
             setUser({ id: 'unknown', first_name: 'Stargazer' });
             setAuthError('Could not connect to Telegram');
           }
           setIsLoading(false);
         }
-      } catch (error) {
-        console.error('Error initializing Telegram:', error);
-        setAuthError('An error occurred while connecting to Telegram');
-        setIsLoading(false);
-      }
-    };
-
-    initializeTelegram();
-  }, []);
+      }, 1000);
+    }
+  };
 
   const handleAgentAccess = () => {
     if (tickets > 0) {
@@ -108,6 +239,7 @@ export default function TelegramMiniApp() {
 
   const renderHomeContent = () => (
     <div className="space-y-6">
+      {/* Always show debug in production temporarily for troubleshooting */}
       <div className="bg-red-950 rounded-xl p-5 border border-red-800 mb-4 text-xs">
         <h3 className="text-white mb-2">Debug Info</h3>
         <pre className="text-red-200 overflow-auto max-h-40">
@@ -115,7 +247,7 @@ export default function TelegramMiniApp() {
         </pre>
         <div className="mt-2 flex justify-center">
           <button 
-            onClick={() => setUser(getUserData())} 
+            onClick={() => initializeTelegram()} 
             className="bg-red-700 text-white px-3 py-1 rounded-lg text-xs"
           >
             Retry Connection
