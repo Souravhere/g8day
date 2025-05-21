@@ -39,25 +39,39 @@ export default function TelegramMiniApp() {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
       const tg = window.Telegram.WebApp;
+      tg.expand();
       tg.ready();
-  
+
       const userInfo = tg.initDataUnsafe?.user;
       if (userInfo) {
         setUser(userInfo);
-        localStorage.setItem('g8dai-user', JSON.stringify(userInfo)); // optional
+        localStorage.setItem('g8dai-user', JSON.stringify(userInfo));
       } else {
+        // Fallback for when user info is not available
         const fallbackUser = localStorage.getItem('g8dai-user');
         if (fallbackUser) {
           setUser(JSON.parse(fallbackUser));
         } else {
           setUser({ id: 'unknown', first_name: 'Stargazer' });
         }
+        setAuthError('Could not retrieve user information from Telegram');
       }
-  
       setIsLoading(false);
+    } else {
+      // Handle case where Telegram WebApp is not available
+      setTimeout(() => {
+        const fallbackUser = localStorage.getItem('g8dai-user');
+        if (fallbackUser) {
+          setUser(JSON.parse(fallbackUser));
+        } else {
+          setUser({ id: 'unknown', first_name: 'Stargazer' });
+        }
+        setAuthError('Telegram WebApp is not available');
+        setIsLoading(false);
+      }, 1000);
     }
   }, []);
-  
+
   const handleAgentAccess = () => {
     if (tickets > 0) {
       setActiveTab('agent');
