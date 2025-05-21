@@ -37,59 +37,27 @@ export default function TelegramMiniApp() {
   }, []);
 
   useEffect(() => {
-    const initTelegramApp = async () => {
-      try {
-        const waitForTelegram = () =>
-          new Promise((resolve) => {
-            const interval = setInterval(() => {
-              if (window.Telegram?.WebApp) {
-                clearInterval(interval);
-                resolve(window.Telegram.WebApp);
-              }
-            }, 100);
-            setTimeout(() => {
-              clearInterval(interval);
-              resolve(null);
-            }, 3000);
-          });
-
-        const tg = await waitForTelegram();
-
-        if (!tg) throw new Error('Telegram WebApp is not available.');
-        tg.expand();
-        tg.ready();
-
-        const initData = tg.initData;
-        if (!initData) throw new Error('initData not provided by Telegram.');
-
-        const res = await fetch('/api/auth', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ initData }),
-        });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Auth failed');
-
-        setUser(data.user);
-        localStorage.setItem('g8dai-user', JSON.stringify(data.user));
-      } catch (err) {
-        console.error(err);
+    if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+      const tg = window.Telegram.WebApp;
+      tg.ready();
+  
+      const userInfo = tg.initDataUnsafe?.user;
+      if (userInfo) {
+        setUser(userInfo);
+        localStorage.setItem('g8dai-user', JSON.stringify(userInfo)); // optional
+      } else {
         const fallbackUser = localStorage.getItem('g8dai-user');
         if (fallbackUser) {
           setUser(JSON.parse(fallbackUser));
         } else {
           setUser({ id: 'unknown', first_name: 'Stargazer' });
         }
-        setAuthError(err.message);
-      } finally {
-        setIsLoading(false);
       }
-    };
-
-    initTelegramApp();
+  
+      setIsLoading(false);
+    }
   }, []);
-
+  
   const handleAgentAccess = () => {
     if (tickets > 0) {
       setActiveTab('agent');
