@@ -22,6 +22,7 @@ export default function TelegramMiniApp() {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
+  const [authError, setAuthError] = useState(null);
   const { tickets, ghibPoints, buyTickets } = useStore();
 
   // Hide the footer and navbar 
@@ -37,7 +38,7 @@ export default function TelegramMiniApp() {
     };
   }, []);
 
-  // Initialize Telegram Web App
+  // Initialize Telegram Web App and authenticate user
   useEffect(() => {
     const initializeTelegramWebApp = async () => {
       try {
@@ -61,45 +62,35 @@ export default function TelegramMiniApp() {
           });
         };
         
-        const webApp = await waitForTelegramWebApp();
+        const tg = await waitForTelegramWebApp();
         
-        if (webApp) {
+        if (tg) {
           // Expand the WebApp to full height
-          webApp.expand();
+          tg.expand();
           
           // Signal to Telegram that the WebApp is ready
-          webApp.ready();
+          tg.ready();
           
           // Get initData directly from Telegram WebApp
-          const initDataStr = webApp.initData;
+          const initData = tg.initData;
           
-          if (initDataStr) {
-            // Parse the URL-encoded string
-            const urlParams = new URLSearchParams(initDataStr);
-            const userStr = urlParams.get('user');
+          if (initData) {
+            // Send initData to backend for validation
+            const response = await fetch('/api/auth', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ initData }),
+            });
+
+            const data = await response.json();
             
-            if (userStr) {
-              try {
-                const userData = JSON.parse(decodeURIComponent(userStr));
-                const parsedUser = {
-                  id: userData.id?.toString() || 'unknown',
-                  first_name: userData.first_name || 'Stargazer',
-                  last_name: userData.last_name || '',
-                  username: userData.username || '',
-                  language_code: userData.language_code || 'en',
-                  photo_url: userData.photo_url || null,
-                  is_premium: !!userData.is_premium,
-                };
-                
-                setUser(parsedUser);
-                // Cache for development or fallback
-                localStorage.setItem('g8day-user', JSON.stringify(parsedUser));
-              } catch (e) {
-                console.error("Error parsing user data:", e);
-                throw new Error('Failed to parse user data');
-              }
+            if (data.user) {
+              setUser(data.user);
+              // Cache for development or fallback
+              localStorage.setItem('g8day-user', JSON.stringify(data.user));
             } else {
-              throw new Error('User data not found in initData');
+              setAuthError(data.error || 'Authentication failed');
+              throw new Error(data.error || 'Authentication failed');
             }
           } else {
             throw new Error('No initData provided by Telegram WebApp');
@@ -108,7 +99,8 @@ export default function TelegramMiniApp() {
           throw new Error('Telegram WebApp not available');
         }
       } catch (error) {
-        console.error("Telegram WebApp initialization error:", error);
+        console.error("Telegram WebApp authentication error:", error);
+        setAuthError(error.message);
         
         // Try to get user from localStorage as fallback
         const cachedUser = localStorage.getItem('g8day-user');
@@ -197,9 +189,7 @@ export default function TelegramMiniApp() {
   const renderHomeContent = () => (
     <div className="w-full space-y-6">
       {/* User Stats with improved styling */}
-      {/* <div className="bg-gradient-to-br from-red-900 to-red-950 rounded-xl p-5 shadow-lg border border-red-800"> */}
-        <UserStats user={user} />
-      {/* </div> */}    
+      <UserStats user={user} />
       
       {/* Daily Claim Button */}
       <div className="bg-gradient-to-br from-red-900 to-red-950 rounded-xl p-5 shadow-lg border border-red-800">
@@ -297,6 +287,23 @@ export default function TelegramMiniApp() {
     }
   };
 
+  // Show error message if authentication fails
+  const renderAuthError = () => (
+    <div className="min-h-screen bg-gradient-to-b from-red-950 to-black text-white flex flex-col items-center justify-center p-4">
+      <div className="w-16 h-16 rounded-full bg-red-800 flex items-center justify-center mb-4">
+        <span className="text-2xl">❗</span>
+      </div>
+      <h2 className="text-xl font-unica text-white mb-2">Authentication Error</h2>
+      <p className="text-red-300 text-center mb-6">{authError}</p>
+      <button 
+        onClick={() => window.location.reload()}
+        className="bg-red-700 text-white px-6 py-2 rounded-full font-medium"
+      >
+        Try Again
+      </button>
+    </div>
+  );
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-red-950 to-black text-white flex flex-col items-center justify-center p-4">
@@ -313,6 +320,10 @@ export default function TelegramMiniApp() {
         </div>
       </div>
     );
+  }
+
+  if (authError && !user) {
+    return renderAuthError();
   }
 
   return (
