@@ -11,114 +11,62 @@ export function cn(...inputs) {
 }
 
 /**
- * Parses Telegram Web App initialization data
- * 
- * Handles different formats of initData and provides robust error handling
- * 
- * @param {string|object} initDataUnsafe - The raw initData from Telegram WebApp
- * @returns {object} - Parsed user data with fallbacks
+ * Get user data from Telegram Mini App
+ * This function safely extracts user information from the Telegram WebApp API
+ * @returns {Object|null} User data object or null if unavailable
  */
-export function parseTelegramData(initDataUnsafe) {
-  try {
-    // Handle both string and object formats
-    let parsedData;
-    
-    if (typeof initDataUnsafe === 'string') {
-      // For URL-encoded string format (common in Telegram WebApp)
-      if (initDataUnsafe.startsWith('query_id=') || initDataUnsafe.includes('&')) {
-        const params = new URLSearchParams(initDataUnsafe);
-        const userStr = params.get('user');
-        
-        if (userStr) {
-          const userData = JSON.parse(decodeURIComponent(userStr));
-          return {
-            user: {
-              id: userData.id?.toString() || 'unknown',
-              first_name: userData.first_name || 'Stargazer',
-              last_name: userData.last_name || '',
-              username: userData.username || '',
-              language_code: userData.language_code || 'en',
-              photo_url: userData.photo_url || null,
-              is_premium: !!userData.is_premium,
-            },
-            auth_date: params.get('auth_date'),
-            hash: params.get('hash'),
-            query_id: params.get('query_id'),
-            start_param: params.get('start_param')
-          };
-        }
-      } else {
-        // Try parsing as JSON string
-        try {
-          parsedData = JSON.parse(initDataUnsafe);
-        } catch (e) {
-          console.error('Failed to parse JSON:', e);
-        }
-      }
-    } else if (typeof initDataUnsafe === 'object') {
-      // Already an object
-      parsedData = initDataUnsafe;
-    }
-    
-    // Extract user data from parsed object
-    const userData = parsedData?.user || {};
-    
-    return {
-      user: {
-        id: userData.id?.toString() || 'unknown',
-        first_name: userData.first_name || 'Stargazer',
-        last_name: userData.last_name || '',
-        username: userData.username || '',
-        language_code: userData.language_code || 'en',
-        photo_url: userData.photo_url || null,
-        is_premium: !!userData.is_premium,
-      },
-      auth_date: parsedData?.auth_date,
-      hash: parsedData?.hash,
-      query_id: parsedData?.query_id,
-      start_param: parsedData?.start_param
-    };
-  } catch (error) {
-    console.error('Error parsing Telegram data:', error);
-    return { 
-      user: { 
-        id: 'unknown', 
-        first_name: 'Stargazer',
-        last_name: '',
-        username: '',
-        language_code: 'en',
-        photo_url: null,
-        is_premium: false
-      } 
-    };
+function getUserData() {
+  // Check if the Telegram WebApp is available
+  if (!window.Telegram || !window.Telegram.WebApp) {
+    console.error('Telegram WebApp is not available. Are you running this outside Telegram?');
+    return null;
   }
-}
 
-/**
- * Helper function to safely access Telegram WebApp functionality
- * Ensures WebApp is available before attempting to use any methods
- */
-export function getTelegramWebApp() {
-  if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-    return window.Telegram.WebApp;
-  }
-  return null;
-}
-
-/**
- * Safely shows a popup alert using Telegram WebApp when available
- * Falls back to regular browser alert when unavailable
- */
-export function showTelegramAlert(title, message) {
-  const webApp = getTelegramWebApp();
+  // Access the user data from Telegram WebApp
+  const webApp = window.Telegram.WebApp;
   
-  if (webApp?.showPopup) {
-    webApp.showPopup({
-      title,
-      message,
-      buttons: [{type: 'ok'}]
-    });
-  } else {
-    alert(`${title}: ${message}`);
+  // Check if user data is available
+  if (!webApp.initDataUnsafe || !webApp.initDataUnsafe.user) {
+    console.warn('User data is not available in Telegram WebApp');
+    return null;
   }
+
+  // Extract user data
+  const user = webApp.initDataUnsafe.user;
+  
+  // Create a standardized user data object
+  const userData = {
+    id: user.id,
+    first_name: user.first_name || '',
+    last_name: user.last_name || '',
+    username: user.username || '',
+    language_code: user.language_code || 'en',
+    is_premium: user.is_premium || false,
+    photo_url: user.photo_url || ''
+  };
+
+  return userData;
 }
+
+// Example of using the function
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    // Try to get user data
+    const userData = getUserData();
+    
+    if (userData) {
+      console.log('Telegram user data successfully retrieved:', userData);
+      // Do something with the user data...
+      
+      // For example, display user name on the page
+      const userInfoElement = document.getElementById('user-info');
+      if (userInfoElement) {
+        userInfoElement.textContent = `Hello, ${userData.first_name}!`;
+      }
+    } else {
+      console.log('Could not retrieve user data. Please ensure this app is running in Telegram.');
+    }
+  } catch (error) {
+    console.error('Error retrieving Telegram user data:', error);
+  }
+});
