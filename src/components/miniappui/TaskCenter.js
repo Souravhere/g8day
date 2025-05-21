@@ -1,8 +1,7 @@
 'use client'
 
+import { useStore } from '@/lib/storage';
 import { useState } from 'react';
-import { useStore } from '../../lib/storage';
-
 export default function TaskCenter() {
   const { addGhibPoints, addTickets, updateInvites } = useStore();
   const [tasks, setTasks] = useState([

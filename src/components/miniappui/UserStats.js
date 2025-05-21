@@ -1,7 +1,7 @@
 'use client';
 
+import { useStore } from '@/lib/storage';
 import { motion } from 'framer-motion';
-import { useStore } from '../../lib/storage';
 import { FaCoins, FaTicketAlt } from 'react-icons/fa';
 
 export default function UserStats({ user }) {

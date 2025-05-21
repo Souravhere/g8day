@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useStore } from '../../lib/storage';
 import { cn } from '@/lib/utils';
 import { 
   Gift, 
@@ -13,6 +12,7 @@ import {
   Unlock,
   Star
 } from 'lucide-react';
+import { useStore } from '@/lib/storage';
 
 export default function Rewards() {
   const { ghibPoints, addGhibPoints } = useStore();
