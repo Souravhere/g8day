@@ -116,7 +116,6 @@ export default function ReferralSection({ userId }) {
     <div className="bg-red-950 rounded-xl p-6 border border-red-800 space-y-6">
       {/* Header with Stats */}
       <div className="text-center">
-        <h2 className="text-2xl font-unica text-white mb-2">Invite Your Tribe</h2>
         <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${tier.color} text-white font-unica text-sm`}>
           <span className="text-lg">{tier.icon}</span>
           <span>{tier.name}</span>
