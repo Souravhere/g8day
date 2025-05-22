@@ -3,10 +3,10 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useStore } from '@/lib/storage';
-import { FaStar, FaHistory, FaChartLine, FaMedal, FaUserFriends } from 'react-icons/fa';
+import { FaStar, FaChartLine, FaMedal, FaUserFriends } from 'react-icons/fa';
 
 export default function Profile({ user }) {
-  const { ghibPoints, tickets, invites, stats, achievements, completeSectionExploration } = useStore();
+  const { stats, achievements, completeSectionExploration } = useStore();
 
   // Trigger Cosmic Explorer achievement on profile visit
   useEffect(() => {
