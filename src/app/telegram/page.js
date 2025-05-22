@@ -224,10 +224,10 @@ export default function TelegramMiniApp() {
   const renderHomeContent = () => (
     <div className="space-y-6">
       <UserStats user={user} />
-      <div className="bg-red-950 rounded-xl p-5 border border-red-800 shadow">
+      <div className="bg-red-950/90 rounded-xl p-5 border border-red-800 shadow">
         <ClaimButton />
       </div>
-      <div className="bg-red-950 rounded-xl p-5 border border-red-800">
+      <div className="bg-red-950/90 rounded-xl p-5 border border-red-800">
         <p className="text-center text-white font-unica mb-4 text-lg">
           Use your G8D to unlock mystical AI creations. Tap into astrology.
         </p>
@@ -256,23 +256,23 @@ export default function TelegramMiniApp() {
       </div>
       <button
         onClick={handleAgentAccess}
-        className="w-full bg-red-700 py-4 text-white font-bold rounded-xl shadow hover:scale-105 transition-all"
+        className="w-full bg-red-700 py-4 text-white font-bold rounded-xl shadow"
       >
         ✨ Start AI Astrology Reading ✨
       </button>
-      <div className="bg-red-950 rounded-xl p-3 border border-red-800">
+      <div className="bg-red-950/90 rounded-xl p-3 border border-red-800">
         <h2 className="text-xl text-white font-semibold text-center mb-4">Daily Tasks</h2>
         <TaskCenter />
       </div>
-      <div className="bg-red-950 rounded-xl p-3 border border-red-800">
+      <div className="bg-red-950/90 rounded-xl p-3 border border-red-800">
         <h2 className="text-xl text-white font-semibold text-center mb-4">Invite Friends</h2>
         <ReferralSection userId={user?.id} />
       </div>
-      <div className="bg-red-950 rounded-xl p-3 border border-red-800">
+      <div className="bg-red-950/90 rounded-xl p-3 border border-red-800">
         <h2 className="text-xl text-white font-semibold text-center mb-4">Leaderboard</h2>
         <Leaderboard user={user} />
       </div>
-      <div className="bg-black rounded-xl p-3 border border-red-900">
+      <div className="bg-black/60 rounded-xl p-3 border border-red-900">
         <MysticQuote />
       </div>
       <div className="h-20" />
@@ -387,7 +387,7 @@ export default function TelegramMiniApp() {
         {renderContent()}
       </div>
       <div className="fixed topnav bottom-4 left-0 right-0 flex justify-center z-50">
-        <div className="bg-red-950 rounded-full py-2 px-4 border border-red-800 shadow-xl">
+        <div className="bg-red-950/95 rounded-full py-2 px-4 border border-red-800 shadow-xl">
           <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
       </div>
