@@ -8,9 +8,9 @@ export default function TaskCenter() {
 
   const taskList = [
     { id: 'daily-login', name: 'Daily Login', reward: 20, type: 'G8D' },
-    { id: 'rt-tweet', name: 'RT Our Tweet', reward: 30, type: 'G8D', url: 'https://x.com/g8day/status/123456' },
+    { id: 'rt-tweet', name: 'RT Our Tweet', reward: 30, type: 'G8D', url: 'https://x.com/G8DAI/status/1923741186877161844' },
     { id: 'daily-quiz', name: 'Daily Quiz', reward: 25, type: 'G8D' },
-    { id: 'join-x', name: 'Join Our X', reward: 50, type: 'G8D', url: 'https://x.com/g8day' },
+    { id: 'join-x', name: 'Join Our X', reward: 50, type: 'G8D', url: 'https://x.com/G8DAI' },
     { id: 'invite-5', name: 'Invite 5 Users', reward: 100, type: 'G8D', max: 5 },
   ];
 

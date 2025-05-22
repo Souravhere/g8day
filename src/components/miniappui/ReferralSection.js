@@ -7,7 +7,7 @@ export default function ReferralSection({ userId }) {
   const { invites, addG8DPoints, updateInvites } = useStore();
   const [mention, setMention] = useState('');
 
-  const referralLink = `https://t.me/G8DayBot?start=${userId || 'unknown'}`;
+  const referralLink = `https://t.me/g8day_bot?start=${userId || 'unknown'}`;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(referralLink);
