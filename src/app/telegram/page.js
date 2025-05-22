@@ -24,9 +24,7 @@ export default function TelegramMiniApp() {
   const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
   const [activeTab, setActiveTab] = useState('home');
-  const [showDebug, setShowDebug] = useState(false); // Toggle debug visibility
-  const { tickets, ghibPoints, buyTickets } = useStore();
-  const [debug, setDebug] = useState({});
+  const { tickets, ghibPoints, buyTickets, resetDailyTasks } = useStore();
 
   // Hide default navigation
   useEffect(() => {
@@ -44,26 +42,10 @@ export default function TelegramMiniApp() {
   useEffect(() => {
     const initializeTelegram = () => {
       try {
-        // Debug information
-        const debugInfo = {
-          timestamp: new Date().toISOString(),
-          telegramExists: typeof window !== 'undefined' && !!window.Telegram,
-          webAppExists: typeof window !== 'undefined' && !!window.Telegram?.WebApp,
-          userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : '',
-          searchParams: typeof window !== 'undefined' ? window.location.search : '',
-          initDataAvailable: false,
-          userData: null,
-        };
-
         if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
           const tg = window.Telegram.WebApp;
           tg.ready();
           tg.expand();
-
-          debugInfo.initDataAvailable = !!tg.initDataUnsafe;
-          debugInfo.userData = tg.initDataUnsafe;
-
-          console.log('Telegram Debug:', debugInfo);
 
           if (tg.initDataUnsafe?.user) {
             const userData = {
@@ -74,48 +56,53 @@ export default function TelegramMiniApp() {
               photo_url: tg.initDataUnsafe.user.photo_url || 'https://i.ibb.co/NyxrmGp/default-avatar.png',
             };
             setUser(userData);
+            useStore.getState().setUser(userData);
             localStorage.setItem('g8dai-user', JSON.stringify(userData));
             if (tg.initDataUnsafe.start_param) {
-              console.log('Referred by:', tg.initDataUnsafe.start_param);
               useStore.getState().updateInvites(1);
             }
           } else {
-            console.warn('No user data in initDataUnsafe');
             const fallbackUser = localStorage.getItem('g8dai-user');
             if (fallbackUser) {
               setUser(JSON.parse(fallbackUser));
+              useStore.getState().setUser(JSON.parse(fallbackUser));
             } else {
-              setUser({
+              const defaultUser = {
                 id: 'unknown',
                 first_name: 'Stargazer',
                 photo_url: 'https://i.ibb.co/NyxrmGp/default-avatar.png',
-              });
+              };
+              setUser(defaultUser);
+              useStore.getState().setUser(defaultUser);
               setAuthError('No user data available from Telegram. Please ensure you are in Telegram WebView.');
             }
           }
         } else {
-          console.warn('Telegram WebApp not available');
-          debugInfo.webAppExists = false;
           const fallbackUser = localStorage.getItem('g8dai-user');
           if (fallbackUser) {
             setUser(JSON.parse(fallbackUser));
+            useStore.getState().setUser(JSON.parse(fallbackUser));
           } else {
-            setUser({
+            const defaultUser = {
               id: 'unknown',
               first_name: 'Stargazer',
               photo_url: 'https://i.ibb.co/NyxrmGp/default-avatar.png',
-            });
+            };
+            setUser(defaultUser);
+            useStore.getState().setUser(defaultUser);
             setAuthError('Telegram WebApp not detected. Please open via Telegram.');
           }
         }
-
-        setDebug(debugInfo);
         setIsLoading(false);
       } catch (error) {
         console.error('Error initializing Telegram:', error);
-        setDebug((prev) => ({ ...prev, error: error.message }));
         setAuthError('Error connecting to Telegram: ' + error.message);
         setUser({
+          id: 'unknown',
+          first_name: 'Stargazer',
+          photo_url: 'https://i.ibb.co/NyxrmGp/default-avatar.png',
+        });
+        useStore.getState().setUser({
           id: 'unknown',
           first_name: 'Stargazer',
           photo_url: 'https://i.ibb.co/NyxrmGp/default-avatar.png',
@@ -124,20 +111,15 @@ export default function TelegramMiniApp() {
       }
     };
 
-    // Load Telegram WebApp SDK
     const loadTelegramSDK = () => {
       if (typeof window !== 'undefined' && !window.Telegram?.WebApp) {
         const script = document.createElement('script');
         script.id = 'telegram-webapp-script';
         script.src = 'https://telegram.org/js/telegram-web-app.js';
         script.async = true;
-        script.onload = () => {
-          console.log('Telegram WebApp script loaded');
-          initializeTelegram();
-        };
+        script.onload = initializeTelegram;
         script.onerror = () => {
           console.error('Failed to load Telegram WebApp SDK');
-          setDebug((prev) => ({ ...prev, sdkLoadError: 'Failed to load Telegram WebApp SDK' }));
           setAuthError('Failed to load Telegram WebApp SDK. Please try again.');
           setIsLoading(false);
         };
@@ -149,7 +131,15 @@ export default function TelegramMiniApp() {
     };
 
     loadTelegramSDK();
-  }, []);
+
+    // Reset daily tasks at midnight
+    const today = new Date().toISOString().split('T')[0];
+    const lastReset = localStorage.getItem('lastTaskReset');
+    if (lastReset !== today) {
+      resetDailyTasks();
+      localStorage.setItem('lastTaskReset', today);
+    }
+  }, [resetDailyTasks]);
 
   const handleAgentAccess = () => {
     if (tickets > 0) {
@@ -183,6 +173,10 @@ export default function TelegramMiniApp() {
               src={user.photo_url || 'https://i.ibb.co/NyxrmGp/default-avatar.png'}
               alt="avatar"
               className="object-cover w-full h-full"
+              onError={(e) => {
+                e.target.src = 'https://i.ibb.co/NyxrmGp/default-avatar.png';
+              }}
+              loading="lazy"
             />
           </div>
         </div>
@@ -192,26 +186,6 @@ export default function TelegramMiniApp() {
 
   const renderHomeContent = () => (
     <div className="space-y-6">
-      {/* Debug Info (Collapsible) */}
-      <div className="bg-red-950 rounded-xl p-5 border border-red-800 mb-4">
-        <button
-          onClick={() => setShowDebug(!showDebug)}
-          className="text-white text-sm font-unica mb-2"
-        >
-          {showDebug ? 'Hide Debug Info' : 'Show Debug Info'}
-        </button>
-        {showDebug && (
-          <div className="text-xs text-red-200 overflow-auto max-h-40">
-            <pre>{JSON.stringify(debug, null, 2)}</pre>
-            <button
-              onClick={() => initializeTelegram()}
-              className="bg-red-700 text-white px-3 py-1 rounded-lg mt-2"
-            >
-              Retry Connection
-            </button>
-          </div>
-        )}
-      </div>
       <UserStats user={user} />
       <div className="bg-red-950 rounded-xl p-5 border border-red-800 shadow">
         <ClaimButton />
