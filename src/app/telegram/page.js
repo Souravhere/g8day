@@ -168,15 +168,13 @@ export default function TelegramMiniApp() {
             <p className="text-white text-sm font-medium">{user.first_name}</p>
             <p className="text-red-200 text-xs">{ghibPoints} G8D</p>
           </div>
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-red-500 shadow-lg">
-            <img
-              src={user.photo_url || 'https://i.ibb.co/NyxrmGp/default-avatar.png'}
+          <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-red-500 shadow-lg">
+            <Image
+              src='/g8dcharacter.png'
               alt="avatar"
+              width={150}
+              height={150}
               className="object-cover w-full h-full"
-              onError={(e) => {
-                e.target.src = 'https://i.ibb.co/NyxrmGp/default-avatar.png';
-              }}
-              loading="lazy"
             />
           </div>
         </div>

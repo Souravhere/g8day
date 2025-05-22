@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useStore } from '@/lib/storage';
 import { FaStar, FaChartLine, FaMedal, FaUserFriends } from 'react-icons/fa';
+import Image from 'next/image';
 
 export default function Profile({ user }) {
   const { stats, achievements, completeSectionExploration } = useStore();
@@ -43,16 +44,15 @@ export default function Profile({ user }) {
         <div className="flex items-center">
           <div className="relative">
             <motion.div 
-              className="w-20 h-20 rounded-full overflow-hidden border-4 border-red-400"
+              className="w-20 h-20 rounded-full overflow-hidden border-2 border-red-400"
               whileHover={{ scale: 1.05 }}
             >
-              <img 
-                src={user?.photo_url || "https://i.ibb.co/NyxrmGp/default-avatar.png"} 
+              <Image
+                src="/g8dcharacter.png"
                 alt="Profile" 
+                width={200}
+                height={200}
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.src = 'https://i.ibb.co/NyxrmGp/default-avatar.png';
-                }}
               />
             </motion.div>
             <motion.div 
