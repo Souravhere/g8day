@@ -260,19 +260,19 @@ export default function TelegramMiniApp() {
       >
         ✨ Start AI Astrology Reading ✨
       </button>
-      <div className="bg-red-950 rounded-xl p-5 border border-red-800">
-        <h2 className="text-xl text-white text-center mb-4">Daily Tasks</h2>
+      <div className="bg-red-950 rounded-xl p-3 border border-red-800">
+        <h2 className="text-xl text-white font-semibold text-center mb-4">Daily Tasks</h2>
         <TaskCenter />
       </div>
-      <div className="bg-red-950 rounded-xl p-5 border border-red-800">
-        <h2 className="text-xl text-white text-center mb-4">Invite Friends</h2>
+      <div className="bg-red-950 rounded-xl p-3 border border-red-800">
+        <h2 className="text-xl text-white font-semibold text-center mb-4">Invite Friends</h2>
         <ReferralSection userId={user?.id} />
       </div>
-      <div className="bg-red-950 rounded-xl p-5 border border-red-800">
-        <h2 className="text-xl text-white text-center mb-4">Leaderboard</h2>
+      <div className="bg-red-950 rounded-xl p-3 border border-red-800">
+        <h2 className="text-xl text-white font-semibold text-center mb-4">Leaderboard</h2>
         <Leaderboard user={user} />
       </div>
-      <div className="bg-black rounded-xl p-5 border border-red-900">
+      <div className="bg-black rounded-xl p-3 border border-red-900">
         <MysticQuote />
       </div>
       <div className="h-20" />

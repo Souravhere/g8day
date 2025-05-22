@@ -92,7 +92,7 @@ export default function ClaimButton() {
 
   return (
     <div className="flex flex-col items-center">
-      <h3 className="text-center text-lg font-unica mb-2 text-white">Daily Fortune</h3>
+      <h3 className="text-center text-lg font-semibold mb-2 text-white">Daily Fortune</h3>
 
       <button
         onClick={handleClaim}
