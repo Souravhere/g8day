@@ -117,6 +117,27 @@ export default function TelegramMiniApp() {
           if (tg.initDataUnsafe?.user) {
             userData = tg.initDataUnsafe.user;
             console.log('User data from initDataUnsafe:', userData);
+          } else if (tg.initData) {
+            try {
+              const params = new URLSearchParams(tg.initData);
+              const userParam = params.get('user');
+              if (userParam) {
+                userData = JSON.parse(decodeURIComponent(userParam));
+                console.log('User data from initData params:', userData);
+              }
+            } catch (error) {
+              console.error('Error parsing initData:', error);
+            }
+          } else if (tg.initData && tg.initData.length > 0) {
+            try {
+              const parsedData = JSON.parse(decodeURIComponent(tg.initData));
+              if (parsedData.user) {
+                userData = parsedData.user;
+                console.log('User data from parsed initData:', userData);
+              }
+            } catch (error) {
+              console.error('Error parsing initData as JSON:', error);
+            }
           }
           // Try to parse from initData
           else if (tg.initData) {
@@ -162,15 +183,21 @@ export default function TelegramMiniApp() {
             return true;
           }
         }
-        
-        return false;
-      } catch (error) {
-        console.error('Error in checkTelegram:', error);
-        setDebug(prev => ({ ...prev, error: error.message }));
-        return false;
-      }
-    };
-    
+          const fallbackUser = localStorage.getItem('g8dai-user');
+          if (fallbackUser) {
+            console.log('Using user data from localStorage');
+            setUser(JSON.parse(fallbackUser));
+          } else {
+            console.log('No user data available, using default');
+            setUser({ id: 'unknown', first_name: 'Stargazer', photo_url: 'https://i.ibb.co/NyxrmGp/default-avatar.png' });
+            setAuthError('Could not connect to Telegram. Please ensure the Telegram WebApp is properly configured.');
+          }
+        } catch (error) {
+          console.error('Error during Telegram initialization:', error);
+          setAuthError('An error occurred while connecting to Telegram.');
+        }
+      }; // Closing the function checkTelegram properly
+
     // Try to get user data from Telegram
     const userFound = checkTelegram();
     
