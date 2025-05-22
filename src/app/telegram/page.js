@@ -371,7 +371,17 @@ export default function TelegramMiniApp() {
   if (authError && !user) return renderAuthError();
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center p-4">
+    <div className="min-h-screen relative text-white flex flex-col items-center p-4">
+      <div className="fixed inset-0 -z-10">
+        <Image
+          src="/miniappbg.png"
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+          priority
+        />
+      </div>
       <div className="w-full max-w-md">
         <TopNav />
         {renderContent()}
