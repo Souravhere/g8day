@@ -11,27 +11,27 @@ const AIAgent = () => {
 
     // Hide the bottomnav and topnav when input is active
     useEffect(() => {
-      const topnav = document.querySelector('.topnav');
-
       const handleFocus = () => {
-      if (topnav) topnav.style.display = 'none';
+        const topnav = document.querySelector('.topnav');
+        if (topnav) topnav.style.display = 'none';
       };
 
       const handleBlur = () => {
-      if (topnav) topnav.style.display = '';
+        const topnav = document.querySelector('.topnav');
+        if (topnav) topnav.style.display = '';
       };
 
       const input = inputRef.current;
       if (input) {
-      input.addEventListener('focus', handleFocus);
-      input.addEventListener('blur', handleBlur);
+        input.addEventListener('focus', handleFocus);
+        input.addEventListener('blur', handleBlur);
       }
 
       return () => {
-      if (input) {
-        input.removeEventListener('focus', handleFocus);
-        input.removeEventListener('blur', handleBlur);
-      }
+        if (input) {
+          input.removeEventListener('focus', handleFocus);
+          input.removeEventListener('blur', handleBlur);
+        }
       };
     }, []);
 

@@ -1,68 +1,18 @@
+// components/miniappui/Profile.js
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useStore } from '../../lib/storage';
+import { useStore } from '@/lib/storage';
 import { FaStar, FaHistory, FaChartLine, FaMedal, FaUserFriends } from 'react-icons/fa';
 
 export default function Profile({ user }) {
-  const { ghibPoints, tickets, invites } = useStore();
-  const [userData, setUserData] = useState(user);
-  const [achievements, setAchievements] = useState([]);
-  const [stats, setStats] = useState({
-    readingsCompleted: 0,
-    friendsReferred: 0,
-    dayStreak: 0,
-    totalEarned: 0
-  });
+  const { ghibPoints, tickets, invites, stats, achievements, completeSectionExploration } = useStore();
 
-  // Load or simulate profile data
+  // Trigger Cosmic Explorer achievement on profile visit
   useEffect(() => {
-    // Try to use provided user or load from cache
-    if (!userData) {
-      const cachedUser = localStorage.getItem('g8day-user');
-      if (cachedUser) {
-        setUserData(JSON.parse(cachedUser));
-      } else {
-        setUserData({ 
-          first_name: 'Stargazer',
-          last_name: 'User',
-          username: 'cosmic_voyager',
-          id: 'unknown',
-          photo_url: 'https://i.ibb.co/NyxrmGp/default-avatar.png'
-        });
-      }
-    }
-
-    // Load achievements from local storage or set defaults
-    const storedAchievements = localStorage.getItem('g8day-achievements');
-    if (storedAchievements) {
-      setAchievements(JSON.parse(storedAchievements));
-    } else {
-      // Default achievements
-      setAchievements([
-        { id: 1, name: 'First Reading', description: 'Completed your first astrology reading', unlocked: true, date: '2025-05-01' },
-        { id: 2, name: 'Cosmic Explorer', description: 'Explored all sections of the app', unlocked: true, date: '2025-05-05' },
-        { id: 3, name: 'Social Star', description: 'Referred 3 friends to the platform', unlocked: false },
-        { id: 4, name: 'Destiny Master', description: 'Completed 10 readings', unlocked: false },
-        { id: 5, name: 'Celestial Patron', description: 'Accumulated 5000 G8D tokens', unlocked: false },
-      ]);
-    }
-
-    // Load or simulate user stats
-    const storedStats = localStorage.getItem('g8day-user-stats');
-    if (storedStats) {
-      setStats(JSON.parse(storedStats));
-    } else {
-      // Default stats based on store data
-      setStats({
-        readingsCompleted: Math.floor(Math.random() * 5) + 1,
-        friendsReferred: invites || 3,
-        dayStreak: Math.floor(Math.random() * 7) + 1,
-        totalEarned: ghibPoints + (Math.floor(Math.random() * 1000))
-      });
-    }
-  }, [user, ghibPoints, tickets, invites]);
+    completeSectionExploration();
+  }, [completeSectionExploration]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -98,9 +48,12 @@ export default function Profile({ user }) {
               whileHover={{ scale: 1.05 }}
             >
               <img 
-                src={userData?.photo_url || "https://i.ibb.co/NyxrmGp/default-avatar.png"} 
+                src={user?.photo_url || "https://i.ibb.co/NyxrmGp/default-avatar.png"} 
                 alt="Profile" 
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.src = 'https://i.ibb.co/NyxrmGp/default-avatar.png';
+                }}
               />
             </motion.div>
             <motion.div 
@@ -115,10 +68,10 @@ export default function Profile({ user }) {
           
           <div className="ml-4">
             <h2 className="text-xl font-orbitron font-bold text-white">
-              {userData?.first_name} {userData?.last_name || ''}
+              {user?.first_name} {user?.last_name || ''}
             </h2>
             <p className="text-gray-300 font-unica">
-              @{userData?.username || 'cosmic_voyager'}
+              @{user?.username || 'cosmic_voyager'}
             </p>
             <div className="mt-2 flex items-center">
               <span className="bg-gradient-to-r from-red-500 to-purple-500 text-white text-xs px-2 py-1 rounded-full">

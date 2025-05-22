@@ -1,4 +1,3 @@
-// components/miniappui/ReferralSection.js
 'use client';
 
 import { useStore } from '@/lib/storage';

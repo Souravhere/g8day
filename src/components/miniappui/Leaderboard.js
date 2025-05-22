@@ -1,4 +1,3 @@
-// components/miniappui/Leaderboard.js
 'use client';
 
 import { useStore } from '@/lib/storage';

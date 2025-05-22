@@ -1,4 +1,3 @@
-'use client';
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -15,43 +14,10 @@ import {
 import { useStore } from '@/lib/storage';
 
 export default function Rewards() {
-  const { ghibPoints, addGhibPoints } = useStore();
-  const [dailyTasks, setDailyTasks] = useState([]);
+  const { ghibPoints, addGhibPoints, addTickets, updateInvites, tasks = {}, completeTask } = useStore();
   const [specialOffers, setSpecialOffers] = useState([]);
-  
-  useEffect(() => {
-    // Initialize daily tasks
-    setDailyTasks([
-      { 
-        id: 1, 
-        title: 'Check Your Daily Horoscope', 
-        reward: 50, 
-        completed: false,
-        icon: <CalendarCheck className="text-red-400" size={20} />
-      },
-      { 
-        id: 2, 
-        title: 'Share G8Day with Friends', 
-        reward: 100, 
-        completed: false,
-        icon: <Users className="text-red-400" size={20} />
-      },
-      { 
-        id: 3, 
-        title: 'Complete a Cosmic Quiz', 
-        reward: 75, 
-        completed: false,
-        icon: <Rocket className="text-red-400" size={20} />
-      },
-      { 
-        id: 4, 
-        title: 'Create an Astrology Reading', 
-        reward: 150, 
-        completed: false,
-        icon: <Unlock className="text-red-400" size={20} />
-      }
-    ]);
 
+  useEffect(() => {
     // Initialize special offers
     setSpecialOffers([
       {
@@ -71,28 +37,94 @@ export default function Rewards() {
     ]);
   }, []);
 
-  const completeTask = (taskId) => {
-    setDailyTasks(prevTasks => 
-      prevTasks.map(task => {
-        if (task.id === taskId && !task.completed) {
-          // Add points to user's balance
-          addGhibPoints(task.reward);
-          
-          // Show notification
-          if (window.Telegram?.WebApp?.showPopup) {
-            window.Telegram.WebApp.showPopup({
-              title: 'Task Complete!',
-              message: `You earned ${task.reward} G8D points!`,
-              buttons: [{type: 'ok'}]
-            });
-          }
-          
-          return { ...task, completed: true };
-        }
-        return task;
-      })
-    );
+  const dailyTasks = [
+    { 
+      id: 'daily-fortune', 
+      title: 'Check Your Daily Horoscope', 
+      reward: 20, 
+      completed: tasks['daily-fortune']?.completed || false,
+      icon: <CalendarCheck className="text-red-400" size={20} />
+    },
+    { 
+      id: 'invite-5', 
+      title: 'Share G8Day with Friends', 
+      reward: 50, 
+      completed: tasks['invite-5']?.completed || false,
+      icon: <Users className="text-red-400" size={20} />
+    },
+    { 
+      id: 'cosmic-quiz', 
+      title: 'Complete a Cosmic Quiz', 
+      reward: 30, 
+      completed: tasks['cosmic-quiz']?.completed || false,
+      icon: <Rocket className="text-red-400" size={20} />
+    },
+    { 
+      id: 'astrology-reading', 
+      title: 'Create an Astrology Reading', 
+      reward: 40, 
+      completed: tasks['astrology-reading']?.completed || false,
+      icon: <Unlock className="text-red-400" size={20} />
+    }
+  ];
+
+  const availableRewards = [
+    { id: 1, name: '1 Creation Ticket', cost: 500, type: 'ghib' },
+    { id: 2, name: 'Premium Theme', cost: 1500, type: 'ghib' },
+  ];
+
+  const completeTaskHandler = (taskId) => {
+    if (!tasks[taskId].completed) {
+      const task = dailyTasks.find((t) => t.id === taskId);
+      if (taskId === 'invite-5') {
+        updateInvites(1);
+        addGhibPoints(task.reward);
+      } else if (taskId === 'cosmic-quiz') {
+        alert('Quiz feature coming soon!');
+        return;
+      } else {
+        addGhibPoints(task.reward);
+      }
+      completeTask(taskId);
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          title: 'Task Complete!',
+          message: `You earned ${task.reward} G8D points!`,
+          buttons: [{ type: 'ok' }]
+        });
+      }
+    }
   };
+
+  const redeemReward = (reward) => {
+    if (reward.type === 'ghib' && ghibPoints >= reward.cost) {
+      addGhibPoints(-reward.cost);
+      addTickets(1);
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          title: 'Reward Redeemed!',
+          message: `You redeemed ${reward.name}!`,
+          buttons: [{ type: 'ok' }]
+        });
+      }
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          title: 'Insufficient Points',
+          message: `You need ${reward.cost} G8D to redeem ${reward.name}.`,
+          buttons: [{ type: 'ok' }]
+        });
+      }
+    }
+  };
+
+  const calculateLoyaltyLevel = () => {
+    if (ghibPoints >= 10000) return { level: 3, progress: 100 };
+    if (ghibPoints >= 5000) return { level: 2, progress: ((ghibPoints - 5000) / 5000) * 100 };
+    return { level: 1, progress: (ghibPoints / 5000) * 100 };
+  };
+
+  const { level, progress } = calculateLoyaltyLevel();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -173,7 +205,7 @@ export default function Rewards() {
                     : "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-md"
                 )}
                 disabled={task.completed}
-                onClick={() => completeTask(task.id)}
+                onClick={() => completeTaskHandler(task.id)}
                 whileTap={{ scale: 0.95 }}
               >
                 {task.completed ? 'Completed' : 'Claim'}
@@ -230,10 +262,10 @@ export default function Rewards() {
           <div className="bg-black bg-opacity-50 rounded-lg p-4">
             <div className="flex justify-between items-center mb-2">
               <span className="text-white font-medium">Your Progress</span>
-              <span className="text-yellow-400">Level 2</span>
+              <span className="text-yellow-400">Level {level}</span>
             </div>
             <div className="w-full bg-gray-800 rounded-full h-2.5 mb-2">
-              <div className="bg-gradient-to-r from-red-500 via-yellow-500 to-red-500 h-2.5 rounded-full" style={{ width: '35%' }}></div>
+              <div className="bg-gradient-to-r from-red-500 via-yellow-500 to-red-500 h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
             </div>
             <div className="flex justify-between text-xs text-gray-400">
               <span>0 G8D</span>
@@ -262,33 +294,28 @@ export default function Rewards() {
         </h3>
         <div className="p-4 grid grid-cols-2 gap-3">
           {/* Reward Cards */}
-          <div className="bg-black bg-opacity-30 rounded-lg p-3 border border-red-800 flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-red-900 flex items-center justify-center mb-2">
-              <Gift size={24} className="text-red-400" />
+          {availableRewards.map((reward) => (
+            <div key={reward.id} className="bg-black bg-opacity-30 rounded-lg p-3 border border-red-800 flex flex-col items-center">
+              <div className="w-12 h-12 rounded-full bg-red-900 flex items-center justify-center mb-2">
+                {reward.name.includes('Ticket') ? <Gift size={24} className="text-red-400" /> : <Star size={24} className="text-yellow-400" />}
+              </div>
+              <p className="text-white text-center text-sm font-medium">{reward.name}</p>
+              <div className="flex items-center mt-2">
+                <Coins size={12} className="text-yellow-400 mr-1" />
+                <span className="text-yellow-400 text-xs">{reward.cost} G8D</span>
+              </div>
+              <button
+                className={cn(
+                  "mt-2 px-3 py-1 bg-red-700 text-white text-xs rounded-lg w-full",
+                  ghibPoints < reward.cost && "opacity-50 cursor-not-allowed"
+                )}
+                disabled={ghibPoints < reward.cost}
+                onClick={() => redeemReward(reward)}
+              >
+                Redeem
+              </button>
             </div>
-            <p className="text-white text-center text-sm font-medium">1 Creation Ticket</p>
-            <div className="flex items-center mt-2">
-              <Coins size={12} className="text-yellow-400 mr-1" />
-              <span className="text-yellow-400 text-xs">500 G8D</span>
-            </div>
-            <button className="mt-2 px-3 py-1 bg-red-700 text-white text-xs rounded-lg w-full">
-              Redeem
-            </button>
-          </div>
-          
-          <div className="bg-black bg-opacity-30 rounded-lg p-3 border border-red-800 flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-red-900 flex items-center justify-center mb-2">
-              <Star size={24} className="text-yellow-400" />
-            </div>
-            <p className="text-white text-center text-sm font-medium">Premium Theme</p>
-            <div className="flex items-center mt-2">
-              <Coins size={12} className="text-yellow-400 mr-1" />
-              <span className="text-yellow-400 text-xs">1500 G8D</span>
-            </div>
-            <button className="mt-2 px-3 py-1 bg-red-700 text-white text-xs rounded-lg w-full">
-              Redeem
-            </button>
-          </div>
+          ))}
         </div>
       </motion.div>
 
