@@ -450,7 +450,7 @@ export default function Rewards() {
                 transition={{ type: "spring", stiffness: 300, delay: index * 0.1 }}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
                     <div className={cn(
                       "w-14 h-14 rounded-full flex items-center justify-center",
                       task.completed ? "bg-green-900/50" : "bg-black/50"
@@ -460,7 +460,7 @@ export default function Rewards() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <h4 className={cn(
-                          "font-bold",
+                          "font-semibold text-[13px]",
                           task.completed ? "text-green-400" : "text-white"
                         )}>
                           {task.title}
@@ -474,19 +474,19 @@ export default function Rewards() {
                           {task.difficulty}
                         </span>
                       </div>
-                      <p className="text-gray-300 text-sm mb-2">{task.description}</p>
-                      <div className="flex items-center gap-4 text-sm">
+                      <p className="text-gray-300 mb-2 text-[10px]">{task.description}</p>
+                      <div className="flex items-center gap-2 text-sm">
                         <div className="flex items-center gap-1">
                           <Coins className="text-yellow-400" size={14} />
-                          <span className="text-yellow-400">{task.reward} G8D</span>
+                          <span className="text-yellow-400 text-[9px]">{task.reward} G8D</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Zap className="text-blue-400" size={14} />
-                          <span className="text-blue-400">{task.xp} XP</span>
+                          <span className="text-blue-400 text-[9px]">{task.xp} XP</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Target className="text-purple-400" size={14} />
-                          <span className="text-purple-400">{task.streak}d streak</span>
+                          <span className="text-purple-400 text-[9px]">{task.streak}d streak</span>
                         </div>
                       </div>
                     </div>
@@ -494,7 +494,7 @@ export default function Rewards() {
                   
                   <motion.button 
                     className={cn(
-                      "px-6 py-3 rounded-xl font-bold text-sm transition-all",
+                      "px-4 py-2 rounded-xl font-bold text-sm transition-all",
                       task.completed
                         ? "bg-green-700 text-white cursor-not-allowed"
                         : "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg hover:shadow-xl"
