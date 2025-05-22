@@ -1,4 +1,3 @@
-// components/miniappui/Profile.js
 'use client';
 
 import { useEffect } from 'react';

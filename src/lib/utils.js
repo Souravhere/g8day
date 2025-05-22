@@ -11,7 +11,7 @@ export function cn(...inputs) {
 }
 
 export function parseTelegramData(initDataUnsafe) {
-  console.log('Raw initDataUnsafe:', initDataUnsafe); // Log raw data for debugging
+  console.log('Raw initDataUnsafe:', initDataUnsafe);
   try {
     const user = initDataUnsafe?.user || {};
     if (!user.id) {
