@@ -1,17 +1,17 @@
+// lib/storage.js
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 const generateRealisticUsers = () => {
-  // More realistic usernames
   const firstNames = [
-    'Alex', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Avery', 'Quinn', 
+    'Alex', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Avery', 'Quinn',
     'Blake', 'Sage', 'Drew', 'Cameron', 'Skyler', 'Rowan', 'Emery', 'Finley',
     'Parker', 'River', 'Phoenix', 'Dakota', 'Hayden', 'Reese', 'Peyton', 'Charlie',
     'Jamie', 'Sydney', 'Aubrey', 'Logan', 'Kendall', 'Teagan', 'Marley', 'Bryce',
     'Devon', 'Remy', 'Shay', 'Tatum', 'Kai', 'Lane', 'Jules', 'Ari', 'Wren',
     'Ellis', 'Sage', 'Reign', 'Nova', 'Zion', 'Bay', 'Cruz', 'Phoenix', 'Atlas'
   ];
-  
+
   const suffixes = [
     '2024', '2023', '88', '92', '99', '07', '11', '13', '21', 'X', 'Pro', 'Max',
     'Official', 'Real', 'Prime', 'Elite', 'Star', 'King', 'Queen', 'Boss', 'Legend',
@@ -19,7 +19,7 @@ const generateRealisticUsers = () => {
     'Crypto', 'Tech', 'Gaming', 'Trader', 'Hodler', 'Moon', 'Diamond', 'Gold',
     'Silver', 'Platinum', 'VIP', 'Premium', 'Plus', 'Pro', 'Expert', 'Ninja'
   ];
-  
+
   const adjectives = [
     'Smart', 'Quick', 'Bold', 'Swift', 'Bright', 'Sharp', 'Cool', 'Epic', 'Wild',
     'Pure', 'True', 'Fast', 'Lucky', 'Strong', 'Brave', 'Wise', 'Fresh', 'Dark',
@@ -30,36 +30,24 @@ const generateRealisticUsers = () => {
   const generateUsername = () => {
     const rand = Math.random();
     if (rand < 0.4) {
-      // FirstName + Number/Suffix
-      return firstNames[Math.floor(Math.random() * firstNames.length)] + 
+      return firstNames[Math.floor(Math.random() * firstNames.length)] +
              suffixes[Math.floor(Math.random() * suffixes.length)];
     } else if (rand < 0.7) {
-      // Adjective + FirstName
-      return adjectives[Math.floor(Math.random() * adjectives.length)] + 
+      return adjectives[Math.floor(Math.random() * adjectives.length)] +
              firstNames[Math.floor(Math.random() * firstNames.length)];
     } else {
-      // FirstName + Adjective + Number
-      return firstNames[Math.floor(Math.random() * firstNames.length)] + 
-             adjectives[Math.floor(Math.random() * adjectives.length)] + 
+      return firstNames[Math.floor(Math.random() * firstNames.length)] +
+             adjectives[Math.floor(Math.random() * adjectives.length)] +
              Math.floor(Math.random() * 100);
     }
   };
 
-  // Generate top 50 users with realistic high scores
-  const topUsers = Array.from({ length: 50 }, (_, i) => ({
+  // Generate 50 users for leaderboard display (not persisted)
+  return Array.from({ length: 50 }, (_, i) => ({
     rank: i + 1,
     username: generateUsername(),
     points: Math.floor(50000000 - (i * 800000) + Math.random() * 500000), // 50M down to ~10M
   }));
-
-  // Generate many more users to reach 120K+ total
-  const remainingUsers = Array.from({ length: 120000 }, (_, i) => ({
-    rank: i + 51,
-    username: generateUsername(),
-    points: Math.floor(10000000 * Math.pow(0.9999, i) + Math.random() * 100000), // Exponential decay
-  }));
-
-  return [...topUsers, ...remainingUsers];
 };
 
 export const useStore = create(
@@ -94,7 +82,8 @@ export const useStore = create(
         { id: 5, name: 'Celestial Patron', description: 'Accumulated 5000 G8D tokens', unlocked: false, date: null },
       ],
       leaderboard: generateRealisticUsers(),
-      totalUserCount: 120000,
+      totalUserCount: Math.floor(120000 + Math.random() * 10001), // Random: 120,000–130,000
+      userRank: Math.floor(100000 + Math.random() * 20000), // Initial rank ~100K–120K
       addGhibPoints: (points) =>
         set((state) => {
           const newPoints = state.ghibPoints + points;
@@ -107,15 +96,15 @@ export const useStore = create(
               ? { ...ach, unlocked: true, date: new Date().toISOString().split('T')[0] }
               : ach
           );
-          
-          // Calculate user rank (simulate being above 100K)
-          const userRank = Math.floor(100000 + Math.random() * 20000); // Random rank between 100K-120K
-          
+          // Update userRank based on points (simulate rank improvement)
+          const newUserRank = newPoints > 10000
+            ? Math.max(50000, state.userRank - Math.floor(newPoints / 1000))
+            : state.userRank;
           return {
             ghibPoints: newPoints,
             stats: newStats,
             achievements: newAchievements,
-            userRank: userRank,
+            userRank: newUserRank,
           };
         }),
       addTickets: (count) => set((state) => ({ tickets: state.tickets + count })),
@@ -211,15 +200,41 @@ export const useStore = create(
           );
           return { achievements: newAchievements };
         }),
-      // Helper function to get user rank
       getUserRank: () => {
         const state = get();
         return state.userRank || Math.floor(100000 + Math.random() * 20000);
+      },
+      clearStorage: () => {
+        localStorage.removeItem('g8day-storage');
+        if (window.Telegram?.WebApp?.showPopup) {
+          window.Telegram.WebApp.showPopup({
+            title: 'Storage Cleared',
+            message: 'Storage limit reached. Data cleared. Please reload the app.',
+            buttons: [{ type: 'ok', id: 'reload' }],
+          }, (buttonId) => {
+            if (buttonId === 'reload') window.location.reload();
+          });
+        } else {
+          alert('Storage limit reached. Data cleared. Please reload the app.');
+          window.location.reload();
+        }
       },
     }),
     {
       name: 'g8day-storage',
       getStorage: () => localStorage,
+      partialize: (state) => ({
+        ghibPoints: state.ghibPoints,
+        tickets: state.tickets,
+        invites: state.invites,
+        lastClaim: state.lastClaim,
+        user: state.user,
+        tasks: state.tasks,
+        stats: state.stats,
+        achievements: state.achievements,
+        userRank: state.userRank,
+        totalUserCount: state.totalUserCount,
+      }),
     }
   )
 );
