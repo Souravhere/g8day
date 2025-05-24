@@ -7,9 +7,6 @@ const AIAgent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messageEndRef = useRef(null);
   const inputRef = useRef(null);
-
-
-    // Hide the bottomnav and topnav when input is active
     useEffect(() => {
       const handleFocus = () => {
         const topnav = document.querySelector('.topnav');
