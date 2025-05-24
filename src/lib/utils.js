@@ -1,11 +1,6 @@
-// Updated utility functions for working with Telegram Web App data
-
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-/**
- * Combines Tailwind CSS classes with proper merging of conflicting styles
- */
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
