@@ -82,19 +82,6 @@ const CustomLoader = () => {
         transition={{ delay: 2.5, duration: 0.8 }}
         className="text-center"
       >
-        <motion.h2 
-          className="text-2xl font-mono tracking-wide text-white mb-2"
-          animate={{ 
-            opacity: [1, 0.7, 1],
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          Loading Experience...
-        </motion.h2>
         <motion.div
           className="flex justify-center space-x-1 mt-4"
           initial={{ opacity: 0 }}
