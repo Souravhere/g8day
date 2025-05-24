@@ -82,28 +82,6 @@ const CustomLoader = () => {
         transition={{ delay: 2.5, duration: 0.8 }}
         className="text-center"
       >
-        <motion.div
-          className="flex justify-center space-x-1 mt-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3 }}
-        >
-          {[0, 1, 2].map((index) => (
-            <motion.div
-              key={index}
-              className="w-2 h-2 bg-red-400 rounded-full"
-              animate={{
-                scale: [1, 1.5, 1],
-                opacity: [0.5, 1, 0.5]
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                delay: index * 0.2
-              }}
-            />
-          ))}
-        </motion.div>
       </motion.div>
     </motion.div>
   );
