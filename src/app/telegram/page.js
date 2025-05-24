@@ -18,7 +18,6 @@ import Profile from '@/components/miniappui/Profile';
 import Rewards from '@/components/miniappui/Rewards';
 import Destiny from '@/components/miniappui/Destiny';
 import Agent from '@/components/miniappui/Agent';
-import CustomLoader from '@/components/miniappui/Loader';
 
 export default function TelegramMiniApp() {
   const [user, setUser] = useState(null);
