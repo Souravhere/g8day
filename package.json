@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "bot": "node src/bot/index.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@next/env": "^15.3.1",
