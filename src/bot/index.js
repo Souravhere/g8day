@@ -1,6 +1,12 @@
 import TelegramBot from 'node-telegram-bot-api';
 
 const token = process.env.BOT_TOKEN;
+console.log(`\n ************* \n\n\n\n${token} \n`);
+if (!token) {
+  throw new Error('🚨 Telegram BOT_TOKEN not found. Check your .env file.');
+}
+
+
 const miniAppUrl = 'https://www.g8dai.xyz/telegram';
 
 const bot = new TelegramBot(token, { polling: true });
